@@ -1,11 +1,11 @@
-# Flame in Freefall
+# Flame in Freefall: Microgravity Combustion 
 
-Microgravity combustion analytics for spacecraft fire safety, built on NASA Physical Sciences Informatics (PSI) data.
+Fire-safety insights and anomaly detection for spacecraft and habitats, built on NASA Physical Sciences Informatics (PSI) data.
 
-Team The Blueprint 67, NASA International Space Apps Challenge.
+Developed by team The Blueprint 67 for the NASA Space Apps Challenge 2026, Local Event: Islamabad.
 
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-AGPL--3.0-blue)
 
 ## Overview
 
@@ -192,8 +192,10 @@ bash scripts/run_pipeline.sh
 
 ## License
 
-Code is released under the MIT License. NASA data is subject to NASA PSI terms of use.
+Copyright (c) 2026 The Blueprint 67 (Samra, Wania, Yousaf, Kashaf, Hijab, Faiza).
+
+This project is licensed under the GNU Affero General Public License v3.0. See `LICENSE` for the full text. You may use and study this code, but any modified version you distribute or run as a public web service must credit the original authors and be released under the same license with its source code. NASA data is subject to NASA PSI terms of use.
 
 ## Acknowledgements
 
-We thank NASA Physical Sciences Informatics for the SAME, FLEX, BASS-II and Saffire datasets, the organisers of the NASA International Space Apps Challenge, and the research teams behind these ISS and Cygnus experiments.
+We thank NASA Physical Sciences Informatics for the SAME, FLEX, BASS-II and Saffire datasets, the organisers of the NASA Space Apps Challenge 2026 and the Islamabad local event, and the research teams behind these ISS and Cygnus experiments.
