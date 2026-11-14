@@ -1,0 +1,15 @@
+# Normalise line endings so Windows and Linux teammates produce clean diffs
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# Binary files: never diff or convert
+*.png binary
+*.jpg binary
+*.docx binary
+*.parquet binary
+*.joblib binary
+
+# Optional — to version models/data with Git LFS instead of ignoring them:
+#   git lfs install && git lfs track "models/*.joblib" "data/processed/*.parquet"
+# then remove the matching lines from .gitignore.

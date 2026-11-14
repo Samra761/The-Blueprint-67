@@ -1,0 +1,77 @@
+Leave-one-test-out, 38 labelled tests, 2,175 windows (30s, stride 10s, 0-600s after heater on)
+
+                  window_acc_120_600  window_macroF1_120_600  window_acc_0_120  test_acc  test_macroF1 tests_correct
+model                                                                                                               
+lgbm                           0.665                   0.648             0.349     0.711         0.693         27/38
+rf                             0.652                   0.638             0.274     0.737         0.727         28/38
+lgbm_no_plume                  0.555                   0.527             0.254     0.579         0.540         22/38
+lgbm_ratios_only               0.549                   0.521             0.294     0.605         0.529         23/38
+
+Per-class F1, test level (LightGBM):
+Cotton Lamp wick    0.67
+Kapton              0.82
+Pyrell              0.67
+Silicone            0.71
+Teflon              0.60
+
+Test-level accuracy using data up to T seconds after heater on:
+     lgbm    rf  lgbm_no_plume  lgbm_ratios_only
+t_s                                             
+60   0.32  0.29           0.26              0.29
+120  0.37  0.29           0.21              0.26
+150  0.37  0.32           0.26              0.39
+180  0.42  0.42           0.26              0.47
+240  0.55  0.58           0.34              0.55
+300  0.63  0.61           0.42              0.55
+450  0.71  0.68           0.58              0.61
+600  0.68  0.71           0.58              0.61
+
+Misclassified tests (LightGBM):
+                 material         predicted  confidence
+test_id                                                
+58                 Teflon            Kapton       0.804
+62                 Kapton  Cotton Lamp wick       0.861
+67               Silicone  Cotton Lamp wick       0.979
+68       Cotton Lamp wick          Silicone       0.571
+69                 Teflon  Cotton Lamp wick       0.718
+70                 Kapton            Teflon       0.695
+81                 Teflon            Kapton       0.653
+87                 Pyrell          Silicone       0.637
+91               Silicone            Pyrell       0.668
+95                 Pyrell  Cotton Lamp wick       0.656
+107                Pyrell  Cotton Lamp wick       0.721
+
+Share of SHAP importance by sensor (final LightGBM):
+plume      0.172
+ratios     0.156
+iss_obs    0.138
+ion_b      0.110
+iss_sct    0.096
+dtb        0.095
+ion_a      0.087
+sts        0.080
+ptrak      0.066
+
+Top 15 features:
+ratio_ion_b_over_iss_sct__wmean      0.6757
+ratio_iss_sct_over_iss_obs__wmean    0.5580
+iss_obs__wmin                        0.3459
+plume_t__wmax                        0.3413
+plume_t__wmin                        0.3351
+plume_t__wmean                       0.2870
+iss_obs__wmean                       0.2585
+ptrak__wmin                          0.2526
+ion_b__wmin                          0.2258
+dtb__wmax                            0.2156
+ion_b_mean30__wmean                  0.2058
+sts_mean30__wmean                    0.2029
+plume_t_mean30__wmean                0.1952
+iss_obs_mean30__wmean                0.1892
+ion_a_mean30__wmean                  0.1891
+
+Unverified tests (final LightGBM, windows 120-600 s):
+              candidates predicted  Cotton Lamp wick  Kapton  Pyrell  Silicone  Teflon
+test_id                                                                               
+60       Pyrell|Silicone  Silicone             0.000   0.075   0.177     0.748   0.000
+103      Silicone|Teflon  Silicone             0.083   0.000   0.029     0.805   0.083
+105      Silicone|Teflon    Teflon             0.184   0.181   0.000     0.000   0.635

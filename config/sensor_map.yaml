@@ -1,0 +1,68 @@
+# =====================================================================
+#  Sensor / telemetry map — SAME housekeeping CSVs (ISS, 2010)
+#  Owner: Kashaf (Embedded Systems & Sensor Lead)
+#
+#  Maps raw instrument columns to the short channel names used by the
+#  feature pipeline (src/features.py CHANNELS) and the dashboard.
+#  Keep this file and src/features.py in sync.
+# =====================================================================
+
+channels:
+  iss_obs:
+    raw_column: "ISSDetectorObscurationMeasurement(Volts)"
+    unit: V
+    instrument: ISS smoke detector — light obscuration
+    role: model input
+  iss_sct:
+    raw_column: "ISSDetectorScatterMeasurement(Volts)"
+    unit: V
+    instrument: ISS smoke detector — light scatter (baseline alarm in our evaluation)
+    role: model input
+  sts:
+    raw_column: "STSDetectorMeasurement(Volts)"
+    unit: V
+    instrument: STS smoke detector
+    role: model input
+  ion_a:
+    raw_column: "IonDetectorAMeasurement(Volts)"
+    unit: V
+    instrument: Ionisation smoke detector A
+    role: model input
+  ion_b:
+    raw_column: "IonDetectorBMeasurement(Volts)"
+    unit: V
+    instrument: Ionisation smoke detector B
+    role: model input
+  ptrak:
+    raw_column: "PTrakMeasurement(PtPerCC)"
+    unit: particles/cm³
+    instrument: P-Trak ultrafine particle counter
+    role: model input
+    sentinels: [-999]          # instrument error code -> NaN
+  dtb:
+    raw_column: "DustTrakBMeasurement(MgPerM3)"
+    unit: mg/m³
+    instrument: DustTrak B aerosol monitor
+    role: model input
+  plume_t:
+    raw_column: "GasPlumeTemperature(DegC)"
+    unit: °C
+    instrument: Gas plume thermocouple
+    role: model input (strongest early-warning signal)
+
+# Columns read but never turned into features
+excluded:
+  - "DustTrakAMeasurement(MgPerM3)"          # bad scaling / all-zero in some files
+  - "DustTrakAAnalogMeasurement(Volts)"
+  - HeatingInProgress                        # used only to label clean/heating/smoke phases
+  - SampleResistance
+  - RunMode
+  - EventCode
+  - TestNumber                               # used as test_id
+  - Time
+  - TimeString
+
+sampling:
+  rate_hz: 1
+  baseline_window_s: 120                     # clean air before heater on
+  rolling_windows_s: [5, 10, 30]             # trailing only -> live-safe

@@ -1,0 +1,122 @@
+# =====================================================================
+#  Flame in Freefall — .gitignore
+#  Python · data science · virtual envs · frontend artifacts · secrets
+# =====================================================================
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ---------- Virtual environments ----------
+.venv/
+venv/
+env/
+ENV/
+.conda/
+conda-env/
+
+# ---------- Jupyter ----------
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# ---------- Data (NASA PSI downloads & CSV subsets) ----------
+# Raw telemetry is re-downloadable from NASA PSI — never commit it.
+data/raw/**
+!data/raw/**/
+!data/raw/**/.gitkeep
+data/external/*
+!data/external/.gitkeep
+
+# Generated intermediates (rebuild with scripts/run_pipeline.sh)
+data/processed/*
+!data/processed/.gitkeep
+!data/processed/feature_columns.json
+
+# Stray large/tabular files anywhere outside reports/
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.xls
+*.xlsx
+*.zip
+*.tar.gz
+/*.csv
+src/**/*.csv
+dashboard/**/*.csv
+# Small result tables in reports/ ARE committed (judges can read them)
+!reports/**/*.csv
+
+# ---------- Trained models (large binaries) ----------
+models/*
+!models/.gitkeep
+!models/README.md
+*.joblib
+*.pkl
+*.pickle
+*.onnx
+*.pt
+*.pth
+*.ckpt
+
+# ---------- Scratch / experiments ----------
+scratch/
+tmp/
+*.log
+mlruns/
+wandb/
+
+# ---------- Secrets & credentials (boto3 / AWS / Streamlit) ----------
+.env
+.env.*
+!.env.example
+.aws/
+*.pem
+*.key
+credentials
+.streamlit/secrets.toml
+
+# ---------- Frontend artifacts ----------
+node_modules/
+.npm/
+.next/
+.nuxt/
+.parcel-cache/
+.vite/
+.cache/
+.turbo/
+dashboard/dist/
+dashboard/build/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.map
+
+# ---------- Office lock files ----------
+~$*
+
+# ---------- OS / editors ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

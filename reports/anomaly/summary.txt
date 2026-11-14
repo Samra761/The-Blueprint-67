@@ -1,0 +1,35 @@
+Operating point q=1.0, persistence 3s, 8-fold GroupKFold by test, main detector = per_sensor
+
+detector              per_sensor  per_sensor_no_plume  single_if
+q                           1.00                 1.00       1.00
+tests                      41.00                41.00      41.00
+detected                   41.00                41.00      41.00
+delay_median_s              3.00               131.00     133.00
+delay_p90_s                 5.00               251.00     200.00
+fa_per_hr                   0.37                 0.37       0.37
+tests_with_fa               1.00                 1.00       1.00
+iss_delay_median_s        134.00               134.00     134.00
+iss_fa_per_hr               0.74                 0.74       0.74
+lead_vs_iss_median_s      131.00                 1.00       1.00
+earlier_than_iss           41.00                33.00      24.00
+lead_vs_ion_median_s      132.50                 2.50       2.00
+lead_vs_sts_median_s      843.00                79.00     130.00
+sts_fired                   5.00                 5.00       5.00
+
+Sensor that triggered the main detector's alert:
+trigger_sensor
+plume_t    41
+
+Per material (main detector), medians in seconds after heater on:
+                  alert_s  iss_scatter_alert_s  lead_vs_iss_s
+material                                                     
+Cotton Lamp wick      3.0                191.0          186.0
+Kapton                3.0                130.0          128.0
+Pyrell                4.0                137.0          134.0
+Silicone              3.0                134.0          131.0
+Teflon                3.0                128.5          125.5
+unverified            5.0                250.0          247.0
+
+Tests with a false alarm (main detector):
+ test_id material  fa_events  clean_secs
+      97   Pyrell          1         158
