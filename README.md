@@ -1,308 +1,199 @@
-<div align="center">
+# Flame in Freefall
 
-# 🔥 Flame in Freefall
+Microgravity combustion analytics for spacecraft fire safety, built on NASA Physical Sciences Informatics (PSI) data.
 
-### AI-powered microgravity combustion analytics for spacecraft & habitat fire safety
+Team The Blueprint 67, NASA International Space Apps Challenge.
 
-**Team The Blueprint 67** · NASA International Space Apps Challenge
+![Python](https://img.shields.io/badge/python-3.11%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Dashboard-Streamlit-FF4B4B?logo=streamlit&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/ML-scikit--learn%20%C2%B7%20LightGBM-F7931E?logo=scikitlearn&logoColor=white)
-![NASA PSI](https://img.shields.io/badge/Data-NASA%20PSI-0B3D91?logo=nasa&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
+## Overview
 
-</div>
+Fire behaves differently in orbit. Without buoyancy there is no rising plume, oxygen reaches the flame mainly by diffusion and cabin ventilation, and smoke does not collect at the ceiling where detectors on Earth expect it. Most fire-safety practice was developed for Earth gravity, so longer missions need detection and decision support designed for these conditions.
 
----
+Flame in Freefall combines four NASA microgravity combustion datasets into a single dashboard and a set of models:
 
-## Contents
+- An early-warning smoke detector trained only on clean cabin air, using one Isolation Forest per sensor.
+- A classifier that identifies which of five spacecraft materials is overheating from aerosol sensor signatures.
+- Burn-time and flame-outcome models trained on FLEX droplet tests, used by an interactive flame simulator.
+- Analytics views for FLEX, BASS-II and Saffire-I, with each data source labelled by provenance.
 
-1. [The problem](#-the-problem)
-2. [What we built](#-what-we-built)
-3. [Team](#-team-the-blueprint-67)
-4. [Combustion physics in microgravity](#-combustion-physics-in-microgravity)
-5. [NASA datasets](#-nasa-datasets)
-6. [System architecture](#-system-architecture)
-7. [Results](#-results)
-8. [Repository structure](#-repository-structure)
-9. [Quick start](#-quick-start)
-10. [Limitations & honesty notes](#-limitations--honesty-notes)
-11. [Acknowledgements](#-acknowledgements)
+## Team
 
----
-
-## 🚨 The problem
-
-Fire is one of the most serious hazards on a spacecraft. A crew can't step outside, the atmosphere is a sealed, finite volume, and **flames in microgravity don't behave like flames on Earth**. Smoke detectors and fire-safety rules were largely designed around buoyant, Earth-gravity fires. On long missions, Gateway, lunar habitats and Mars transit, crews need earlier warnings and a better picture of *what* is burning.
-
-## 🛰️ What we built
-
-**Flame in Freefall** turns NASA's microgravity combustion experiments into a fire-safety intelligence dashboard:
-
-- **⚡ Smoke early-warning detector.** Per-sensor Isolation Forests trained only on clean cabin air. They flag smoke **~2 minutes earlier** (median) than a scatter-based smoke alarm calibrated the same way.
-- **🧪 Burning-material classifier.** LightGBM and Random Forest models identify which of 5 spacecraft materials is pyrolysing from aerosol-sensor signatures alone.
-- **🔮 Flame-behaviour forecaster.** Gradient-boosted models trained on 274 FLEX droplet tests predict burn time and how a flame ends (extinction, disruption, completion). They run live in the browser as an interactive flame simulator.
-- **📊 Flame analytics.** Interactive views of FLEX, BASS-II and Saffire-I: oxygen vs burn time, O₂ consumption, CO build-up, and flow direction effects.
-- **🗂️ Dataset explorer.** Every source with provenance and a trust label (*NASA DATA* vs *UNVERIFIED*).
-
----
-
-## 👩‍🚀 Team: The Blueprint 67
-
-| | Member | Role | Contribution |
-|:-:|---|---|---|
-| 🗄️ | **Wania** | Data Engineer | Handled NASA PSI dataset ingestion via `boto3`, CSV telemetry subset extraction, and the preprocessing pipelines |
-| 🤖 | **Yousaf** | ML & AI Lead | Built the anomaly detection, forecaster, and flame classifier models on microgravity combustion data |
-| 🔌 | **Kashaf** | Embedded Systems & Sensor Lead | Designed the sensor data mapping and hardware telemetry integration |
-| 🖥️ | **Hijab** | Frontend Developer | Built the web UI dashboard interface |
-| 🎨 | **Faiza** | UI/UX & Domain Researcher | Designed the domain workflow, user experience layout, and pitch alignment |
-| 🏗️ | **Samra** | GitHub Lead & Lead Systems Architect | Managed the repository structure, backend architecture, and final system integration |
-
-**Where each person's work lives**
-
-| Member | Primary paths |
-|---|---|
-| Wania | `src/fetch_psi.py`, `src/load.py`, `src/features.py`, `data/` |
-| Yousaf | `src/anomaly.py`, `src/classifier.py`, `models/`, `reports/` |
-| Kashaf | `config/sensor_map.yaml`, sensor channel definitions in `src/features.py` |
-| Hijab | `dashboard/app.py` (UI) |
-| Faiza | Dashboard workflow & layout, `docs/` |
-| Samra | Repository layout, `scripts/`, pipeline integration, this README |
-
----
-
-## 🔬 Combustion physics in microgravity
-
-On Earth, a flame heats the surrounding gas, the hot gas rises (**buoyancy**), and fresh air is pulled in underneath. That convection gives a candle its teardrop shape, feeds it oxygen and carries smoke upward.
-
-In orbit, buoyancy effectively disappears:
-
-| | Earth (1 g) | Microgravity (µg) |
+| Member | Role | Contribution |
 |---|---|---|
-| Oxygen supply | Buoyant convection | Molecular **diffusion** + whatever the ventilation provides |
-| Flame shape | Tall teardrop | Near-**spherical**, dimmer, often blue |
-| Products (CO₂, H₂O, soot) | Carried away upward | Linger around the flame and can smother it |
-| Controlling flow | Natural convection | **Cabin ventilation** (cm/s scale) dominates |
-| Smoke | Rises to ceiling detectors | Drifts with the airflow; particle sizes differ |
+| Wania | Data Engineer | NASA PSI dataset ingestion via boto3, CSV telemetry subset extraction, preprocessing pipelines |
+| Yousaf | ML & AI Lead | Anomaly detection, forecaster and flame classifier models on microgravity combustion data |
+| Kashaf | Embedded Systems & Sensor Lead | Sensor data mapping and hardware telemetry integration |
+| Hijab | Frontend Developer | Web UI dashboard interface |
+| Faiza | UI/UX & Domain Researcher | Domain workflow, user experience layout, pitch alignment |
+| Samra | GitHub Lead & Lead Systems Architect | Repository structure, backend architecture, final system integration |
 
-Implications we build on:
+## Background: combustion in microgravity
 
-- **Flow direction matters.** Saffire-I showed that a flame spreading *with* the airflow (concurrent) behaves very differently from one spreading *against* it (opposed). In a spacecraft, ventilation and not gravity sets the fire's behaviour.
-- **Droplet flames follow the d²-law.** For an isolated fuel droplet the square of its diameter shrinks roughly linearly with time, so burn time scales with d₀². FLEX measured this for methanol and heptane under varied O₂ and diluent (He, CO₂). Our simulator animates this law using the ML-predicted burn time.
-- **Cool flames exist.** FLEX found that heptane droplets can keep burning in a low-temperature "cool flame" mode after the visible hot flame goes out, a hazard that is invisible to the eye.
-- **Smoke before flame.** Overheated materials (wire insulation, fabrics) **pyrolyse** and release smoke long before open flame. SAME measured this on the ISS, and it's the window where early detection saves a crew.
+On Earth, hot combustion gases rise and draw fresh air in beneath the flame. This buoyant flow shapes the flame, supplies oxygen and carries smoke upward. In microgravity that flow is absent:
 
----
+| | Normal gravity | Microgravity |
+|---|---|---|
+| Oxygen transport | Buoyant convection | Diffusion and forced ventilation |
+| Flame shape | Elongated | Approximately spherical, dimmer |
+| Combustion products | Carried away | Accumulate near the flame |
+| Dominant flow | Natural convection | Cabin ventilation, on the order of cm/s |
 
-## 📡 NASA datasets
+Several results from the source experiments shape this project:
 
-All data comes from NASA's **Physical Sciences Informatics (PSI)** system.
+- Flow direction controls flame spread. Saffire-I burned large fabric samples aboard a Cygnus vehicle and showed clear differences between flames spreading with and against the airflow.
+- Isolated fuel droplets follow the d²-law: the square of the droplet diameter decreases roughly linearly in time, so burn time scales with the initial diameter squared. FLEX measured this for methanol and heptane under varying oxygen and diluent concentrations.
+- Heptane droplets in FLEX continued burning as low-temperature cool flames after visible extinction.
+- Overheated materials pyrolyse and release smoke before any open flame. The SAME experiment measured this on the ISS, and this pre-ignition window is where early detection is most valuable.
 
-| Dataset | What it is | Size used | Used for | Trust |
-|---|---|---|---|---|
-| **SAME** (ISS, 2010) | Smoke Aerosol Measurement Experiment. 1 Hz housekeeping telemetry from 8 smoke/aerosol sensors while 5 materials are heated | 41 tests · 5 materials | Early-warning detector, material classifier, live telemetry view | ✅ NASA DATA |
-| **FLEX** (PSI-69) | Flame Extinguishment Experiment. Isolated droplet combustion on the ISS | 274 tests | Burn-time & outcome models, flame simulator, analytics | ✅ NASA DATA |
-| **BASS-II** (PSI-25) | Burning and Suppression of Solids | 129 burns | O₂ consumption and CO build-up analytics | ✅ NASA DATA |
-| **Saffire-I** (PSI-98) | Large-scale fabric fire aboard an empty Cygnus cargo vehicle (2016) | 2 samples | Concurrent vs opposed flow comparison | ✅ NASA DATA |
-| ACME CIR / FLEX-2 files | Extinction/suppression and cool-flame tables | small | Display only | ⚠️ UNVERIFIED |
+## Data
 
-**SAME materials:** Cotton lamp wick · Kapton · Pyrell · Silicone · Teflon
+All datasets are from NASA PSI.
 
-**Sensor channels** (mapping maintained in [`config/sensor_map.yaml`](config/sensor_map.yaml)):
-ISS obscuration & scatter detectors · STS detector · Ionisation detectors A & B · P-Trak particle counter · DustTrak B · Gas plume temperature
+| Dataset | Description | Used | Purpose |
+|---|---|---|---|
+| SAME (ISS, 2010) | Smoke Aerosol Measurement Experiment; 1 Hz telemetry from eight smoke and aerosol sensors while samples are heated | 41 tests, 5 materials | Early warning, material classification, telemetry replay |
+| FLEX (PSI-69) | Flame Extinguishment Experiment; isolated droplet combustion | 274 tests | Burn-time and outcome models, analytics |
+| BASS-II (PSI-25) | Burning and Suppression of Solids | 129 burns | Oxygen consumption and CO analysis |
+| Saffire-I (PSI-98) | Large-scale fabric fire aboard Cygnus, 2016 | 2 samples | Flow-direction comparison |
 
-**Data cleaning highlights** (`src/load.py`)
-- Repeated header lines inside CSVs removed; all channels coerced to numeric
-- Two byte-identical files found in two material folders → kept once, labelled `unverified` with both candidate materials
-- One test dropped (heater never fired); broken DustTrak A channels dropped
-- Each test split into **clean → heating → smoke** phases from the heater flag
+SAME materials: cotton lamp wick, Kapton, Pyrell, silicone, Teflon.
 
----
+SAME sensor channels are mapped in `config/sensor_map.yaml`: ISS obscuration and scatter detectors, STS detector, ionisation detectors A and B, P-Trak particle counter, DustTrak B, and gas plume temperature.
 
-## 🏗️ System architecture
+Preprocessing (`src/load.py`, `src/features.py`):
+
+- Removes repeated header rows and coerces channels to numeric.
+- Detects two files duplicated across material folders, keeps one copy of each and marks those tests as unverified.
+- Drops one test in which the heater never fired, and the faulty DustTrak A channels.
+- Labels each test into clean, heating and smoke phases from the heater flag.
+- Baseline-corrects each test against its clean-air period and computes trailing-window features, so every feature at time t is available in real time.
+
+Two supplementary files (ACME CIR and FLEX-2 tables) could not be matched to a NASA source. They are shown in the dashboard as unverified and are not used for modelling.
+
+## Architecture
 
 ```mermaid
 flowchart LR
-    subgraph INGEST["① Ingestion: Wania"]
-        PSI[("NASA PSI<br/>S3 / downloads")] -->|boto3| FETCH["src/fetch_psi.py"]
-        FETCH --> RAW[("data/raw/&lt;material&gt;/*.csv")]
-    end
-
-    subgraph PREP["② Preprocessing: Wania · Kashaf"]
-        RAW --> LOAD["src/load.py<br/>clean · dedupe · phase-label"]
-        MAP["config/sensor_map.yaml"] -.-> FEAT
-        LOAD --> P1[("all_tests.parquet")]
-        P1 --> FEAT["src/features.py<br/>baseline · trailing windows · ratios"]
-        FEAT --> P2[("features.parquet")]
-    end
-
-    subgraph ML["③ Models: Yousaf"]
-        P2 --> ANOM["src/anomaly.py<br/>Isolation Forest early warning"]
-        P2 --> CLS["src/classifier.py<br/>LightGBM / RF material ID"]
-        FLEXD[("FLEX · BASS-II · Saffire")] --> FC["Burn-time & outcome<br/>gradient boosting"]
-        ANOM --> MOD[("models/*.joblib")]
-        CLS --> MOD
-        ANOM --> REP[("reports/")]
-        CLS --> REP
-    end
-
-    subgraph UI["④ Dashboard: Hijab · Faiza"]
-        REP -->|embedded JSON| APP["dashboard/app.py<br/>Streamlit + HTML/JS"]
-        FC -->|in-browser model| APP
-    end
-
-    INT{{"⑤ Integration: Samra<br/>repo · scripts · pipeline"}} -.-> PREP
-    INT -.-> ML
-    INT -.-> UI
+    PSI[(NASA PSI)] -->|boto3| FETCH[fetch_psi.py]
+    FETCH --> RAW[(data/raw)]
+    RAW --> LOAD[load.py]
+    LOAD --> FEAT[features.py]
+    MAP[sensor_map.yaml] -.-> FEAT
+    FEAT --> ANOM[anomaly.py]
+    FEAT --> CLS[classifier.py]
+    ANOM --> OUT[(models, reports)]
+    CLS --> OUT
+    FLEX[(FLEX, BASS-II, Saffire)] --> FC[Flame models]
+    OUT --> APP[dashboard/app.py]
+    FC --> APP
 ```
 
-**Design principles**
-
-- **Live-safe features.** Every rolling feature uses *trailing* windows only, so anything computed at time *t* could have been computed onboard at time *t*.
-- **Leakage-proof validation.** Splits are always **by test** (GroupKFold / leave-one-test-out), never by row.
-- **Train on normal only.** The anomaly detector sees only clean air, so it can flag smoke from materials it has never seen.
-- **Self-contained dashboard.** The UI ships results as an embedded payload and runs the flame models in the browser, so it works offline and needs no server-side model.
-
-### Dashboard pages
-
-| Page | What it shows |
-|---|---|
-| **Dashboard** | Replay of a SAME test: live sensor telemetry, AI fire-risk gauge, alarm comparison, live material classifier |
-| **Flame analytics** | FLEX burn time vs O₂, extinction size, outcomes · BASS-II O₂ & CO · Saffire-I flow direction |
-| **Dataset explorer** | Source provenance, FLEX test browser, CSV preview workspace |
-| **AI intelligence** | Interactive microgravity flame simulator, model registry, feature drivers, unlabelled-test predictions |
-
----
-
-## 📈 Results
-
-### Smoke early-warning detector (SAME, 41 tests, 8-fold GroupKFold)
-
-| Metric | Our detector | ISS-scatter-style alarm* |
+| Stage | Component | Output |
 |---|---|---|
-| Tests detected | **41 / 41** | 41 / 41 |
-| Median alert time after heater on | **3 s** | 134 s |
-| 90th-percentile alert time | **5 s** | — |
-| False alarms | **0.37 / hr** (1 test) | 0.74 / hr |
-| Median lead over the alarm | **131 s** | — |
+| Ingestion | `src/fetch_psi.py` | `data/raw/<material>/*.csv` |
+| Cleaning | `src/load.py` | `data/processed/all_tests.parquet` |
+| Features | `src/features.py` | `data/processed/features.parquet` |
+| Early warning | `src/anomaly.py` | `models/anomaly_iforest.joblib`, `reports/anomaly/` |
+| Classification | `src/classifier.py` | `models/material_classifier.joblib`, `reports/classifier/` |
+| Dashboard | `dashboard/app.py` | Streamlit application |
 
-\*Baseline alarms are calibrated at the same false-alarm quantile for a fair comparison.
+Validation always splits by test (GroupKFold or leave-one-test-out), never by row, so no test contributes to both training and evaluation. The dashboard embeds its results and runs the flame models in the browser, so it works offline with no model server.
 
-![Lead time vs ISS detector](reports/anomaly/figures/lead_time_vs_iss.png)
+The dashboard has four pages: a live replay of SAME tests with a fire-risk score and material prediction; flame analytics across FLEX, BASS-II and Saffire-I; a dataset explorer with source provenance; and a model page with the interactive flame simulator.
 
-### Burning-material classifier (leave-one-test-out, 38 labelled tests)
+## Results
 
-| Model | Test-level accuracy | Macro-F1 | Window accuracy (120–600 s) |
+### Early-warning detector
+
+SAME, 41 tests, 8-fold GroupKFold. The baseline is an ISS-scatter alarm calibrated to the same false-alarm quantile.
+
+| Metric | Detector | Scatter alarm |
+|---|---|---|
+| Tests detected | 41 / 41 | 41 / 41 |
+| Median alert time after heater on | 3 s | 134 s |
+| 90th percentile alert time | 5 s | n/a |
+| False alarm rate | 0.37 per hour | 0.74 per hour |
+| Median lead over scatter alarm | 131 s | n/a |
+
+![Lead time compared with the ISS scatter detector](reports/anomaly/figures/lead_time_vs_iss.png)
+
+### Material classifier
+
+Leave-one-test-out on 38 labelled tests. Chance accuracy is 20%.
+
+| Model | Test accuracy | Macro F1 | Window accuracy (120 to 600 s) |
 |---|---|---|---|
-| Random Forest (500 trees) | **73.7 %** (28/38) | 0.727 | 65.2 % |
-| LightGBM (300 rounds) | 71.1 % (27/38) | 0.693 | **66.5 %** |
+| Random Forest, 500 trees | 73.7% (28/38) | 0.727 | 65.2% |
+| LightGBM, 300 rounds | 71.1% (27/38) | 0.693 | 66.5% |
 
-Chance level for 5 classes is 20 %. Accuracy grows from ~32 % at 60 s to ~71 % at 450 s of data. The strongest signals are the ion-B/ISS-scatter and scatter/obscuration ratios (SHAP).
+Accuracy increases from about 32% with 60 s of data to about 71% with 450 s. The most informative features are the ratios of ionisation-B to scatter and of scatter to obscuration.
 
-### Flame forecaster (FLEX, 274 tests, 5-fold CV)
+### Flame models
 
-| Model | Task | Score |
+FLEX, 274 tests, 5-fold cross-validation.
+
+| Model | Target | Score |
 |---|---|---|
-| Gradient boosting (200 trees) | Burn time | R² 0.70 · ±3.1 s typical error |
-| Gradient boosting (150 × 3) | Flame outcome | 77 % accuracy (baseline 69 %) |
+| Gradient boosting, 200 trees | Burn time | R² 0.70, typical error 3.1 s |
+| Gradient boosting, 150 trees per class | Flame outcome | 77% accuracy (majority baseline 69%) |
 
-Full outputs: [`reports/anomaly/summary.txt`](reports/anomaly/summary.txt) · [`reports/classifier/summary.txt`](reports/classifier/summary.txt) · technical and progress reports in [`docs/reports/`](docs/reports/)
+Detailed outputs are in `reports/anomaly/summary.txt` and `reports/classifier/summary.txt`. The technical and progress reports are in `docs/reports/`.
 
----
+## Limitations
 
-## 📁 Repository structure
+- The SAME set is small: 41 tests and five materials.
+- The detector's lead time comes mostly from the gas plume temperature channel, which triggered the alert in all 41 tests. Using smoke sensors alone, the median lead over the scatter alarm falls to about 1 s. A temperature sensor near likely ignition sources is therefore the main hardware recommendation.
+- SAME heats samples to pyrolysis and does not include open flaming, so the detector covers the pre-ignition smoke phase only.
+- Three SAME tests have uncertain material labels. They are excluded from classifier training and reported separately.
+
+## Repository structure
 
 ```
 flame-in-freefall/
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── .env.example               # PSI / AWS settings template (copy to .env)
-├── .gitignore  .gitattributes
-│
-├── config/
-│   └── sensor_map.yaml        # raw instrument columns → model channels
-│
+├── config/            sensor channel mapping
+├── dashboard/         Streamlit application
 ├── data/
-│   ├── raw/<material>/        # SAME CSVs from NASA PSI      (git-ignored)
-│   ├── external/              # other PSI downloads           (git-ignored)
-│   └── processed/             # parquet intermediates         (git-ignored)
-│       └── feature_columns.json   # feature lists per model  (committed)
-│
-├── src/
-│   ├── fetch_psi.py           # Phase -1  boto3 download from NASA PSI
-│   ├── load.py                # Phase 0   clean, dedupe, phase-label
-│   ├── features.py            # Phase 1   baseline, rolling windows, ratios
-│   ├── anomaly.py             # Phase 2   Isolation Forest early warning
-│   └── classifier.py          # Phase 3   LightGBM / RF material classifier
-│
-├── models/                    # *.joblib (git-ignored, regenerated)
-├── reports/
-│   ├── anomaly/               # per-test results, sweep, figures
-│   └── classifier/            # OOF predictions, SHAP importance, figures
-│
-├── dashboard/
-│   └── app.py                 # Streamlit dashboard
-│
-├── notebooks/                 # exploration
-├── docs/
-│   └── reports/               # technical & progress reports (.docx)
-└── scripts/
-    └── run_pipeline.sh        # rebuild data → models → reports
+│   ├── raw/           NASA CSVs, not tracked
+│   ├── external/      other downloads, not tracked
+│   └── processed/     intermediates, not tracked except feature_columns.json
+├── docs/reports/      technical and progress reports
+├── models/            trained models, not tracked
+├── notebooks/
+├── reports/           evaluation tables and figures
+├── scripts/           pipeline and setup scripts
+└── src/               ingestion, preprocessing and model code
 ```
 
----
+## Getting started
 
-## 🚀 Quick start
+Requires Python 3.11 or later.
 
 ```bash
-# 1. Clone
-git clone https://github.com/samra761/flame-in-freefall.git
+git clone https://github.com/Samra761/flame-in-freefall.git
 cd flame-in-freefall
-
-# 2. Environment
 python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+```
 
-# 3. Just want the dashboard? It is self-contained:
+Run the dashboard:
+
+```bash
 streamlit run dashboard/app.py
 ```
 
-**Rebuild the full pipeline from raw NASA data**
+To rebuild models and reports from raw data, place the SAME CSV files in `data/raw/<material>/`, either by downloading them from https://psi.nasa.gov or by configuring `.env` (see `.env.example`) and running `python src/fetch_psi.py`. Then run:
 
 ```bash
-# Option A: download from S3 with boto3
-cp .env.example .env               # fill in PSI_S3_BUCKET / PSI_S3_PREFIX
-python src/fetch_psi.py
-
-# Option B: download the SAME CSVs manually from https://psi.nasa.gov
-#           and place them in data/raw/<material>/
-
-bash scripts/run_pipeline.sh       # load → features → anomaly → classifier
+bash scripts/run_pipeline.sh
 ```
 
----
+## License
 
-## ⚖️ Limitations & honesty notes
+Code is released under the MIT License. NASA data is subject to NASA PSI terms of use.
 
-- **Small sample.** 41 SAME tests and 5 materials. Results are promising, not flight-certified.
-- **The early-warning lead is driven by plume temperature.** In all 41 tests the gas-plume thermocouple triggered the alert. With smoke sensors only, the median lead over the scatter alarm drops to about 1 s. A thermal channel near likely ignition sources is the key hardware recommendation.
-- **Heated-sample smoke, not open flame.** SAME heats materials to pyrolysis, so it covers the pre-fire smoke window.
-- **Three SAME tests have uncertain labels** (duplicate files). They are excluded from classifier training and shown separately as "unverified".
-- Items tagged **UNVERIFIED** in the dashboard could not be matched to a NASA source and are illustrative only.
+## Acknowledgements
 
----
-
-## 🙏 Acknowledgements
-
-- **NASA Physical Sciences Informatics (PSI)** for the SAME, FLEX, BASS-II and Saffire datasets
-- **NASA International Space Apps Challenge** organisers and local hosts
-- The ISS and Cygnus combustion research teams whose experiments made this possible
-
-<div align="center">
-
-Built with 🔥 by **The Blueprint 67**: Samra · Wania · Yousaf · Kashaf · Hijab · Faiza
-
-</div>
+We thank NASA Physical Sciences Informatics for the SAME, FLEX, BASS-II and Saffire datasets, the organisers of the NASA International Space Apps Challenge, and the research teams behind these ISS and Cygnus experiments.
