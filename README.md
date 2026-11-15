@@ -181,7 +181,7 @@ Detailed outputs are in `reports/anomaly/summary.txt` and `reports/classifier/su
 ## Repository structure
 
 ```
-flame-in-freefall/
+The-Blueprint-67/
 ├── Sensor_Systems_and_Telemetry_Integration/
 │   ├── config/        variable registry, dataset profiles, source corrections
 │   ├── src/           importers and packet builders
@@ -210,8 +210,8 @@ flame-in-freefall/
 Requires Python 3.11 or later.
 
 ```bash
-git clone https://github.com/Samra761/flame-in-freefall.git
-cd flame-in-freefall
+git clone https://github.com/Samra761/The-Blueprint-67.git
+cd The-Blueprint-67
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
