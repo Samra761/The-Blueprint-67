@@ -238,6 +238,31 @@ PYTHONPATH=integration_update/src:. python -m pytest -q tests frontend_adapter/t
 
 The raw inputs of the sensor package are not tracked in git: the SAME HKP CSVs are the same files as in `data/raw/`, and the PSI-100 Saffire-III exports can be downloaded from NASA PSI into `Sensor_Systems_and_Telemetry_Integration/data/raw/psi100/`. They are only needed to rebuild the packets; the dashboard uses the processed files that are included.
 
+## Resources
+
+Data
+
+- NASA Physical Sciences Informatics (PSI): https://psi.nasa.gov
+- SAME and SAME-R smoke aerosol measurements (PSI-101, PSI-102)
+- FLEX droplet combustion (PSI-69)
+- BASS and BASS-II burning and suppression of solids (PSI-26, PSI-25)
+- Saffire-I to Saffire-III spacecraft fire experiments (PSI-98, PSI-99, PSI-100)
+- SPICE smoke point measurements (PSI-107)
+
+Software
+
+| Library | Use |
+|---|---|
+| [Streamlit](https://streamlit.io) | Dashboard application |
+| [pandas](https://pandas.pydata.org), [NumPy](https://numpy.org), [PyArrow](https://arrow.apache.org) | Data loading and processing |
+| [scikit-learn](https://scikit-learn.org) | Isolation Forest, Random Forest, gradient boosting, cross-validation |
+| [LightGBM](https://lightgbm.readthedocs.io) | Material classifier |
+| [SHAP](https://shap.readthedocs.io) | Feature importance |
+| [Matplotlib](https://matplotlib.org) | Report figures |
+| [boto3](https://boto3.amazonaws.com) | S3 data access |
+| [openpyxl](https://openpyxl.readthedocs.io) | Excel source files |
+| [pytest](https://pytest.org) | Tests |
+
 ## License
 
 Copyright (c) 2026 The Blueprint 67 (Samra, Hijab, Yousaf, Faiza, Kashaf, Wania).
