@@ -1,0 +1,9 @@
+{
+  "observations_input": 10627,
+  "wide_packets": 1519,
+  "wide_dataframe_rows": 1519,
+  "wide_dataframe_columns": 78,
+  "timestamped_packets": 0,
+  "untimestamped_source_row_packets": 1519,
+  "policy": "timestamped records are grouped into one packet per source/experiment/PSI/run/timestamp; absent timestamps remain null and are grouped by source row"
+}

@@ -1,0 +1,10 @@
+{
+  "workbook_sheet": "RawData",
+  "csv_file": "PSI-100_Raw_Data_Saffire_Data_Table2017.161.00.42.03-EU.csv",
+  "workbook_data_rows": 11450,
+  "csv_data_rows": 11450,
+  "mapped_columns": 47,
+  "row_count_match": true,
+  "all_47_mapped_columns_equal_with_tolerance_1e-7": true,
+  "differences": []
+}

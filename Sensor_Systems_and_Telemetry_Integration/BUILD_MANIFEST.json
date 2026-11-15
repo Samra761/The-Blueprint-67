@@ -1,0 +1,70 @@
+{
+  "package": "NASA Sensor Systems & Telemetry Integration",
+  "package_version": "2.1.6",
+  "build_status": "completed",
+  "source_tables": 7,
+  "mapped_observations": 10627,
+  "wide_packets": 1519,
+  "import_errors": 0,
+  "dataset_validation_all_ok": true,
+  "timestamped_packets": 0,
+  "untimestamped_source_row_packets": 1519,
+  "timestamp_policy": "No sample timestamps were invented; missing timestamps remain null.",
+  "sensor_identity_policy": "Registry variables are not asserted to be physical instrument channels.",
+  "tests": {
+    "telemetry": 12,
+    "frontend_adapter": 8,
+    "supplemental_psi_importer": 3,
+    "result": "all passed in local build (23/23)"
+  },
+  "outputs": [
+    "SENSOR_LEAD_HANDOFF.md",
+    "data/processed/saffire_iii_psi100/PSI100_RawData_normalized.csv",
+    "data/processed/saffire_iii_psi100/PSI100_RawData_packets.jsonl",
+    "data/processed/saffire_iii_psi100/channel_registry.json",
+    "data/raw/psi100/PSI-100_Raw_Data_Raw_telemetry_file.csv",
+    "data/raw/psi100/PSI-100_Raw_Data_Saffire-III_1_Hz_Telemetry_Data.xlsx",
+    "data/raw/psi100/PSI-100_Raw_Data_Saffire_Data_Table2017.161.00.42.03-EU.csv",
+    "ml_lead_handoff/SAME_R_CHANNEL_INVENTORY.csv",
+    "ml_lead_handoff/SAME_R_DUSTTRAK_CHECK.json",
+    "ml_lead_handoff/SAME_R_WIDE_PACKETS.jsonl",
+    "output/all_sources/all_sources_wide_packets.csv",
+    "output/all_sources/all_sources_wide_packets.json",
+    "output/all_sources/build_summary.json",
+    "output/all_sources/frontend_payload.json"
+  ],
+  "note": "The final rebuild uses the supplied processed source CSVs and records source provenance. Ground-reference records remain identified by source gravity metadata. Synthetic sensor dictionary is included only as a clearly labelled development template.",
+  "supplemental_update_version": "2.1.5",
+  "version": "2.1.6",
+  "release_notes": "2.1.5: SAFFIRE sample-thickness corrections (documented in config/source_corrections.json), deterministic rebuilds, SAME-R channel inventory and DustTrak consistency check, BASS oxygen scale verified. Record and packet counts unchanged.",
+  "same_r_timestamp_promotion": {
+    "packets": 58386,
+    "timestamp_utc_packets": 58386,
+    "gmt_label_mismatches": 0,
+    "source_epoch_field_preserved": true
+  },
+  "psi100_saffire_iii": {
+    "raw_source_exports": 3,
+    "canonical_workbook_sheet": "RawData",
+    "normalized_packets": 11450,
+    "channels": 44,
+    "timestamped_packets": 11449,
+    "untimestamped_invalid_timestamp_rows": 1,
+    "workbook_clean_csv_equivalence_rows": 11450,
+    "mapped_columns_verified": 47,
+    "value_differences": 0
+  },
+  "frontend_adapter": {
+    "supports": [
+      "wide packet JSON",
+      "channel packet JSONL"
+    ],
+    "actual_dashboard_wiring": "not performed; frontend lead owns application integration"
+  },
+  "open_sensor_evidence_gaps": [
+    "Physical hardware identity confirmation",
+    "Units absent from source headers",
+    "DustTrak smoke-specific calibration",
+    "PSI-100 RelativeSeconds unit interpretation"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "package_version": "2.1.5",
+  "purpose": "Sensor Systems & Telemetry Integration normalized packet handoff for ML lead SAME-R HKP time-series inputs",
+  "ownership": "Raw ML data, feature engineering, trained models and evaluation remain the ML lead\u2019s work. Sensor Systems & Telemetry Integration only preserves, maps, validates and packetizes inputs.",
+  "source_archive": "ML Flame in freefall.zip",
+  "raw_csv_files_preserved": 43,
+  "packets_emitted": 58386,
+  "packet_grain": "one packet per (TestNumber, Time) after applying the ML lead loader duplicate/drop rules",
+  "time_semantics": "source_epoch_s is the CSV 'Time' column: Unix epoch seconds. It was validated against the GMT time_string in all 58,386 packets and is promoted to timestamp_utc as ISO-8601 UTC. source_epoch_s remains preserved unchanged; elapsed_test_time_s remains seconds since test start.",
+  "model_channels": {
+    "ISSDetectorObscurationMeasurement(Volts)": "iss_obs",
+    "ISSDetectorScatterMeasurement(Volts)": "iss_sct",
+    "STSDetectorMeasurement(Volts)": "sts",
+    "IonDetectorAMeasurement(Volts)": "ion_a",
+    "IonDetectorBMeasurement(Volts)": "ion_b",
+    "PTrakMeasurement(PtPerCC)": "ptrak",
+    "DustTrakBMeasurement(MgPerM3)": "dtb",
+    "GasPlumeTemperature(DegC)": "plume_t"
+  },
+  "feature_pipeline_reference": "feature_columns.json and ML_LEAD_FEATURE_PREPROCESSING_REFERENCE.py.txt",
+  "preprocessing_warning": "Packets contain mapped raw channels. They are not model-ready feature matrices: the ML lead preprocessing applies per-test baseline correction, trailing 5/10/30-second rolling features, and classifier ratios. Do not feed raw packets directly to trained models without that exact preprocessing.",
+  "sentinel_rules": {
+    "PTrakMeasurement(PtPerCC)": -999,
+    "packet_behavior": "preserve raw file unchanged; normalized channel ptrak is null and quality flag is emitted for -999"
+  },
+  "excluded_by_ml_lead_loader": {
+    "duplicate_files": {
+      "HKPData_gmt211_4": [
+        "Pyrell",
+        [
+          "Pyrell",
+          "Silicone"
+        ]
+      ],
+      "HKPData_gmt252_5": [
+        "Silicone",
+        [
+          "Silicone",
+          "Teflon"
+        ]
+      ]
+    },
+    "dropped_files": [
+      {
+        "material": "Pyrell",
+        "file": "HKPData_gmt235_1.csv",
+        "reason": "heater never fired"
+      }
+    ]
+  },
+  "integrity": "raw CSV SHA-256 checksums are in SAME_R_RAW_FILE_INVENTORY.csv",
+  "raw_csv_files_used_by_ml_loader": 40,
+  "timestamp_promotion": {
+    "status": "validated_and_applied",
+    "source_field": "source_epoch_s",
+    "source_unit": "Unix epoch seconds",
+    "output_field": "timestamp_utc",
+    "output_format": "ISO-8601 UTC Z",
+    "validation_packets": 58386,
+    "gmt_time_string_mismatches": 0,
+    "source_epoch_preserved": true
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Documented, evidence-backed corrections applied to processed source tables. Original NASA PSI tables under integration_update/data/raw_psi_experimental_tables/ are never modified.",
+  "applied_by": "src/apply_source_corrections.py (idempotent: a cell is changed only if it still holds the old value)",
+  "corrections": [
+    {
+      "id": "SAFFIRE-II-THICKNESS-037",
+      "record_ids": ["SAFFIRE-06", "SAFFIRE-07", "SAFFIRE-08"],
+      "samples": ["Saffire-II 2-4 (silicone, opposed)", "Saffire-II 2-5 (SIBAL)", "Saffire-II 2-6 (SIBAL)"],
+      "old_value_mm": 37.0,
+      "new_value_mm": 0.37,
+      "source_text": "PSI-99 table prints '037 mm' (missing decimal point)",
+      "evidence": "Ferkul, Olson, Urban, Ruff et al., 'Results of Large-Scale Spacecraft Flammability Tests', ICES-2017 (NTRS 20170008805): samples 2-4, 2-5 and 2-6 are 0.37 mm thick.",
+      "evidence_url": "https://ntrs.nasa.gov/api/citations/20170008805/downloads/20170008805.pdf",
+      "confidence": "confirmed by NASA publication",
+      "quality_flag": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)"
+    },
+    {
+      "id": "SAFFIRE-I-THICKNESS-UNIT",
+      "record_ids": ["SAFFIRE-01", "SAFFIRE-02"],
+      "samples": ["Saffire-I S1 (SIBAL)", "Saffire-I S2 (SIBAL)"],
+      "old_value_mm": 3.7,
+      "new_value_mm": 0.37,
+      "source_text": "PSI-98 table gives 0.37 under the header 'Sample Thickness (cm)'",
+      "evidence": "Ferkul et al. ICES-2017 (NTRS 20170008805) states Saffire-II sample 2-5 is the same cotton-fiberglass fabric used in Saffire-I and is 0.37 mm thick. Jomaas et al. (Acta Astronautica preprint) gives the Saffire-1 SIBAL fuel as 0.3175 mm. A 3.7 mm cotton-fiberglass fabric is not consistent with any published description; the header unit (cm) is treated as a source error.",
+      "evidence_url": "https://ntrs.nasa.gov/api/citations/20170008805/downloads/20170008805.pdf",
+      "confidence": "high; inferred from publications, header unit in NASA table conflicts",
+      "quality_flag": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm"
+    },
+    {
+      "id": "SAFFIRE-III-THICKNESS-UNIT",
+      "record_ids": ["SAFFIRE-12", "SAFFIRE-13"],
+      "samples": ["Saffire-III S1 (SIBAL)", "Saffire-III S2 (SIBAL)"],
+      "old_value_mm": 3.3,
+      "new_value_mm": 0.33,
+      "source_text": "PSI-100 table prints '.33 cm'",
+      "evidence": "NASA 'The Spacecraft Fire Experiment (Saffire) - Objectives, Development and Status' (NTRS 20170001636) lists SIBAL fabric as 0.33 mm thick; published SIBAL thickness is 0.32-0.37 mm. The 'cm' unit in the NASA table is treated as a source error.",
+      "evidence_url": "https://ntrs.nasa.gov/api/citations/20170001636/downloads/20170001636.pdf",
+      "confidence": "high; inferred from publications, unit in NASA table conflicts",
+      "quality_flag": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm"
+    }
+  ],
+  "targets": [
+    {"file": "data/processed/source_SAFFIRE_I-III_PSI-98-100_v1.0.csv", "kind": "source_csv", "id_column": "record_id", "value_column": "thickness_mm", "flag_column": "quality_flags"},
+    {"file": "data/processed/source_microgravity_flammability_unified_master_v1.0.csv", "kind": "source_csv", "id_column": "experiment_id", "value_column": "characteristic_size_mm", "flag_column": "quality_flags"},
+    {"file": "data/processed/telemetry_observations.json", "kind": "observations_json", "variable_ids": ["SAFFIRE::thickness_mm", "MICROGRAVITY::characteristic_size_mm"]},
+    {"file": "data/processed/telemetry_observations.csv", "kind": "observations_csv", "variable_ids": ["SAFFIRE::thickness_mm", "MICROGRAVITY::characteristic_size_mm"]},
+    {"file": "data/processed/telemetry_wide_packets.json", "kind": "packets_json", "variable_ids": ["SAFFIRE::thickness_mm", "MICROGRAVITY::characteristic_size_mm"]},
+    {"file": "data/processed/telemetry_wide_packets.csv", "kind": "packets_csv", "variable_ids": ["SAFFIRE::thickness_mm", "MICROGRAVITY::characteristic_size_mm"]}
+  ],
+  "not_corrected": [
+    {
+      "item": "Saffire-II 2-6 air flow",
+      "note": "PSI-99 table gives 20 cm/s; Ferkul et al. ICES-2017 gives 25 cm/s and NTRS 20170001636 gives 30 cm/s for the second SIBAL sample. Sources disagree, so the NASA table value (20 cm/s) is kept and flagged in docs."
+    },
+    {
+      "item": "integration_update/PSI_NUMERIC_CANDIDATES.csv",
+      "note": "This layer is a literal parse of the original NASA tables ('037 mm' -> 37 mm, '0.37' cm -> 3.7 mm) and is labelled unverified. It is left literal; use the corrected processed tables for analysis."
+    }
+  ]
+}

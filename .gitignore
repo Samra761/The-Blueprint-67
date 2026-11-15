@@ -41,6 +41,11 @@ data/raw/**
 data/external/*
 !data/external/.gitkeep
 
+# Sensor workspace: raw NASA inputs are not committed (re-download from NASA PSI).
+# raw_same_r_hkp/ is a byte-identical copy of the SAME CSVs in data/raw/.
+Sensor_Systems_and_Telemetry_Integration/data/raw/
+Sensor_Systems_and_Telemetry_Integration/ml_lead_handoff/raw_same_r_hkp/
+
 # Generated intermediates (rebuild with scripts/run_pipeline.sh)
 data/processed/*
 !data/processed/.gitkeep

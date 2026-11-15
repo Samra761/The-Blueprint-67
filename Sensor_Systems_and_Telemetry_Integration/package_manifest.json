@@ -1,0 +1,23 @@
+{
+  "package": "NASA Sensor Systems & Telemetry Integration",
+  "version": "2.1.6",
+  "packet_contract": "research_wide_packet_per_source_timestamp_plus_channel_packet_jsonl",
+  "function_interface": "build_wide_packets(observations, registry=None) -> (dict, pandas.DataFrame)",
+  "json_dump_function": "export_packets_json(packet_data, path)",
+  "outputs": {
+    "json": "data/processed/telemetry_wide_packets.json",
+    "csv": "data/processed/telemetry_wide_packets.csv",
+    "psi100_packets": "data/processed/saffire_iii_psi100/PSI100_RawData_packets.jsonl",
+    "psi100_normalized_csv": "data/processed/saffire_iii_psi100/PSI100_RawData_normalized.csv",
+    "psi100_channel_registry": "data/processed/saffire_iii_psi100/channel_registry.json",
+    "same_r_packets": "ml_lead_handoff/SAME_R_WIDE_PACKETS.jsonl"
+  },
+  "source_timestamp_policy": "Use only documented source sample timestamps. SAME-R source_epoch_s was validated against all source GMT labels and promoted to timestamp_utc. PSI-100 CygnusTimestamp epoch milliseconds are promoted when plausible; invalid values remain null. Untimed experiment-level research rows remain untimed.",
+  "release_notes": "2.1.6: PSI-100 SAFFIRE-III telemetry normalized; SAME-R source epoch UTC promotion validated; JSONL frontend adapter added.",
+  "package_version": "2.1.6",
+  "module": "Sensor Systems & Telemetry Integration",
+  "frontend_adapter_inputs": [
+    "wide_packet_json",
+    "channel_packet_jsonl"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "dataset": "PSI-100 SAFFIRE-III RawData telemetry stream",
+  "source_file": "PSI-100_Raw_Data_Saffire-III_1_Hz_Telemetry_Data.xlsx",
+  "source_sheet": "RawData",
+  "packets": 11450,
+  "channels": 44,
+  "timestamped_packets": 11449,
+  "untimestamped_packets": 1,
+  "unique_valid_source_timestamps": 11442,
+  "duplicate_timestamp_rows": 7,
+  "invalid_timestamp_rows_preserved_and_flagged": 1,
+  "timestamp_rule": "CygnusTimestamp is treated as Unix epoch milliseconds only within the plausible epoch-ms range; invalid source values remain preserved and timestamp_utc is null.",
+  "unit_rule": "Units are assigned only when explicitly stated in the source header; otherwise null.",
+  "identity_rule": "Source channel labels are preserved verbatim; hardware identity and calibration are not inferred.",
+  "overlap_rule": "RawData is the canonical combined workbook stream. Other workbook sheets are projections/views and must not be added as independent packet counts. The detailed cleaned CSV is a corroborating export, not an additional stream."
+}

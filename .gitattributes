@@ -13,3 +13,8 @@
 # Optional — to version models/data with Git LFS instead of ignoring them:
 #   git lfs install && git lfs track "models/*.joblib" "data/processed/*.parquet"
 # then remove the matching lines from .gitignore.
+
+# Sensor workspace data is checksummed (FILE_CHECKSUMS.json): store it byte-for-byte
+Sensor_Systems_and_Telemetry_Integration/**/*.csv -text
+Sensor_Systems_and_Telemetry_Integration/**/*.json -text
+Sensor_Systems_and_Telemetry_Integration/**/*.jsonl -text

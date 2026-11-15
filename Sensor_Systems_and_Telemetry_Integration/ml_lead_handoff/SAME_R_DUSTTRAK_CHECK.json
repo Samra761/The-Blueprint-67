@@ -1,0 +1,44 @@
+{
+  "scope": "Internal-consistency check of DustTrak channels across all 43 SAME-R raw files. This is not a calibration.",
+  "DustTrakB": {
+    "rows_numeric": 70883,
+    "rows_powered_state6": 53759,
+    "pearson_r_reading_vs_analog_volts": 0.9543,
+    "reading_per_volt_median": 20.009,
+    "reading_per_volt_iqr": [
+      19.918,
+      20.107
+    ],
+    "rows_reading_when_powered_off_nonzero": 0,
+    "rows_analog_at_or_below_minus_9_9_V": 220,
+    "rows_analog_at_or_above_4_99_V": 1395,
+    "rows_negative_reading": 2,
+    "reading_min": -0.01,
+    "reading_median": 0.059,
+    "reading_max": 242.963
+  },
+  "DustTrakA": {
+    "rows_numeric": 70883,
+    "rows_powered_state6": 50795,
+    "pearson_r_reading_vs_analog_volts": 0.0528,
+    "reading_per_volt_median": 121484.268,
+    "reading_per_volt_iqr": [
+      48193.592,
+      220062.369
+    ],
+    "rows_reading_when_powered_off_nonzero": 0,
+    "rows_analog_at_or_below_minus_9_9_V": 220,
+    "rows_analog_at_or_above_4_99_V": 298,
+    "rows_negative_reading": 0,
+    "reading_min": 0.0,
+    "reading_median": 10113.0,
+    "reading_max": 22997.0,
+    "share_of_readings_at_or_above_10000": 0.8342
+  },
+  "findings": [
+    "DustTrak B reading tracks its own analog output closely (see pearson_r), at a steady ~20 mg/m3 per volt, i.e. a 0-5 V analog output spanning 0-100 mg/m3. Reading is 0 whenever the unit is powered off. The channel is internally consistent and operating.",
+    "DustTrak B analog output clips at 5 V (about 100 mg/m3); rows at or above 4.99 V should be treated as saturated on the analog side. Rows at -10 V analog are faults.",
+    "DustTrak A readings are mostly coded values of 10000 and above that do not track its analog output; they are not usable as mass concentrations. DustTrak A is not an ML model input.",
+    "Calibration for smoke is NOT established by this check. Photometric mass monitors report mass relative to their factory calibration aerosol; NIST (Cleary) calibrated the SAME instruments, and smoke-specific factors are in the SAME publications (Yang et al. 2015, Aerosol Sci. Technol. 49; Meyer et al. 2018, Fire Safety J.). Until those factors are applied, present dtb as a relative mass-monitor reading, not a calibrated smoke concentration."
+  ]
+}

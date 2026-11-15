@@ -1,0 +1,93 @@
+{
+  "source_count": 7,
+  "observations": 10627,
+  "packets": 1519,
+  "datasets": [
+    {
+      "dataset": "source_SAME_PSI-101-102_smoke_particles_v1.0.csv",
+      "observations": 1663,
+      "packets": 154,
+      "import_errors": 0,
+      "validation": {
+        "ok": true,
+        "records_checked": 1663,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    {
+      "dataset": "source_BASS_PSI-26_test_log_v1.0.csv",
+      "observations": 399,
+      "packets": 121,
+      "import_errors": 0,
+      "validation": {
+        "ok": true,
+        "records_checked": 399,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    {
+      "dataset": "source_microgravity_flammability_unified_master_v1.0.csv",
+      "observations": 3190,
+      "packets": 850,
+      "import_errors": 0,
+      "validation": {
+        "ok": true,
+        "records_checked": 3190,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    {
+      "dataset": "source_FLEX_PSI-69_clean_v1.0.csv",
+      "observations": 4154,
+      "packets": 274,
+      "import_errors": 0,
+      "validation": {
+        "ok": true,
+        "records_checked": 4154,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    {
+      "dataset": "source_BASS-II_flame_spread_microgravity_v1.0.csv",
+      "observations": 416,
+      "packets": 52,
+      "import_errors": 0,
+      "validation": {
+        "ok": true,
+        "records_checked": 416,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    {
+      "dataset": "source_SPICE_PSI-107_smoke_points_v1.0.csv",
+      "observations": 715,
+      "packets": 55,
+      "import_errors": 0,
+      "validation": {
+        "ok": true,
+        "records_checked": 715,
+        "error_count": 0,
+        "errors": []
+      }
+    },
+    {
+      "dataset": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "observations": 90,
+      "packets": 13,
+      "import_errors": 0,
+      "validation": {
+        "ok": true,
+        "records_checked": 90,
+        "error_count": 0,
+        "errors": []
+      }
+    }
+  ],
+  "combined_packet_file": "output/all_sources/all_sources_wide_packets.json",
+  "import_errors": []
+}

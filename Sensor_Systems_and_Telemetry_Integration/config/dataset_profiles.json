@@ -1,0 +1,128 @@
+{
+  "SAME_PSI-101-102_smoke_particles_v1.0.csv": {
+    "path": "data/processed/source_SAME_PSI-101-102_smoke_particles_v1.0.csv",
+    "experiment_key_candidates": [
+      "experiment_id",
+      "psi_id",
+      "campaign",
+      "flight",
+      "platform"
+    ],
+    "record_key_candidates": [
+      "record_id",
+      "source_record_id"
+    ],
+    "source_file_column": "source_file",
+    "timestamp_policy": "null_if_not_present",
+    "numeric_field_policy": "emit_numeric_non_identifier_columns",
+    "classification_policy": "use value_type; default reported_experimental_variable"
+  },
+  "BASS_PSI-26_test_log_v1.0.csv": {
+    "path": "data/processed/source_BASS_PSI-26_test_log_v1.0.csv",
+    "experiment_key_candidates": [
+      "experiment_id",
+      "psi_id",
+      "campaign",
+      "flight",
+      "platform"
+    ],
+    "record_key_candidates": [
+      "record_id",
+      "source_record_id"
+    ],
+    "source_file_column": "source_file",
+    "timestamp_policy": "null_if_not_present",
+    "numeric_field_policy": "emit_numeric_non_identifier_columns",
+    "classification_policy": "use value_type; default reported_experimental_variable"
+  },
+  "microgravity_flammability_unified_master_v1.0.csv": {
+    "path": "data/processed/source_microgravity_flammability_unified_master_v1.0.csv",
+    "experiment_key_candidates": [
+      "experiment_id",
+      "psi_id",
+      "campaign",
+      "flight",
+      "platform"
+    ],
+    "record_key_candidates": [
+      "record_id",
+      "source_record_id"
+    ],
+    "source_file_column": "source_file",
+    "timestamp_policy": "null_if_not_present",
+    "numeric_field_policy": "emit_numeric_non_identifier_columns",
+    "classification_policy": "use value_type; default reported_experimental_variable"
+  },
+  "FLEX_PSI-69_clean_v1.0.csv": {
+    "path": "data/processed/source_FLEX_PSI-69_clean_v1.0.csv",
+    "experiment_key_candidates": [
+      "experiment_id",
+      "psi_id",
+      "campaign",
+      "flight",
+      "platform"
+    ],
+    "record_key_candidates": [
+      "record_id",
+      "source_record_id"
+    ],
+    "source_file_column": "source_file",
+    "timestamp_policy": "null_if_not_present",
+    "numeric_field_policy": "emit_numeric_non_identifier_columns",
+    "classification_policy": "use value_type; default reported_experimental_variable"
+  },
+  "BASS-II_flame_spread_microgravity_v1.0.csv": {
+    "path": "data/processed/source_BASS-II_flame_spread_microgravity_v1.0.csv",
+    "experiment_key_candidates": [
+      "experiment_id",
+      "psi_id",
+      "campaign",
+      "flight",
+      "platform"
+    ],
+    "record_key_candidates": [
+      "record_id",
+      "source_record_id"
+    ],
+    "source_file_column": "source_file",
+    "timestamp_policy": "null_if_not_present",
+    "numeric_field_policy": "emit_numeric_non_identifier_columns",
+    "classification_policy": "use value_type; default reported_experimental_variable"
+  },
+  "SPICE_PSI-107_smoke_points_v1.0.csv": {
+    "path": "data/processed/source_SPICE_PSI-107_smoke_points_v1.0.csv",
+    "experiment_key_candidates": [
+      "experiment_id",
+      "psi_id",
+      "campaign",
+      "flight",
+      "platform"
+    ],
+    "record_key_candidates": [
+      "record_id",
+      "source_record_id"
+    ],
+    "source_file_column": "source_file",
+    "timestamp_policy": "null_if_not_present",
+    "numeric_field_policy": "emit_numeric_non_identifier_columns",
+    "classification_policy": "use value_type; default reported_experimental_variable"
+  },
+  "SAFFIRE_I-III_PSI-98-100_v1.0.csv": {
+    "path": "data/processed/source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+    "experiment_key_candidates": [
+      "experiment_id",
+      "psi_id",
+      "campaign",
+      "flight",
+      "platform"
+    ],
+    "record_key_candidates": [
+      "record_id",
+      "source_record_id"
+    ],
+    "source_file_column": "source_file",
+    "timestamp_policy": "null_if_not_present",
+    "numeric_field_policy": "emit_numeric_non_identifier_columns",
+    "classification_policy": "use value_type; default reported_experimental_variable"
+  }
+}

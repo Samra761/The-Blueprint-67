@@ -1,8 +1,8 @@
-# Flame in Freefall: Microgravity Combustion 
+# Flame in Freefall: AI-Powered Microgravity Combustion Analytics
 
 Fire-safety insights and anomaly detection for spacecraft and habitats, built on NASA Physical Sciences Informatics (PSI) data.
 
-Developed by team The Blueprint 67 for the NASA Space Apps Challenge 2026, Local Event: Islamabad.
+Developed by team The Blueprint 67 for the NASA Space Apps Challenge 2026, Islamabad.
 
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-AGPL--3.0-blue)
@@ -17,6 +17,7 @@ Flame in Freefall combines four NASA microgravity combustion datasets into a sin
 - A classifier that identifies which of five spacecraft materials is overheating from aerosol sensor signatures.
 - Burn-time and flame-outcome models trained on FLEX droplet tests, used by an interactive flame simulator.
 - Analytics views for FLEX, BASS-II and Saffire-I, with each data source labelled by provenance.
+- A sensor and telemetry integration layer that normalises NASA PSI tables and time series (SAME-R, Saffire-III and others) into validated, timestamped packets with full provenance, which the dashboard reads directly.
 
 ## Team
 
@@ -58,6 +59,17 @@ All datasets are from NASA PSI.
 | BASS-II (PSI-25) | Burning and Suppression of Solids | 129 burns | Oxygen consumption and CO analysis |
 | Saffire-I (PSI-98) | Large-scale fabric fire aboard Cygnus, 2016 | 2 samples | Flow-direction comparison |
 
+The sensor integration workspace (`Sensor_Systems_and_Telemetry_Integration/`, package v2.1.6) adds:
+
+| Source | Description | Content |
+|---|---|---|
+| SAME-R (PSI-101/102) | SAME housekeeping telemetry as normalised wide packets | 58,386 packets, 41 tests, 8 channels; all source timestamps validated against NASA GMT labels |
+| Saffire-III (PSI-100) | 1 Hz telemetry from the Saffire-III flight | 11,450 packets, 44 channels |
+| Seven PSI source tables | SAME/SAME-R, BASS (PSI-26), BASS-II (PSI-25), FLEX (PSI-69), SPICE (PSI-107), Saffire I-III (PSI-98/99/100) and a unified flammability table | 69 registered research variables, wide packets with provenance |
+| Supplemental PSI tables | 22 further PSI experimental tables | 2,009 source-row packets, field and unit inventory |
+
+No timestamps are fabricated: where a source has no sample time, packets are keyed by source row and the timestamp is left empty. Instrument error codes (such as the P-Trak `-999` sentinel) are kept as nulls with a quality flag.
+
 SAME materials: cotton lamp wick, Kapton, Pyrell, silicone, Teflon.
 
 SAME sensor channels are mapped in `config/sensor_map.yaml`: ISS obscuration and scatter detectors, STS detector, ionisation detectors A and B, P-Trak particle counter, DustTrak B, and gas plume temperature.
@@ -86,8 +98,11 @@ flowchart LR
     ANOM --> OUT[(models, reports)]
     CLS --> OUT
     FLEX[(FLEX, BASS-II, Saffire)] --> FC[Flame models]
+    PSI -.-> SENS[Sensor integration workspace]
+    SENS --> PKT[(validated telemetry packets)]
     OUT --> APP[dashboard/app.py]
     FC --> APP
+    PKT --> APP
 ```
 
 | Stage | Component | Output |
@@ -97,11 +112,25 @@ flowchart LR
 | Features | `src/features.py` | `data/processed/features.parquet` |
 | Early warning | `src/anomaly.py` | `models/anomaly_iforest.joblib`, `reports/anomaly/` |
 | Classification | `src/classifier.py` | `models/material_classifier.joblib`, `reports/classifier/` |
+| Sensor integration | `Sensor_Systems_and_Telemetry_Integration/` | Variable registry, telemetry packets, frontend adapter |
 | Dashboard | `dashboard/app.py` | Streamlit application |
 
 Validation always splits by test (GroupKFold or leave-one-test-out), never by row, so no test contributes to both training and evaluation. The dashboard embeds its results and runs the flame models in the browser, so it works offline with no model server.
 
-The dashboard has four pages: a live replay of SAME tests with a fire-risk score and material prediction; flame analytics across FLEX, BASS-II and Saffire-I; a dataset explorer with source provenance; and a model page with the interactive flame simulator.
+The dashboard has eight pages:
+
+| Page | Content |
+|---|---|
+| Dashboard | Replay of a SAME test with live telemetry, fire-risk score, alarm comparison and material prediction |
+| Flame analytics | FLEX, BASS-II and Saffire-I analysis |
+| Dataset explorer | Every source, the exact file it came from, and its trust level |
+| Flame simulator | FLEX burn-time and outcome models running in the browser |
+| Model status | Each model's training data, validation and a live integrity check |
+| Sensor profiles | Sensor and channel profiles built from the integration workspace |
+| Telemetry streams | Every packet stream with packet counts, timestamp coverage and quality flags |
+| Variable registry | All variables and channels, dataset profiles and documented source corrections |
+
+At start-up the app reads the sensor workspace, reduces it to a compact payload and passes it to the page. If the workspace is missing, the original pages still work and the three sensor pages explain what was searched.
 
 ## Results
 
@@ -147,11 +176,21 @@ Detailed outputs are in `reports/anomaly/summary.txt` and `reports/classifier/su
 - The detector's lead time comes mostly from the gas plume temperature channel, which triggered the alert in all 41 tests. Using smoke sensors alone, the median lead over the scatter alarm falls to about 1 s. A temperature sensor near likely ignition sources is therefore the main hardware recommendation.
 - SAME heats samples to pyrolysis and does not include open flaming, so the detector covers the pre-ignition smoke phase only.
 - Three SAME tests have uncertain material labels. They are excluded from classifier training and reported separately.
+- The 69 entries in the variable registry are research variables reported by the experiments. They are not a verified inventory of physical sensor hardware.
 
 ## Repository structure
 
 ```
 flame-in-freefall/
+├── Sensor_Systems_and_Telemetry_Integration/
+│   ├── config/        variable registry, dataset profiles, source corrections
+│   ├── src/           importers and packet builders
+│   ├── data/processed/  normalised tables and telemetry packets
+│   ├── frontend_adapter/  packet adapter used by the dashboard
+│   ├── ml_lead_handoff/   SAME-R packets and ML channel contract
+│   ├── integration_update/  supplemental PSI tables and inventories
+│   ├── tests/         automated tests
+│   └── docs/          schema, validation and integration notes
 ├── config/            sensor channel mapping
 ├── dashboard/         Streamlit application
 ├── data/
@@ -189,6 +228,15 @@ To rebuild models and reports from raw data, place the SAME CSV files in `data/r
 ```bash
 bash scripts/run_pipeline.sh
 ```
+
+To test the sensor integration package (23 tests):
+
+```bash
+cd Sensor_Systems_and_Telemetry_Integration
+PYTHONPATH=integration_update/src:. python -m pytest -q tests frontend_adapter/test_adapter.py integration_update/tests
+```
+
+The raw inputs of the sensor package are not tracked in git: the SAME HKP CSVs are the same files as in `data/raw/`, and the PSI-100 Saffire-III exports can be downloaded from NASA PSI into `Sensor_Systems_and_Telemetry_Integration/data/raw/psi100/`. They are only needed to rebuild the packets; the dashboard uses the processed files that are included.
 
 ## License
 

@@ -1,0 +1,1436 @@
+{
+  "schema_version": "1.0",
+  "format": "wide_packet_per_timestamp",
+  "packet_count": 13,
+  "grouping_policy": "one packet per source/experiment/PSI/run/timestamp; when timestamp is absent, one packet per source row",
+  "timestamp_policy": "timestamp_utc is null when not present in source; no synthetic timestamps",
+  "data_semantics": "Reported experimental variables and derived results; not asserted to be physical sensor channels.",
+  "packets": [
+    {
+      "packet_id": "PKT-000001",
+      "experiment_id": "Saffire-I (2016)",
+      "psi_id": "PSI-98",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-01",
+        "flight": "Saffire-I (2016)",
+        "psi_id": "PSI-98",
+        "sample": "S1",
+        "material": "SIBAL (cotton-fiberglass)",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+        "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm"
+      },
+      "record_ids": [
+        "SAFFIRE-01"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.37,
+        "SAFFIRE::length_cm": 94.0,
+        "SAFFIRE::width_cm": 40.6,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 182.0,
+        "SAFFIRE::ignition_time_s": 8.0,
+        "SAFFIRE::ug_burn_time_s": 420.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_time_s": "s"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_time_s": "ug_burn_time_s"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_time_s": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:2",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:2",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:2",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:2",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:2",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:2",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:2",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000002",
+      "experiment_id": "Saffire-I (2016)",
+      "psi_id": "PSI-98",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-02",
+        "flight": "Saffire-I (2016)",
+        "psi_id": "PSI-98",
+        "sample": "S2",
+        "material": "SIBAL (cotton-fiberglass)",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+        "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm"
+      },
+      "record_ids": [
+        "SAFFIRE-02"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.37,
+        "SAFFIRE::length_cm": 94.0,
+        "SAFFIRE::width_cm": 40.6,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 182.0,
+        "SAFFIRE::ignition_time_s": 8.0,
+        "SAFFIRE::ug_burn_time_s": 70.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_time_s": "s"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_time_s": "ug_burn_time_s"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_time_s": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:3",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:3",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:3",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:3",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:3",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:3",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-98 header says cm (0.37 cm = 3.7 mm); published SIBAL thickness is 0.32-0.37 mm, value set to 0.37 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:3",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000003",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-09",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-7",
+        "material": "PMMA & Nomex",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)"
+      },
+      "record_ids": [
+        "SAFFIRE-09"
+      ],
+      "readings": {
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 80.0,
+        "SAFFIRE::ignition_time_s": 9.2,
+        "SAFFIRE::ug_burn_time_s": 140.0,
+        "SAFFIRE::ug_burn_length_cm": 5.0
+      },
+      "units": {
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm"
+      },
+      "variable_names": {
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_time_s": "ug_burn_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm"
+      },
+      "measurement_classes": {
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:10",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:10",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:10",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:10",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:10",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:10",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:10",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000004",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-10",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-8",
+        "material": "PMMA",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)"
+      },
+      "record_ids": [
+        "SAFFIRE-10"
+      ],
+      "readings": {
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 97.0,
+        "SAFFIRE::ignition_time_s": 30.0,
+        "SAFFIRE::ug_burn_time_s": 600.0,
+        "SAFFIRE::ug_burn_length_cm": 10.0
+      },
+      "units": {
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm"
+      },
+      "variable_names": {
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_time_s": "ug_burn_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm"
+      },
+      "measurement_classes": {
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:11",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:11",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:11",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:11",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:11",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:11",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:11",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000005",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-11",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-9",
+        "material": "PMMA",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)"
+      },
+      "record_ids": [
+        "SAFFIRE-11"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 10.0,
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 97.0,
+        "SAFFIRE::ignition_time_s": 30.0,
+        "SAFFIRE::ug_burn_time_s": 900.0,
+        "SAFFIRE::ug_burn_length_cm": 10.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_time_s": "ug_burn_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:12",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:12",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:12",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:12",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:12",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:12",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:12",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:12",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000006",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-03",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-1",
+        "material": "Silicone",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)"
+      },
+      "record_ids": [
+        "SAFFIRE-03"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.27,
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 80.0,
+        "SAFFIRE::ignition_time_s": 9.2,
+        "SAFFIRE::ug_burn_length_cm": 0.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:4",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:4",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:4",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:4",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:4",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:4",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:4",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000007",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-04",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-2",
+        "material": "Silicone",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)"
+      },
+      "record_ids": [
+        "SAFFIRE-04"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.61,
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 80.0,
+        "SAFFIRE::ignition_time_s": 9.2,
+        "SAFFIRE::ug_burn_length_cm": 0.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:5",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:5",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:5",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:5",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:5",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:5",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:5",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000008",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-05",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-3",
+        "material": "Silicone",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)"
+      },
+      "record_ids": [
+        "SAFFIRE-05"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 1.03,
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 80.0,
+        "SAFFIRE::ignition_time_s": 9.2,
+        "SAFFIRE::ug_burn_length_cm": 0.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:6",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:6",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:6",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:6",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:6",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:6",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": null,
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:6",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000009",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-06",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-4",
+        "material": "Silicone",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+        "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)"
+      },
+      "record_ids": [
+        "SAFFIRE-06"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.37,
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 80.0,
+        "SAFFIRE::ignition_time_s": 9.2,
+        "SAFFIRE::ug_burn_length_cm": 0.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:7",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:7",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:7",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:7",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:7",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:7",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:7",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000010",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-07",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-5",
+        "material": "SIBAL (cotton-fiberglass)",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+        "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)"
+      },
+      "record_ids": [
+        "SAFFIRE-07"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.37,
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 80.0,
+        "SAFFIRE::ignition_time_s": 9.2,
+        "SAFFIRE::ug_burn_time_s": 145.0,
+        "SAFFIRE::ug_burn_length_cm": 29.0,
+        "SAFFIRE::ug_spread_rate_mm_s": 2.1
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm",
+        "SAFFIRE::ug_spread_rate_mm_s": "mm/s"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_time_s": "ug_burn_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm",
+        "SAFFIRE::ug_spread_rate_mm_s": "ug_spread_rate_mm_s"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable",
+        "SAFFIRE::ug_spread_rate_mm_s": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_spread_rate_mm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:8",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000011",
+      "experiment_id": "Saffire-II (2016)",
+      "psi_id": "PSI-99",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-08",
+        "flight": "Saffire-II (2016)",
+        "psi_id": "PSI-99",
+        "sample": "2-6",
+        "material": "SIBAL (cotton-fiberglass)",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+        "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)"
+      },
+      "record_ids": [
+        "SAFFIRE-08"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.37,
+        "SAFFIRE::length_cm": 29.0,
+        "SAFFIRE::width_cm": 5.0,
+        "SAFFIRE::flow_cm_s": 20.0,
+        "SAFFIRE::ignition_power_w": 80.0,
+        "SAFFIRE::ignition_time_s": 9.2,
+        "SAFFIRE::ug_burn_time_s": 115.0,
+        "SAFFIRE::ug_burn_length_cm": 29.0,
+        "SAFFIRE::ug_spread_rate_mm_s": 2.6
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s",
+        "SAFFIRE::ignition_power_w": "W",
+        "SAFFIRE::ignition_time_s": "s",
+        "SAFFIRE::ug_burn_time_s": "s",
+        "SAFFIRE::ug_burn_length_cm": "cm",
+        "SAFFIRE::ug_spread_rate_mm_s": "mm/s"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s",
+        "SAFFIRE::ignition_power_w": "ignition_power_w",
+        "SAFFIRE::ignition_time_s": "ignition_time_s",
+        "SAFFIRE::ug_burn_time_s": "ug_burn_time_s",
+        "SAFFIRE::ug_burn_length_cm": "ug_burn_length_cm",
+        "SAFFIRE::ug_spread_rate_mm_s": "ug_spread_rate_mm_s"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable",
+        "SAFFIRE::ignition_power_w": "reported_experimental_variable",
+        "SAFFIRE::ignition_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_time_s": "reported_experimental_variable",
+        "SAFFIRE::ug_burn_length_cm": "reported_experimental_variable",
+        "SAFFIRE::ug_spread_rate_mm_s": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_power_w": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ignition_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_time_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_burn_length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::ug_spread_rate_mm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_corrected: NASA PSI-99 prints '037 mm'; 0.37 mm per Ferkul et al. ICES-2017 (NTRS 20170008805)",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:9",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000012",
+      "experiment_id": "Saffire-III (2017)",
+      "psi_id": "PSI-100",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-12",
+        "flight": "Saffire-III (2017)",
+        "psi_id": "PSI-100",
+        "sample": "S1",
+        "material": "SIBAL (cotton-fiberglass)",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+        "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm"
+      },
+      "record_ids": [
+        "SAFFIRE-12"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.33,
+        "SAFFIRE::length_cm": 94.0,
+        "SAFFIRE::width_cm": 40.6,
+        "SAFFIRE::flow_cm_s": 30.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:13",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:13",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:13",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:13",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    },
+    {
+      "packet_id": "PKT-000013",
+      "experiment_id": "Saffire-III (2017)",
+      "psi_id": "PSI-100",
+      "run_id": null,
+      "timestamp_utc": null,
+      "source_file": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv",
+      "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+      "source_row_metadata": {
+        "record_id": "SAFFIRE-13",
+        "flight": "Saffire-III (2017)",
+        "psi_id": "PSI-100",
+        "sample": "S2",
+        "material": "SIBAL (cotton-fiberglass)",
+        "gravity": "microgravity (Cygnus vehicle, unmanned)",
+        "value_type": "observed (NASA experimental table)",
+        "source": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+        "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm"
+      },
+      "record_ids": [
+        "SAFFIRE-13"
+      ],
+      "readings": {
+        "SAFFIRE::thickness_mm": 0.33,
+        "SAFFIRE::length_cm": 94.0,
+        "SAFFIRE::width_cm": 40.6,
+        "SAFFIRE::flow_cm_s": 30.0
+      },
+      "units": {
+        "SAFFIRE::thickness_mm": "mm",
+        "SAFFIRE::length_cm": "cm",
+        "SAFFIRE::width_cm": "cm",
+        "SAFFIRE::flow_cm_s": "cm/s"
+      },
+      "variable_names": {
+        "SAFFIRE::thickness_mm": "thickness_mm",
+        "SAFFIRE::length_cm": "length_cm",
+        "SAFFIRE::width_cm": "width_cm",
+        "SAFFIRE::flow_cm_s": "flow_cm_s"
+      },
+      "measurement_classes": {
+        "SAFFIRE::thickness_mm": "reported_experimental_variable",
+        "SAFFIRE::length_cm": "reported_experimental_variable",
+        "SAFFIRE::width_cm": "reported_experimental_variable",
+        "SAFFIRE::flow_cm_s": "reported_experimental_variable"
+      },
+      "reading_metadata": {
+        "SAFFIRE::thickness_mm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:14",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::length_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:14",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::width_cm": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:14",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        },
+        "SAFFIRE::flow_cm_s": {
+          "value_type": "observed (NASA experimental table)",
+          "quality_flags": "thickness_unit_corrected: NASA PSI-100 prints '.33 cm' (3.3 mm); published SIBAL thickness is 0.33 mm",
+          "source_row_key": "source_SAFFIRE_I-III_PSI-98-100_v1.0.csv:14",
+          "source_reference": "NASA PSI-98/99/100 Saffire-I/II/III experimental tables (CC0-1.0)",
+          "is_instrument_sensor": false
+        }
+      },
+      "time_basis": "no_timestamp_source_row"
+    }
+  ]
+}

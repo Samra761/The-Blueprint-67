@@ -1,0 +1,23 @@
+{
+  "package_version": "2.1.5",
+  "raw_csv_files_preserved": 43,
+  "raw_source_rows_after_ml_lead_loader_rules": 58386,
+  "wide_packets": 58386,
+  "unique_tests": 41,
+  "timestamp_utc_packets": 58386,
+  "elapsed_time_packets": 58386,
+  "note": "Counts are for this ML-lead SAME-R HKP dataset layer only; do not add to the PSI source-table packet totals because source layers may overlap.",
+  "raw_csv_files_used_by_ml_loader": 40,
+  "packet_time_fields": [
+    "source_epoch_s",
+    "elapsed_test_time_s"
+  ],
+  "timestamp_utc_validation": {
+    "source_field": "Time (Unix epoch seconds)",
+    "validated_against": "TimeString GMT label",
+    "packets_checked": 58386,
+    "mismatches": 0,
+    "conversion": "datetime.fromtimestamp(source_epoch_s, UTC), ISO-8601 Z",
+    "elapsed_test_time_s_preserved": true
+  }
+}

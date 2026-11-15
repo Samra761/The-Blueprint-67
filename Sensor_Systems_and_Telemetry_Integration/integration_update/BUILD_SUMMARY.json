@@ -1,0 +1,60 @@
+{
+  "package": "NASA Sensor Systems & Telemetry Integration",
+  "version": "2.1.5",
+  "base_sensor_telemetry_package_preserved": true,
+  "uploaded_repositories_reviewed": [
+    "Bebo-ZeroG-X-main.zip",
+    "flame-in-freefall-main.zip",
+    "flamme-main.zip",
+    "fluxfire-Orbital.Mind-main.zip",
+    "NASA_flame_in_freefall-main.zip"
+  ],
+  "supplemental_psi_experimental_tables": 22,
+  "source_row_packets": 2009,
+  "field_definitions": 231,
+  "numeric_scalar_candidates": 16042,
+  "timestamps_fabricated": 0,
+  "si_conversion_policy": "Only explicit source units and the supplied PSI-69 burning-rate correction are converted; original values/units retained.",
+  "ml_lead_adapter_included": true,
+  "ml_lead_raw_zip_included": true,
+  "overlap_policy": "Supplemental 22-table packet layer is kept separate from the existing 7-table/1519-packet Sensor Systems & Telemetry Integration build to avoid double counting.",
+  "package_version": "2.1.6",
+  "ml_lead_same_r_layer": {
+    "raw_csv_files_preserved": 43,
+    "raw_csv_files_used_by_ml_lead_loader": 40,
+    "raw_source_rows_after_ml_lead_loader_rules": 58386,
+    "wide_packets": 58386,
+    "unique_tests": 41,
+    "timestamp_utc_packets": 0,
+    "source_epoch_packets": 58386,
+    "elapsed_test_time_packets": 58386,
+    "source_time_field": "Time (Unix epoch seconds; agrees with TimeString GMT labels)",
+    "elapsed_time_field": "ElapsedTestTime(Secs), seconds since test start",
+    "note": "Counts apply only to the ML-lead SAME-R HKP layer. Do not add them to PSI packet totals; source layers may overlap."
+  },
+  "ml_lead_same_r_integration": {
+    "raw_csv_files_included": 43,
+    "normalized_packets": 58386,
+    "unique_tests": 41,
+    "timestamp_utc_packets": 0,
+    "elapsed_time_field": "Time (seconds)",
+    "status": "raw input handoff packetized; trained-model inference not run",
+    "package_version": "2.1.5",
+    "raw_csv_files_used_by_ml_loader": 40
+  },
+  "same_r_timestamp_promotion": {
+    "packets": 58386,
+    "timestamp_utc_packets": 58386,
+    "source_epoch_s_to_gmt_time_string_mismatches": 0,
+    "source_epoch_s_preserved": true
+  },
+  "psi100_saffire_iii_sensor_layer": {
+    "source_exports": 3,
+    "normalized_packets": 11450,
+    "channels": 44,
+    "timestamped_packets": 11449,
+    "invalid_timestamp_rows_preserved_and_flagged": 1,
+    "workbook_rawdata_cleaned_csv_equivalence": "47 columns / 11,450 rows / zero value differences"
+  },
+  "frontend_adapter_jsonl_support": true
+}
