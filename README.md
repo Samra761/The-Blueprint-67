@@ -240,7 +240,7 @@ The raw inputs of the sensor package are not tracked in git: the SAME HKP CSVs a
 
 ## License
 
-Copyright (c) 2026 The Blueprint 67 (Samra, Wania, Yousaf, Kashaf, Hijab, Faiza).
+Copyright (c) 2026 The Blueprint 67 (Samra, Hijab, Yousaf, Faiza, Kashaf, Wania).
 
 This project is licensed under the GNU Affero General Public License v3.0. See `LICENSE` for the full text. You may use and study this code, but any modified version you distribute or run as a public web service must credit the original authors and be released under the same license with its source code. NASA data is subject to NASA PSI terms of use.
 
