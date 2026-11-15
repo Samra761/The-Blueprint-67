@@ -1,6 +1,6 @@
 # Telemetry schema — wide packet v1.1
 
-> The packet schema version (1.1) is independent of the package version (2.1.5).
+> The packet schema version (1.1) is independent of the package version (2.1.6).
 
 Top-level envelope:
 

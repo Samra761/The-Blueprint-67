@@ -1,6 +1,6 @@
 # Flame in Freefall — Sensor Systems & Telemetry Integration
 
-**Package version:** 2.1.5 (data-quality fixes and verification; see [`CHANGELOG.md`](CHANGELOG.md))  
+**Package version:** 2.1.6 (see [`CHANGELOG.md`](CHANGELOG.md))  
 **Project:** NASA Flame in Freefall  
 **Module:** Sensor Systems & Telemetry Integration
 

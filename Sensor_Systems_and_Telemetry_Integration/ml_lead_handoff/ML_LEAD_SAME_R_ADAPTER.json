@@ -1,5 +1,5 @@
 {
-  "package_version": "2.1.5",
+  "package_version": "2.1.6",
   "purpose": "Sensor Systems & Telemetry Integration normalized packet handoff for ML lead SAME-R HKP time-series inputs",
   "ownership": "Raw ML data, feature engineering, trained models and evaluation remain the ML lead\u2019s work. Sensor Systems & Telemetry Integration only preserves, maps, validates and packetizes inputs.",
   "source_archive": "ML Flame in freefall.zip",

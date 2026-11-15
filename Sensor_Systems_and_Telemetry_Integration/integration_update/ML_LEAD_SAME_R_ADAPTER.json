@@ -1,5 +1,5 @@
 {
   "superseded": true,
-  "package_version": "2.1.5",
+  "package_version": "2.1.6",
   "note": "This earlier adapter contract (written before the ML raw data was available) is superseded. Use ml_lead_handoff/ML_LEAD_SAME_R_ADAPTER.json."
 }
