@@ -1,0 +1,9 @@
+rank,channel,sensor,type,detected,det_accuracy,det_f1,fa_per_hr,latency_median_s,latency_p90_s,delta_median_vs_full_s,beats_iss_alarm,loo_latency_median_s,loo_delta_median_s,loo_det_f1,cls_macro_f1,cls_accuracy,loo_cls_macro_f1
+1,plume_t,Gas plume temp.,thermocouple,41/41,0.988,0.988,0.37,3.0,5.0,0.0,41/41,131.0,128.0,0.976,0.59,0.658,0.536
+2,iss_obs,ISS obscuration,optical smoke,41/41,0.988,0.988,0.37,131.0,198.0,128.0,31/41,3.0,0.0,0.976,0.507,0.526,0.653
+3,iss_sct,ISS scatter,optical smoke,40/41,0.976,0.976,1.109,134.0,251.6,131.0,1/41,3.0,0.0,0.988,0.412,0.474,0.693
+4,dtb,DustTrak B (mass),aerosol mass,41/41,1.0,1.0,0.0,136.0,259.0,133.0,11/41,3.0,0.0,0.976,0.236,0.316,0.692
+5,ion_a,Ionisation A,ionisation smoke,32/41,0.878,0.865,0.37,136.5,252.9,133.5,0/41,3.0,0.0,0.976,0.352,0.421,0.685
+6,ion_b,Ionisation B,ionisation smoke,40/41,0.976,0.976,1.109,141.5,737.6,138.5,4/41,3.0,0.0,0.976,0.238,0.316,0.622
+7,ptrak,P-Trak (ultrafine),particle counter,41/41,0.988,0.988,0.37,147.0,665.0,144.0,2/41,3.0,0.0,0.976,0.147,0.184,0.727
+8,sts,STS detector,optical smoke,1/41,0.512,0.048,0.0,1016.0,1016.0,1013.0,0/41,3.0,0.0,0.976,0.241,0.342,0.727

@@ -1,0 +1,9 @@
+config,channels,n_channels,tests,detected,det_accuracy,det_precision,det_recall,det_f1,fa_per_hr,tests_with_fa,latency_median_s,latency_p90_s,lead_vs_iss_median_s,beats_iss_alarm,short
+only_dtb,dtb,1,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,136.0,259.0,-2.0,11.0,DTB
+ptrak+plume_t,ptrak|plume_t,2,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,3.0,5.0,131.0,41.0,PTrak+T
+ion_a+ptrak+plume_t,ion_a|ptrak|plume_t,3,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,3.0,5.0,131.0,41.0,IonA+PTrak+T
+ion_a+ptrak+dtb+plume_t,ion_a|ptrak|dtb|plume_t,4,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,3.0,5.0,131.0,41.0,IonA+PTrak+DTB+T
+sts+ion_a+ptrak+dtb+plume_t,sts|ion_a|ptrak|dtb|plume_t,5,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,3.0,5.0,131.0,41.0,STS+IonA+PTrak+DTB+T
+iss_obs+ion_a+ion_b+ptrak+dtb+plume_t,iss_obs|ion_a|ion_b|ptrak|dtb|plume_t,6,41.0,41.0,0.9878048780487805,0.9761904761904762,1.0,0.9879518072289156,0.36953397659618153,1.0,3.0,5.0,131.0,41.0,OBS+IonA+IonB+PTrak+DTB+T
+without_iss_sct,iss_obs|sts|ion_a|ion_b|ptrak|dtb|plume_t,7,41.0,41.0,0.9878048780487805,0.9761904761904762,1.0,0.9879518072289156,0.36953397659618153,1.0,3.0,5.0,131.0,41.0,OBS+STS+IonA+IonB+PTrak+DTB+T
+full_8ch,iss_obs|iss_sct|sts|ion_a|ion_b|ptrak|dtb|plume_t,8,41.0,41.0,0.975609756097561,0.9534883720930233,1.0,0.9761904761904762,0.7390679531923631,2.0,3.0,5.0,131.0,41.0,OBS+SCT+STS+IonA+IonB+PTrak+DTB+T
