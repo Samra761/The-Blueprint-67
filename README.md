@@ -293,7 +293,7 @@ The FLEX burn-time and flame-outcome models embedded in the dashboard are descri
 
 | Member | Role | Contribution |
 |---|---|---|
-| Samra Mehmood | Team Lead, GitHub Lead & Lead Systems Architect (MCS, NUST) | Pipeline architecture, PSI-101 label audit (Task 3), causal chained LOTO evaluation and streaming latency benchmarks (Task 5) |
+| Samra | Team Lead, GitHub Lead & Lead Systems Architect (MCS, NUST) | Pipeline architecture, PSI-101 label audit (Task 3), causal chained LOTO evaluation and streaming latency benchmarks (Task 5) |
 | Yousaf | ML & AI Lead (SEECS, NUST) | Stage 1 / Stage 2 modelling, sensor ablation and thermal-lag simulations (Task 6) |
 | Hijab | Frontend Developer & Literature Synthesis Lead (MCS, NUST) | Dashboard implementation, spacecraft fire detection literature comparison (Task 2) |
 | Faiza | UI/UX & Domain Researcher (MCS, NUST) | Repository foundation and reproducibility suite (Task 1), interface design, experimental setup and domain synthesis |
@@ -307,7 +307,7 @@ The first prototype (data ingestion, sensor mapping, initial detector and classi
 
 | Member | Hackathon role |
 |---|---|
-| Samra Mehmood | Team Lead, GitHub Lead & Lead Systems Architect |
+| Samra | Team Lead, GitHub Lead & Lead Systems Architect |
 | Yousaf | ML & AI Lead |
 | Hijab | Frontend Developer |
 | Faiza | UI/UX & Domain Researcher |
