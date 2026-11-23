@@ -72,6 +72,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import anomaly as A  # noqa: E402  (detector code reused as-is)
 import features as F  # noqa: E402
 import sensor_sensitivity as S  # noqa: E402  (packet loader)
+from repro import SEED  # noqa: E402  (single seed source, src/repro.py)
 
 OUT = ROOT / "reports" / "thermal_lag"
 FIG = OUT / "figures"
@@ -322,7 +323,7 @@ def curve_point(g: pd.DataFrame, boot: np.ndarray) -> dict:
 
 
 def make_tables(res: pd.DataFrame):
-    rng = np.random.default_rng(0)
+    rng = np.random.default_rng(SEED)
     n = res["test_id"].nunique()
     boot = rng.integers(0, n, (N_BOOT, n))
     ref = []
@@ -346,7 +347,7 @@ def make_tables(res: pd.DataFrame):
 
 def paired_fa(res: pd.DataFrame) -> pd.DataFrame:
     """False-alarm difference vs baseline, test-paired bootstrap, at selected settings."""
-    rng = np.random.default_rng(1)
+    rng = np.random.default_rng(SEED + 1)
     n = res["test_id"].nunique()
     boot = rng.integers(0, n, (N_BOOT, n))
     rows = []
@@ -595,7 +596,7 @@ def fig_delay(cur):
 # ===================================================================== checks
 def check_delay_models(raw):
     """Delay 0 is the identity; delays are exact; nothing after t affects y(t)."""
-    rng = np.random.default_rng(0)
+    rng = np.random.default_rng(SEED)
     for tid in (58, 95, 107):                        # shortest clean air, and large gaps
         g = raw[raw["test_id"] == tid]
         t, x = g["Time"].to_numpy(), g[HOT].to_numpy(float)

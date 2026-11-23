@@ -104,6 +104,11 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def lf_bytes(path: Path) -> bytes:
+    """File bytes with CRLF normalised to LF (Windows checkouts may hold CRLF copies)."""
+    return path.read_bytes().replace(b"\r\n", b"\n")
+
+
 def rel(p: Path) -> str:
     try:
         return str(p.relative_to(ROOT))
@@ -275,8 +280,8 @@ def check_data(c: Check, cache: dict):
 def check_labels(c: Check, cache: dict):
     import labels as LB
     a, b = ROOT / "data" / "same_label_manifest.csv", RESULTS / "same_label_manifest.csv"
-    c.expect(a.read_bytes() == b.read_bytes(), "labels.copies",
-             "data/ and results/ manifests are byte-identical")
+    c.expect(lf_bytes(a) == lf_bytes(b), "labels.copies",
+             "data/ and results/ manifests are identical (line endings normalised)")
     man = LB.load_manifest()
     probs = LB.validate_manifest(man)
     c.expect(not probs, "labels.manifest", "41 tests, 38 folder-verified, 60/103/105 recovered "
@@ -312,8 +317,8 @@ def check_audit(c: Check):
                         "assertions passed" if p.returncode == 0 else
                         (p.stdout + p.stderr)[-600:]):
             return
-        new_csv = (Path(tmp) / "same_label_manifest.csv").read_bytes()
-        c.expect(new_csv == (RESULTS / "same_label_manifest.csv").read_bytes(),
+        new_csv = lf_bytes(Path(tmp) / "same_label_manifest.csv")
+        c.expect(new_csv == lf_bytes(RESULTS / "same_label_manifest.csv"),
                  "audit.manifest", "regenerated manifest == committed")
         j_new = json.loads((Path(tmp) / "same_label_audit.json").read_text())
         j_old = json.loads((RESULTS / "same_label_audit.json").read_text())

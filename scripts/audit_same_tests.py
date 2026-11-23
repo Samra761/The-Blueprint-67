@@ -407,7 +407,7 @@ def main(out_dir: Path | None = None) -> int:
                 == man.loc[man["test_id"].isin(psi_set), "psi101_material"]).all()),
           f"policy 'psi101': {len(psi_set)} supervised tests, every label equals PSI-101")
     check(set(man["label"].dropna()) <= set(materials), "labels are within the 5 repo classes")
-    man.to_csv(OUT_CSV, index=False)
+    man.to_csv(OUT_CSV, index=False, lineterminator="\n")  # LF on every OS
 
     report = {
         "generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
@@ -439,7 +439,7 @@ def main(out_dir: Path | None = None) -> int:
         },
         "assertion_failures": failures,
     }
-    OUT_JSON.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
+    OUT_JSON.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8", newline="\n")
     print(f"\nWrote {_rel(OUT_JSON)} and {_rel(OUT_CSV)}")
     if failures:
         print(f"\n{len(failures)} assertion(s) FAILED")

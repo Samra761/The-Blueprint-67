@@ -36,7 +36,9 @@ def test_manifest_is_consistent():
 
 
 def test_manifest_copies_identical():
-    assert LB.MANIFEST.read_bytes() == LB.RESULTS_MANIFEST.read_bytes()
+    def lf(p):
+        return p.read_bytes().replace(b"\r\n", b"\n")
+    assert lf(LB.MANIFEST) == lf(LB.RESULTS_MANIFEST)
 
 
 def test_unknown_policy_rejected():
