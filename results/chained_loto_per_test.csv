@@ -1,0 +1,493 @@
+baseline,n_persist,test_id,aged_over_600s,alert_s,fa_events,clean_armed_s,trigger_sensor,iss_alert_s,iss_fa_events,policy,label,labelled,gated_ticks,pred_first_alert,pred_steady_state,pred_until_600s
+arming,1,58,False,1.0,0,12,plume_t,127.0,0,repo,Teflon,True,131,Kapton,Teflon,Kapton
+arming,1,58,False,1.0,0,12,plume_t,127.0,0,psi101,Teflon,True,131,Kapton,Teflon,Kapton
+arming,2,58,False,2.0,0,12,plume_t,128.0,0,repo,Teflon,True,202,Kapton,Teflon,Kapton
+arming,2,58,False,2.0,0,12,plume_t,128.0,0,psi101,Teflon,True,202,Kapton,Teflon,Kapton
+arming,3,58,False,3.0,0,12,plume_t,129.0,0,repo,Teflon,True,361,Cotton Lamp wick,Kapton,Kapton
+arming,3,58,False,3.0,0,12,plume_t,129.0,0,psi101,Teflon,True,361,Kapton,Teflon,Kapton
+arming,1,59,False,1.0,0,92,plume_t,133.0,0,repo,Silicone,True,775,Pyrell,Silicone,Silicone
+arming,1,59,False,1.0,0,92,plume_t,133.0,0,psi101,Silicone,True,775,Pyrell,Silicone,Silicone
+arming,2,59,False,2.0,0,92,plume_t,134.0,0,repo,Silicone,True,996,Pyrell,Silicone,Silicone
+arming,2,59,False,2.0,0,92,plume_t,134.0,0,psi101,Silicone,True,996,Pyrell,Silicone,Silicone
+arming,3,59,False,3.0,0,92,plume_t,135.0,0,repo,Silicone,True,1253,Pyrell,Silicone,Silicone
+arming,3,59,False,3.0,0,92,plume_t,135.0,0,psi101,Silicone,True,1253,Pyrell,Silicone,Silicone
+arming,1,60,False,1.0,0,52,plume_t,129.0,0,repo,Silicone,False,1209,Kapton,Silicone,Silicone
+arming,1,60,False,1.0,0,52,plume_t,129.0,0,psi101,Silicone,True,1209,Kapton,Silicone,Silicone
+arming,2,60,False,4.0,0,52,plume_t,133.0,0,repo,Silicone,False,1286,Kapton,Silicone,Silicone
+arming,2,60,False,4.0,0,52,plume_t,133.0,0,psi101,Silicone,True,1286,Kapton,Silicone,Silicone
+arming,3,60,False,5.0,0,52,plume_t,134.0,0,repo,Silicone,False,1298,Kapton,Silicone,Silicone
+arming,3,60,False,5.0,0,52,plume_t,134.0,0,psi101,Silicone,True,1298,Silicone,Silicone,Silicone
+arming,1,61,False,0.0,0,166,plume_t,127.0,0,repo,Kapton,True,127,Kapton,Kapton,Kapton
+arming,1,61,False,0.0,0,166,plume_t,127.0,0,psi101,Kapton,True,127,Kapton,Kapton,Kapton
+arming,2,61,False,1.0,0,166,plume_t,128.0,0,repo,Kapton,True,179,Kapton,Kapton,Kapton
+arming,2,61,False,1.0,0,166,plume_t,128.0,0,psi101,Kapton,True,179,Kapton,Kapton,Kapton
+arming,3,61,False,2.0,0,166,plume_t,129.0,0,repo,Kapton,True,251,Kapton,Kapton,Kapton
+arming,3,61,False,2.0,0,166,plume_t,129.0,0,psi101,Kapton,True,251,Kapton,Kapton,Kapton
+arming,1,62,False,2.0,0,150,plume_t,127.0,0,repo,Kapton,True,341,Pyrell,Cotton Lamp wick,Pyrell
+arming,1,62,False,2.0,0,150,plume_t,127.0,0,psi101,Kapton,True,341,Pyrell,Cotton Lamp wick,Pyrell
+arming,2,62,False,2.0,0,150,plume_t,128.0,0,repo,Kapton,True,430,Pyrell,Cotton Lamp wick,Pyrell
+arming,2,62,False,2.0,0,150,plume_t,128.0,0,psi101,Kapton,True,430,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+arming,3,62,False,3.0,2,150,plume_t,129.0,0,repo,Kapton,True,1018,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+arming,3,62,False,3.0,2,150,plume_t,129.0,0,psi101,Kapton,True,1018,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+arming,1,64,False,1.0,0,132,plume_t,133.0,1,repo,Pyrell,True,706,Kapton,Pyrell,Pyrell
+arming,1,64,False,1.0,0,132,plume_t,133.0,1,psi101,Pyrell,True,706,Kapton,Pyrell,Pyrell
+arming,2,64,False,2.0,0,132,plume_t,133.0,1,repo,Pyrell,True,787,Kapton,Pyrell,Pyrell
+arming,2,64,False,2.0,0,132,plume_t,133.0,1,psi101,Pyrell,True,787,Kapton,Pyrell,Pyrell
+arming,3,64,False,3.0,0,132,plume_t,134.0,1,repo,Pyrell,True,1181,Kapton,Pyrell,Pyrell
+arming,3,64,False,3.0,0,132,plume_t,134.0,1,psi101,Pyrell,True,1181,Kapton,Pyrell,Pyrell
+arming,1,65,False,1.0,0,107,plume_t,132.0,0,repo,Silicone,True,699,Kapton,Silicone,Silicone
+arming,1,65,False,1.0,0,107,plume_t,132.0,0,psi101,Silicone,True,699,Kapton,Silicone,Silicone
+arming,2,65,False,2.0,0,107,plume_t,133.0,0,repo,Silicone,True,814,Kapton,Silicone,Silicone
+arming,2,65,False,2.0,0,107,plume_t,133.0,0,psi101,Silicone,True,814,Kapton,Silicone,Silicone
+arming,3,65,False,3.0,0,107,plume_t,134.0,0,repo,Silicone,True,2100,Kapton,Silicone,Silicone
+arming,3,65,False,3.0,0,107,plume_t,134.0,0,psi101,Silicone,True,2100,Kapton,Silicone,Silicone
+arming,1,66,False,2.0,1,92,plume_t,130.0,0,repo,Silicone,True,1115,Kapton,Silicone,Silicone
+arming,1,66,False,2.0,1,92,plume_t,130.0,0,psi101,Silicone,True,1115,Kapton,Silicone,Silicone
+arming,2,66,False,3.0,0,92,plume_t,131.0,0,repo,Silicone,True,1138,Kapton,Silicone,Silicone
+arming,2,66,False,3.0,0,92,plume_t,131.0,0,psi101,Silicone,True,1138,Kapton,Silicone,Silicone
+arming,3,66,False,4.0,0,92,plume_t,132.0,0,repo,Silicone,True,1202,Kapton,Silicone,Silicone
+arming,3,66,False,4.0,0,92,plume_t,132.0,0,psi101,Silicone,True,1202,Kapton,Silicone,Silicone
+arming,1,67,True,1.0,0,86,plume_t,170.0,0,repo,Silicone,True,821,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,1,67,True,1.0,0,86,plume_t,170.0,0,psi101,Silicone,True,821,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,2,67,True,2.0,0,86,plume_t,181.0,0,repo,Silicone,True,989,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+arming,2,67,True,2.0,0,86,plume_t,181.0,0,psi101,Silicone,True,989,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,3,67,True,3.0,0,86,plume_t,102.0,0,repo,Silicone,True,1046,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+arming,3,67,True,3.0,0,86,plume_t,102.0,0,psi101,Silicone,True,1046,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+arming,1,68,True,1.0,0,45,plume_t,292.0,0,repo,Cotton Lamp wick,True,234,Kapton,Kapton,Kapton
+arming,1,68,True,1.0,0,45,plume_t,292.0,0,psi101,Cotton Lamp wick,True,234,Kapton,Teflon,Teflon
+arming,2,68,True,2.0,0,45,plume_t,341.0,0,repo,Cotton Lamp wick,True,284,Kapton,Kapton,Teflon
+arming,2,68,True,2.0,0,45,plume_t,341.0,0,psi101,Cotton Lamp wick,True,284,Kapton,Teflon,Teflon
+arming,3,68,True,2.0,0,45,plume_t,294.0,0,repo,Cotton Lamp wick,True,426,Kapton,Teflon,Teflon
+arming,3,68,True,2.0,0,45,plume_t,294.0,0,psi101,Cotton Lamp wick,True,426,Kapton,Teflon,Teflon
+arming,1,69,True,2.0,0,53,plume_t,836.0,0,repo,Teflon,True,231,Kapton,Kapton,Kapton
+arming,1,69,True,2.0,0,53,plume_t,836.0,0,psi101,Teflon,True,231,Kapton,Kapton,Kapton
+arming,2,69,True,3.0,0,53,plume_t,837.0,0,repo,Teflon,True,342,Kapton,Kapton,Kapton
+arming,2,69,True,3.0,0,53,plume_t,837.0,0,psi101,Teflon,True,342,Kapton,Kapton,Kapton
+arming,3,69,True,4.0,0,53,plume_t,838.0,0,repo,Teflon,True,409,Kapton,Kapton,Kapton
+arming,3,69,True,4.0,0,53,plume_t,838.0,0,psi101,Teflon,True,409,Cotton Lamp wick,Cotton Lamp wick,Kapton
+arming,1,70,True,1.0,0,114,plume_t,834.0,0,repo,Kapton,True,160,Pyrell,,Teflon
+arming,1,70,True,1.0,0,114,plume_t,834.0,0,psi101,Kapton,True,160,Pyrell,,Teflon
+arming,2,70,True,2.0,0,114,plume_t,835.0,0,repo,Kapton,True,225,Pyrell,Teflon,Teflon
+arming,2,70,True,2.0,0,114,plume_t,835.0,0,psi101,Kapton,True,225,Pyrell,Teflon,Teflon
+arming,3,70,True,3.0,0,114,plume_t,836.0,0,repo,Kapton,True,287,Cotton Lamp wick,Teflon,Teflon
+arming,3,70,True,3.0,0,114,plume_t,836.0,0,psi101,Kapton,True,287,Pyrell,Teflon,Teflon
+arming,1,73,False,1.0,0,30,plume_t,70.0,0,repo,Kapton,True,135,Pyrell,,Silicone
+arming,1,73,False,1.0,0,30,plume_t,70.0,0,psi101,Kapton,True,135,Pyrell,,Teflon
+arming,2,73,False,2.0,0,30,plume_t,71.0,0,repo,Kapton,True,223,Pyrell,Kapton,Teflon
+arming,2,73,False,2.0,0,30,plume_t,71.0,0,psi101,Kapton,True,223,Pyrell,Kapton,Teflon
+arming,3,73,False,3.0,0,30,plume_t,128.0,0,repo,Kapton,True,265,Pyrell,Kapton,Kapton
+arming,3,73,False,3.0,0,30,plume_t,128.0,0,psi101,Kapton,True,265,Pyrell,Kapton,Teflon
+arming,1,75,False,0.0,0,121,plume_t,126.0,0,repo,Kapton,True,125,Kapton,,Teflon
+arming,1,75,False,0.0,0,121,plume_t,126.0,0,psi101,Kapton,True,125,Kapton,,Kapton
+arming,2,75,False,1.0,0,121,plume_t,127.0,0,repo,Kapton,True,204,Kapton,Kapton,Kapton
+arming,2,75,False,1.0,0,121,plume_t,127.0,0,psi101,Kapton,True,204,Kapton,Kapton,Kapton
+arming,3,75,False,2.0,0,121,plume_t,128.0,0,repo,Kapton,True,223,Kapton,Kapton,Kapton
+arming,3,75,False,2.0,0,121,plume_t,128.0,0,psi101,Kapton,True,223,Kapton,Kapton,Kapton
+arming,1,76,False,1.0,0,160,plume_t,135.0,0,repo,Pyrell,True,692,Pyrell,Silicone,Silicone
+arming,1,76,False,1.0,0,160,plume_t,135.0,0,psi101,Pyrell,True,692,Pyrell,Silicone,Silicone
+arming,2,76,False,2.0,0,160,plume_t,136.0,0,repo,Pyrell,True,748,Pyrell,Silicone,Silicone
+arming,2,76,False,2.0,0,160,plume_t,136.0,0,psi101,Pyrell,True,748,Pyrell,Silicone,Silicone
+arming,3,76,False,3.0,0,160,plume_t,137.0,0,repo,Pyrell,True,763,Pyrell,Silicone,Silicone
+arming,3,76,False,3.0,0,160,plume_t,137.0,0,psi101,Pyrell,True,763,Pyrell,Silicone,Silicone
+arming,1,77,False,1.0,0,140,plume_t,126.0,0,repo,Kapton,True,138,Kapton,Kapton,Kapton
+arming,1,77,False,1.0,0,140,plume_t,126.0,0,psi101,Kapton,True,138,Kapton,Kapton,Kapton
+arming,2,77,False,2.0,0,140,plume_t,127.0,0,repo,Kapton,True,255,Kapton,Kapton,Kapton
+arming,2,77,False,2.0,0,140,plume_t,127.0,0,psi101,Kapton,True,255,Kapton,Kapton,Kapton
+arming,3,77,False,3.0,0,140,plume_t,128.0,0,repo,Kapton,True,251,Kapton,Kapton,Kapton
+arming,3,77,False,3.0,0,140,plume_t,128.0,0,psi101,Kapton,True,251,Kapton,Kapton,Kapton
+arming,1,78,False,1.0,0,16,plume_t,126.0,0,repo,Cotton Lamp wick,True,323,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,1,78,False,1.0,0,16,plume_t,126.0,0,psi101,Cotton Lamp wick,True,323,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,2,78,False,2.0,0,16,plume_t,127.0,0,repo,Cotton Lamp wick,True,353,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+arming,2,78,False,2.0,0,16,plume_t,127.0,0,psi101,Cotton Lamp wick,True,353,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,3,78,False,3.0,0,16,plume_t,128.0,0,repo,Cotton Lamp wick,True,406,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+arming,3,78,False,3.0,0,16,plume_t,128.0,0,psi101,Cotton Lamp wick,True,406,Silicone,Cotton Lamp wick,Kapton
+arming,1,79,False,1.0,0,172,plume_t,123.0,0,repo,Teflon,True,190,Kapton,Teflon,Teflon
+arming,1,79,False,1.0,0,172,plume_t,123.0,0,psi101,Teflon,True,190,Kapton,Teflon,Silicone
+arming,2,79,False,2.0,0,172,plume_t,124.0,0,repo,Teflon,True,325,Kapton,Teflon,Teflon
+arming,2,79,False,2.0,0,172,plume_t,124.0,0,psi101,Teflon,True,325,Kapton,Teflon,Teflon
+arming,3,79,False,3.0,0,172,plume_t,125.0,0,repo,Teflon,True,501,Kapton,Teflon,Teflon
+arming,3,79,False,3.0,0,172,plume_t,125.0,0,psi101,Teflon,True,501,Kapton,Teflon,Teflon
+arming,1,80,False,1.0,0,181,plume_t,127.0,0,repo,Cotton Lamp wick,True,438,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,1,80,False,1.0,0,181,plume_t,127.0,0,psi101,Cotton Lamp wick,True,438,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,2,80,False,2.0,0,181,plume_t,128.0,0,repo,Cotton Lamp wick,True,487,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,2,80,False,2.0,0,181,plume_t,128.0,0,psi101,Cotton Lamp wick,True,487,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+arming,3,80,False,3.0,0,181,plume_t,129.0,0,repo,Cotton Lamp wick,True,818,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,3,80,False,3.0,0,181,plume_t,129.0,0,psi101,Cotton Lamp wick,True,818,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+arming,1,81,False,1.0,0,129,plume_t,124.0,0,repo,Teflon,True,214,Kapton,Kapton,Kapton
+arming,1,81,False,1.0,0,129,plume_t,124.0,0,psi101,Teflon,True,214,Kapton,Kapton,Teflon
+arming,2,81,False,1.0,0,129,plume_t,125.0,0,repo,Teflon,True,289,Kapton,Kapton,Kapton
+arming,2,81,False,1.0,0,129,plume_t,125.0,0,psi101,Teflon,True,289,Kapton,Kapton,Teflon
+arming,3,81,False,2.0,0,129,plume_t,126.0,0,repo,Teflon,True,449,Kapton,Teflon,Teflon
+arming,3,81,False,2.0,0,129,plume_t,126.0,0,psi101,Teflon,True,449,Kapton,Teflon,Teflon
+arming,1,82,False,1.0,0,414,plume_t,128.0,0,repo,Cotton Lamp wick,True,387,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,1,82,False,1.0,0,414,plume_t,128.0,0,psi101,Cotton Lamp wick,True,387,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,2,82,False,2.0,0,414,plume_t,129.0,0,repo,Cotton Lamp wick,True,433,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,2,82,False,2.0,0,414,plume_t,129.0,0,psi101,Cotton Lamp wick,True,433,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+arming,3,82,False,3.0,0,414,plume_t,130.0,0,repo,Cotton Lamp wick,True,792,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+arming,3,82,False,3.0,0,414,plume_t,130.0,0,psi101,Cotton Lamp wick,True,792,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+arming,1,84,False,1.0,0,249,plume_t,131.0,0,repo,Pyrell,True,512,Kapton,Pyrell,Pyrell
+arming,1,84,False,1.0,0,249,plume_t,131.0,0,psi101,Pyrell,True,512,Kapton,Pyrell,Pyrell
+arming,2,84,False,2.0,0,249,plume_t,132.0,0,repo,Pyrell,True,816,Kapton,Pyrell,Pyrell
+arming,2,84,False,2.0,0,249,plume_t,132.0,0,psi101,Pyrell,True,816,Kapton,Pyrell,Pyrell
+arming,3,84,False,3.0,1,249,plume_t,133.0,0,repo,Pyrell,True,892,Kapton,Pyrell,Pyrell
+arming,3,84,False,3.0,1,249,plume_t,133.0,0,psi101,Pyrell,True,892,Silicone,Pyrell,Pyrell
+arming,1,85,False,1.0,0,117,plume_t,128.0,0,repo,Kapton,True,135,Kapton,Kapton,Kapton
+arming,1,85,False,1.0,0,117,plume_t,128.0,0,psi101,Kapton,True,135,Kapton,Kapton,Kapton
+arming,2,85,False,2.0,0,117,plume_t,129.0,0,repo,Kapton,True,179,Kapton,Kapton,Kapton
+arming,2,85,False,2.0,0,117,plume_t,129.0,0,psi101,Kapton,True,179,Kapton,Kapton,Kapton
+arming,3,85,False,3.0,0,117,plume_t,130.0,0,repo,Kapton,True,285,Kapton,Kapton,Kapton
+arming,3,85,False,3.0,0,117,plume_t,130.0,0,psi101,Kapton,True,285,Kapton,Kapton,Kapton
+arming,1,86,False,2.0,0,137,plume_t,131.0,0,repo,Silicone,True,839,Pyrell,Silicone,Silicone
+arming,1,86,False,2.0,0,137,plume_t,131.0,0,psi101,Silicone,True,839,Cotton Lamp wick,Silicone,Silicone
+arming,2,86,False,2.0,0,137,plume_t,132.0,0,repo,Silicone,True,888,Pyrell,Silicone,Silicone
+arming,2,86,False,2.0,0,137,plume_t,132.0,0,psi101,Silicone,True,888,Cotton Lamp wick,Silicone,Silicone
+arming,3,86,False,3.0,0,137,plume_t,133.0,0,repo,Silicone,True,1065,Pyrell,Silicone,Silicone
+arming,3,86,False,3.0,0,137,plume_t,133.0,0,psi101,Silicone,True,1065,Cotton Lamp wick,Silicone,Silicone
+arming,1,87,False,2.0,0,107,plume_t,82.0,0,repo,Pyrell,True,215,Kapton,Pyrell,Silicone
+arming,1,87,False,2.0,0,107,plume_t,82.0,0,psi101,Pyrell,True,215,Kapton,Pyrell,Silicone
+arming,2,87,False,3.0,0,107,plume_t,81.0,0,repo,Pyrell,True,225,Teflon,Pyrell,Silicone
+arming,2,87,False,3.0,0,107,plume_t,81.0,0,psi101,Pyrell,True,225,Teflon,Pyrell,Silicone
+arming,3,87,False,4.0,0,107,plume_t,82.0,0,repo,Pyrell,True,253,Silicone,Pyrell,Silicone
+arming,3,87,False,4.0,0,107,plume_t,82.0,0,psi101,Pyrell,True,253,Teflon,Pyrell,Silicone
+arming,1,89,False,1.0,0,110,plume_t,69.0,0,repo,Teflon,True,208,Kapton,Teflon,Teflon
+arming,1,89,False,1.0,0,110,plume_t,69.0,0,psi101,Teflon,True,208,Pyrell,Teflon,Teflon
+arming,2,89,False,2.0,0,110,plume_t,69.0,0,repo,Teflon,True,276,Pyrell,Teflon,Teflon
+arming,2,89,False,2.0,0,110,plume_t,69.0,0,psi101,Teflon,True,276,Pyrell,Teflon,Teflon
+arming,3,89,False,3.0,0,110,plume_t,70.0,0,repo,Teflon,True,363,Pyrell,Teflon,Teflon
+arming,3,89,False,3.0,0,110,plume_t,70.0,0,psi101,Teflon,True,363,Pyrell,Teflon,Teflon
+arming,1,91,False,1.0,0,43,plume_t,71.0,0,repo,Silicone,True,258,Kapton,Silicone,Silicone
+arming,1,91,False,1.0,0,43,plume_t,71.0,0,psi101,Silicone,True,258,Kapton,Silicone,Silicone
+arming,2,91,False,2.0,0,43,plume_t,70.0,0,repo,Silicone,True,291,Kapton,Silicone,Pyrell
+arming,2,91,False,2.0,0,43,plume_t,70.0,0,psi101,Silicone,True,291,Kapton,Silicone,Silicone
+arming,3,91,False,3.0,0,43,plume_t,70.0,0,repo,Silicone,True,307,Kapton,Silicone,Pyrell
+arming,3,91,False,3.0,0,43,plume_t,70.0,0,psi101,Silicone,True,307,Kapton,Silicone,Silicone
+arming,1,93,False,1.0,0,158,plume_t,129.0,0,repo,Kapton,True,121,Kapton,Kapton,Teflon
+arming,1,93,False,1.0,0,158,plume_t,129.0,0,psi101,Kapton,True,121,Kapton,Kapton,Teflon
+arming,2,93,False,1.0,0,158,plume_t,130.0,0,repo,Kapton,True,196,Kapton,Kapton,Kapton
+arming,2,93,False,1.0,0,158,plume_t,130.0,0,psi101,Kapton,True,196,Kapton,Kapton,Teflon
+arming,3,93,False,2.0,1,158,plume_t,131.0,0,repo,Kapton,True,346,Kapton,Kapton,Kapton
+arming,3,93,False,2.0,1,158,plume_t,131.0,0,psi101,Kapton,True,346,Kapton,Kapton,Kapton
+arming,1,94,False,1.0,0,386,plume_t,128.0,0,repo,Kapton,True,158,Pyrell,Kapton,Kapton
+arming,1,94,False,1.0,0,386,plume_t,128.0,0,psi101,Kapton,True,158,Kapton,Kapton,Kapton
+arming,2,94,False,2.0,0,386,plume_t,129.0,0,repo,Kapton,True,274,Pyrell,Kapton,Kapton
+arming,2,94,False,2.0,0,386,plume_t,129.0,0,psi101,Kapton,True,274,Pyrell,Kapton,Kapton
+arming,3,94,False,3.0,0,386,plume_t,130.0,0,repo,Kapton,True,383,Pyrell,Kapton,Kapton
+arming,3,94,False,3.0,0,386,plume_t,130.0,0,psi101,Kapton,True,383,Pyrell,Kapton,Kapton
+arming,1,95,False,3.0,0,512,plume_t,194.0,0,repo,Pyrell,True,272,Kapton,Pyrell,Pyrell
+arming,1,95,False,3.0,0,512,plume_t,194.0,0,psi101,Pyrell,True,272,Kapton,Pyrell,Pyrell
+arming,2,95,False,4.0,0,512,plume_t,195.0,0,repo,Pyrell,True,312,Kapton,Pyrell,Pyrell
+arming,2,95,False,4.0,0,512,plume_t,195.0,0,psi101,Pyrell,True,312,Kapton,Pyrell,Pyrell
+arming,3,95,False,5.0,0,512,plume_t,196.0,0,repo,Pyrell,True,701,Cotton Lamp wick,Pyrell,Pyrell
+arming,3,95,False,5.0,0,512,plume_t,196.0,0,psi101,Pyrell,True,701,Cotton Lamp wick,Pyrell,Pyrell
+arming,1,96,False,3.0,0,751,plume_t,192.0,0,repo,Cotton Lamp wick,True,319,Kapton,Cotton Lamp wick,Pyrell
+arming,1,96,False,3.0,0,751,plume_t,192.0,0,psi101,Cotton Lamp wick,True,319,Kapton,Cotton Lamp wick,Pyrell
+arming,2,96,False,4.0,0,751,plume_t,193.0,0,repo,Cotton Lamp wick,True,334,Kapton,Cotton Lamp wick,Pyrell
+arming,2,96,False,4.0,0,751,plume_t,193.0,0,psi101,Cotton Lamp wick,True,334,Kapton,Cotton Lamp wick,Pyrell
+arming,3,96,False,5.0,0,751,plume_t,194.0,0,repo,Cotton Lamp wick,True,661,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,3,96,False,5.0,0,751,plume_t,194.0,0,psi101,Cotton Lamp wick,True,661,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,1,97,False,3.0,0,128,plume_t,198.0,0,repo,Pyrell,True,300,Cotton Lamp wick,Pyrell,Pyrell
+arming,1,97,False,3.0,0,128,plume_t,198.0,0,psi101,Pyrell,True,300,Cotton Lamp wick,Pyrell,Pyrell
+arming,2,97,False,3.0,0,128,plume_t,199.0,0,repo,Pyrell,True,370,Cotton Lamp wick,Pyrell,Cotton Lamp wick
+arming,2,97,False,3.0,0,128,plume_t,199.0,0,psi101,Pyrell,True,370,Cotton Lamp wick,Pyrell,Cotton Lamp wick
+arming,3,97,False,4.0,1,128,plume_t,200.0,0,repo,Pyrell,True,698,Cotton Lamp wick,Pyrell,Pyrell
+arming,3,97,False,4.0,1,128,plume_t,200.0,0,psi101,Pyrell,True,698,Cotton Lamp wick,Pyrell,Pyrell
+arming,1,98,False,4.0,0,147,plume_t,191.0,0,repo,Cotton Lamp wick,True,354,Pyrell,Cotton Lamp wick,Pyrell
+arming,1,98,False,4.0,0,147,plume_t,191.0,0,psi101,Cotton Lamp wick,True,354,Pyrell,Cotton Lamp wick,Pyrell
+arming,2,98,False,4.0,0,147,plume_t,192.0,0,repo,Cotton Lamp wick,True,390,Pyrell,Cotton Lamp wick,Pyrell
+arming,2,98,False,4.0,0,147,plume_t,192.0,0,psi101,Cotton Lamp wick,True,390,Pyrell,Cotton Lamp wick,Pyrell
+arming,3,98,False,5.0,0,147,plume_t,193.0,0,repo,Cotton Lamp wick,True,674,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+arming,3,98,False,5.0,0,147,plume_t,193.0,0,psi101,Cotton Lamp wick,True,674,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+arming,1,99,False,5.0,0,128,plume_t,196.0,0,repo,Silicone,True,789,Kapton,Silicone,Silicone
+arming,1,99,False,5.0,0,128,plume_t,196.0,0,psi101,Silicone,True,789,Kapton,Silicone,Silicone
+arming,2,99,False,6.0,0,128,plume_t,197.0,0,repo,Silicone,True,810,Kapton,Silicone,Silicone
+arming,2,99,False,6.0,0,128,plume_t,197.0,0,psi101,Silicone,True,810,Kapton,Silicone,Silicone
+arming,3,99,False,6.0,0,128,plume_t,198.0,0,repo,Silicone,True,1061,Kapton,Silicone,Silicone
+arming,3,99,False,6.0,0,128,plume_t,198.0,0,psi101,Silicone,True,1061,Kapton,Silicone,Silicone
+arming,1,100,False,3.0,0,103,plume_t,145.0,0,repo,Teflon,True,187,Pyrell,Kapton,Kapton
+arming,1,100,False,3.0,0,103,plume_t,145.0,0,psi101,Teflon,True,187,Pyrell,Kapton,Teflon
+arming,2,100,False,3.0,0,103,plume_t,146.0,0,repo,Teflon,True,227,Pyrell,Kapton,Kapton
+arming,2,100,False,3.0,0,103,plume_t,146.0,0,psi101,Teflon,True,227,Pyrell,Kapton,Teflon
+arming,3,100,False,4.0,0,103,plume_t,147.0,0,repo,Teflon,True,417,Pyrell,Kapton,Kapton
+arming,3,100,False,4.0,0,103,plume_t,147.0,0,psi101,Teflon,True,417,Pyrell,Teflon,Teflon
+arming,1,101,False,3.0,0,56,plume_t,190.0,0,repo,Kapton,True,232,Kapton,Kapton,Kapton
+arming,1,101,False,3.0,0,56,plume_t,190.0,0,psi101,Kapton,True,232,Kapton,Kapton,Kapton
+arming,2,101,False,3.0,0,56,plume_t,191.0,0,repo,Kapton,True,242,Kapton,Kapton,Kapton
+arming,2,101,False,3.0,0,56,plume_t,191.0,0,psi101,Kapton,True,242,Kapton,Kapton,Kapton
+arming,3,101,False,4.0,0,56,plume_t,190.0,0,repo,Kapton,True,500,Kapton,Kapton,Kapton
+arming,3,101,False,4.0,0,56,plume_t,190.0,0,psi101,Kapton,True,500,Kapton,Kapton,Kapton
+arming,1,103,False,5.0,0,681,plume_t,255.0,0,repo,Silicone,False,708,Kapton,Silicone,Silicone
+arming,1,103,False,5.0,0,681,plume_t,255.0,0,psi101,Silicone,True,708,Kapton,Silicone,Silicone
+arming,2,103,False,5.0,0,681,plume_t,256.0,0,repo,Silicone,False,775,Kapton,Silicone,Silicone
+arming,2,103,False,5.0,0,681,plume_t,256.0,0,psi101,Silicone,True,775,Kapton,Silicone,Silicone
+arming,3,103,False,6.0,0,681,plume_t,257.0,0,repo,Silicone,False,1101,Kapton,Silicone,Silicone
+arming,3,103,False,6.0,0,681,plume_t,257.0,0,psi101,Silicone,True,1101,Kapton,Silicone,Silicone
+arming,1,105,False,1.0,0,114,plume_t,248.0,0,repo,Teflon,False,241,Kapton,Teflon,Cotton Lamp wick
+arming,1,105,False,1.0,0,114,plume_t,248.0,0,psi101,Teflon,True,241,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,2,105,False,2.0,0,114,plume_t,249.0,0,repo,Teflon,False,262,Kapton,Kapton,Cotton Lamp wick
+arming,2,105,False,2.0,0,114,plume_t,249.0,0,psi101,Teflon,True,262,Cotton Lamp wick,Kapton,Cotton Lamp wick
+arming,3,105,False,3.0,0,114,plume_t,250.0,0,repo,Teflon,False,284,Cotton Lamp wick,Teflon,Cotton Lamp wick
+arming,3,105,False,3.0,0,114,plume_t,250.0,0,psi101,Teflon,True,284,Cotton Lamp wick,Kapton,Cotton Lamp wick
+arming,1,106,False,3.0,0,118,plume_t,188.0,0,repo,Cotton Lamp wick,True,280,Kapton,Pyrell,Kapton
+arming,1,106,False,3.0,0,118,plume_t,188.0,0,psi101,Cotton Lamp wick,True,280,Kapton,Pyrell,Teflon
+arming,2,106,False,4.0,0,118,plume_t,189.0,0,repo,Cotton Lamp wick,True,317,Kapton,Pyrell,Kapton
+arming,2,106,False,4.0,0,118,plume_t,189.0,0,psi101,Cotton Lamp wick,True,317,Kapton,Pyrell,Teflon
+arming,3,106,False,5.0,0,118,plume_t,190.0,0,repo,Cotton Lamp wick,True,627,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,3,106,False,5.0,0,118,plume_t,190.0,0,psi101,Cotton Lamp wick,True,627,Kapton,Cotton Lamp wick,Cotton Lamp wick
+arming,1,107,False,3.0,2,1963,plume_t,190.0,0,repo,Pyrell,True,316,Kapton,Cotton Lamp wick,Kapton
+arming,1,107,False,3.0,2,1963,plume_t,190.0,0,psi101,Pyrell,True,316,Kapton,Cotton Lamp wick,Kapton
+arming,2,107,False,4.0,0,1963,plume_t,191.0,0,repo,Pyrell,True,350,Kapton,Cotton Lamp wick,Kapton
+arming,2,107,False,4.0,0,1963,plume_t,191.0,0,psi101,Pyrell,True,350,Kapton,Cotton Lamp wick,Kapton
+arming,3,107,False,4.0,0,1963,plume_t,192.0,0,repo,Pyrell,True,410,Kapton,Cotton Lamp wick,Kapton
+arming,3,107,False,4.0,0,1963,plume_t,192.0,0,psi101,Pyrell,True,410,Kapton,Cotton Lamp wick,Kapton
+arming,1,108,False,3.0,0,57,plume_t,189.0,0,repo,Kapton,True,312,Kapton,Kapton,Kapton
+arming,1,108,False,3.0,0,57,plume_t,189.0,0,psi101,Kapton,True,312,Kapton,Kapton,Kapton
+arming,2,108,False,3.0,0,57,plume_t,190.0,0,repo,Kapton,True,362,Kapton,Kapton,Kapton
+arming,2,108,False,3.0,0,57,plume_t,190.0,0,psi101,Kapton,True,362,Kapton,Kapton,Kapton
+arming,3,108,False,4.0,0,57,plume_t,191.0,0,repo,Kapton,True,418,Kapton,Kapton,Kapton
+arming,3,108,False,4.0,0,57,plume_t,191.0,0,psi101,Kapton,True,418,Kapton,Kapton,Kapton
+heater_oracle,1,58,False,49.0,0,40,plume_t,129.0,0,repo,Teflon,True,82,Kapton,,Kapton
+heater_oracle,1,58,False,49.0,0,40,plume_t,129.0,0,psi101,Teflon,True,82,Kapton,,Kapton
+heater_oracle,2,58,False,2.0,0,40,plume_t,129.0,0,repo,Teflon,True,138,Kapton,Teflon,Kapton
+heater_oracle,2,58,False,2.0,0,40,plume_t,129.0,0,psi101,Teflon,True,138,Kapton,Teflon,Kapton
+heater_oracle,3,58,False,3.0,0,40,plume_t,130.0,0,repo,Teflon,True,126,Kapton,Teflon,Kapton
+heater_oracle,3,58,False,3.0,0,40,plume_t,130.0,0,psi101,Teflon,True,126,Silicone,Teflon,Kapton
+heater_oracle,1,59,False,132.0,0,122,iss_obs,133.0,0,repo,Silicone,True,674,Pyrell,Silicone,Silicone
+heater_oracle,1,59,False,132.0,0,122,iss_obs,133.0,0,psi101,Silicone,True,674,Pyrell,Silicone,Silicone
+heater_oracle,2,59,False,2.0,0,122,plume_t,134.0,0,repo,Silicone,True,813,Pyrell,Silicone,Silicone
+heater_oracle,2,59,False,2.0,0,122,plume_t,134.0,0,psi101,Silicone,True,813,Pyrell,Silicone,Silicone
+heater_oracle,3,59,False,3.0,0,122,plume_t,135.0,0,repo,Silicone,True,1167,Pyrell,Silicone,Silicone
+heater_oracle,3,59,False,3.0,0,122,plume_t,135.0,0,psi101,Silicone,True,1167,Pyrell,Silicone,Silicone
+heater_oracle,1,60,False,131.0,0,80,iss_obs,133.0,0,repo,Silicone,False,1121,Kapton,Silicone,Silicone
+heater_oracle,1,60,False,131.0,0,80,iss_obs,133.0,0,psi101,Silicone,True,1121,Kapton,Silicone,Silicone
+heater_oracle,2,60,False,4.0,0,80,plume_t,134.0,0,repo,Silicone,False,1309,Cotton Lamp wick,Silicone,Silicone
+heater_oracle,2,60,False,4.0,0,80,plume_t,134.0,0,psi101,Silicone,True,1309,Kapton,Silicone,Silicone
+heater_oracle,3,60,False,5.0,0,80,plume_t,135.0,0,repo,Silicone,False,1372,Cotton Lamp wick,Silicone,Silicone
+heater_oracle,3,60,False,5.0,0,80,plume_t,135.0,0,psi101,Silicone,True,1372,Kapton,Silicone,Silicone
+heater_oracle,1,61,False,128.0,0,196,iss_obs,158.0,0,repo,Kapton,True,28,Cotton Lamp wick,Kapton,Kapton
+heater_oracle,1,61,False,128.0,0,196,iss_obs,158.0,0,psi101,Kapton,True,28,Teflon,Kapton,Kapton
+heater_oracle,2,61,False,1.0,0,196,plume_t,129.0,0,repo,Kapton,True,168,Kapton,Kapton,Cotton Lamp wick
+heater_oracle,2,61,False,1.0,0,196,plume_t,129.0,0,psi101,Kapton,True,168,Silicone,Kapton,Cotton Lamp wick
+heater_oracle,3,61,False,2.0,0,196,plume_t,130.0,0,repo,Kapton,True,324,Cotton Lamp wick,Kapton,Kapton
+heater_oracle,3,61,False,2.0,0,196,plume_t,130.0,0,psi101,Kapton,True,324,Silicone,Kapton,Kapton
+heater_oracle,1,62,False,1.0,0,180,plume_t,127.0,0,repo,Kapton,True,373,Pyrell,Cotton Lamp wick,Pyrell
+heater_oracle,1,62,False,1.0,0,180,plume_t,127.0,0,psi101,Kapton,True,373,Pyrell,Cotton Lamp wick,Pyrell
+heater_oracle,2,62,False,2.0,3,180,plume_t,128.0,0,repo,Kapton,True,467,Pyrell,Cotton Lamp wick,Pyrell
+heater_oracle,2,62,False,2.0,3,180,plume_t,128.0,0,psi101,Kapton,True,467,Pyrell,Cotton Lamp wick,Pyrell
+heater_oracle,3,62,False,3.0,3,180,plume_t,129.0,0,repo,Kapton,True,871,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,62,False,3.0,3,180,plume_t,129.0,0,psi101,Kapton,True,871,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,64,False,55.0,0,162,plume_t,132.0,3,repo,Pyrell,True,715,Silicone,Pyrell,Pyrell
+heater_oracle,1,64,False,55.0,0,162,plume_t,132.0,3,psi101,Pyrell,True,715,Silicone,Pyrell,Pyrell
+heater_oracle,2,64,False,2.0,0,162,plume_t,133.0,3,repo,Pyrell,True,835,Pyrell,Pyrell,Pyrell
+heater_oracle,2,64,False,2.0,0,162,plume_t,133.0,3,psi101,Pyrell,True,835,Pyrell,Pyrell,Pyrell
+heater_oracle,3,64,False,3.0,1,162,plume_t,134.0,2,repo,Pyrell,True,950,Pyrell,Pyrell,Pyrell
+heater_oracle,3,64,False,3.0,1,162,plume_t,134.0,2,psi101,Pyrell,True,950,Pyrell,Pyrell,Pyrell
+heater_oracle,1,65,False,56.0,0,137,plume_t,132.0,0,repo,Silicone,True,725,Kapton,Silicone,Silicone
+heater_oracle,1,65,False,56.0,0,137,plume_t,132.0,0,psi101,Silicone,True,725,Kapton,Silicone,Silicone
+heater_oracle,2,65,False,2.0,0,137,plume_t,133.0,0,repo,Silicone,True,908,Pyrell,Silicone,Silicone
+heater_oracle,2,65,False,2.0,0,137,plume_t,133.0,0,psi101,Silicone,True,908,Kapton,Silicone,Silicone
+heater_oracle,3,65,False,3.0,0,137,plume_t,134.0,0,repo,Silicone,True,1865,Kapton,Silicone,Silicone
+heater_oracle,3,65,False,3.0,0,137,plume_t,134.0,0,psi101,Silicone,True,1865,Kapton,Silicone,Silicone
+heater_oracle,1,66,False,40.0,0,122,plume_t,131.0,0,repo,Silicone,True,1030,Kapton,Silicone,Silicone
+heater_oracle,1,66,False,40.0,0,122,plume_t,131.0,0,psi101,Silicone,True,1030,Kapton,Silicone,Silicone
+heater_oracle,2,66,False,3.0,0,122,plume_t,132.0,0,repo,Silicone,True,1106,Pyrell,Silicone,Silicone
+heater_oracle,2,66,False,3.0,0,122,plume_t,132.0,0,psi101,Silicone,True,1106,Pyrell,Silicone,Silicone
+heater_oracle,3,66,False,4.0,0,122,plume_t,132.0,0,repo,Silicone,True,1085,Pyrell,Silicone,Silicone
+heater_oracle,3,66,False,4.0,0,122,plume_t,132.0,0,psi101,Silicone,True,1085,Pyrell,Silicone,Silicone
+heater_oracle,1,67,True,97.0,0,116,iss_obs,253.0,0,repo,Silicone,True,741,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,67,True,97.0,0,116,iss_obs,253.0,0,psi101,Silicone,True,741,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,67,True,2.0,0,116,plume_t,254.0,0,repo,Silicone,True,983,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,67,True,2.0,0,116,plume_t,254.0,0,psi101,Silicone,True,983,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,67,True,3.0,0,116,plume_t,209.0,0,repo,Silicone,True,944,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,67,True,3.0,0,116,plume_t,209.0,0,psi101,Silicone,True,944,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,68,True,289.0,0,75,iss_obs,728.0,0,repo,Cotton Lamp wick,True,133,Teflon,Kapton,Kapton
+heater_oracle,1,68,True,289.0,0,75,iss_obs,728.0,0,psi101,Cotton Lamp wick,True,133,Teflon,Teflon,Teflon
+heater_oracle,2,68,True,2.0,0,75,plume_t,835.0,0,repo,Cotton Lamp wick,True,279,Kapton,Kapton,Silicone
+heater_oracle,2,68,True,2.0,0,75,plume_t,835.0,0,psi101,Cotton Lamp wick,True,279,Kapton,Teflon,Silicone
+heater_oracle,3,68,True,3.0,0,75,plume_t,558.0,0,repo,Cotton Lamp wick,True,252,Kapton,Kapton,Silicone
+heater_oracle,3,68,True,3.0,0,75,plume_t,558.0,0,psi101,Cotton Lamp wick,True,252,Kapton,Teflon,Silicone
+heater_oracle,1,69,True,2.0,0,83,plume_t,836.0,0,repo,Teflon,True,196,Kapton,Kapton,Silicone
+heater_oracle,1,69,True,2.0,0,83,plume_t,836.0,0,psi101,Teflon,True,196,Kapton,Cotton Lamp wick,Silicone
+heater_oracle,2,69,True,3.0,0,83,plume_t,837.0,0,repo,Teflon,True,247,Kapton,Kapton,Silicone
+heater_oracle,2,69,True,3.0,0,83,plume_t,837.0,0,psi101,Teflon,True,247,Cotton Lamp wick,Kapton,Silicone
+heater_oracle,3,69,True,4.0,0,83,plume_t,838.0,0,repo,Teflon,True,258,Cotton Lamp wick,Kapton,Kapton
+heater_oracle,3,69,True,4.0,0,83,plume_t,838.0,0,psi101,Teflon,True,258,Cotton Lamp wick,Kapton,Silicone
+heater_oracle,1,70,True,834.0,0,144,iss_obs,838.0,0,repo,Kapton,True,35,Pyrell,,
+heater_oracle,1,70,True,834.0,0,144,iss_obs,838.0,0,psi101,Kapton,True,35,Pyrell,,
+heater_oracle,2,70,True,2.0,0,144,plume_t,839.0,0,repo,Kapton,True,189,Teflon,,Teflon
+heater_oracle,2,70,True,2.0,0,144,plume_t,839.0,0,psi101,Kapton,True,189,Teflon,,Teflon
+heater_oracle,3,70,True,3.0,0,144,plume_t,839.0,0,repo,Kapton,True,196,Teflon,,Teflon
+heater_oracle,3,70,True,3.0,0,144,plume_t,839.0,0,psi101,Kapton,True,196,Teflon,,Teflon
+heater_oracle,1,73,False,1.0,0,58,plume_t,,0,repo,Kapton,True,127,Kapton,,Teflon
+heater_oracle,1,73,False,1.0,0,58,plume_t,,0,psi101,Kapton,True,127,Kapton,,Teflon
+heater_oracle,2,73,False,2.0,0,58,plume_t,,0,repo,Kapton,True,194,Cotton Lamp wick,Kapton,Teflon
+heater_oracle,2,73,False,2.0,0,58,plume_t,,0,psi101,Kapton,True,194,Silicone,Kapton,Teflon
+heater_oracle,3,73,False,3.0,0,58,plume_t,130.0,0,repo,Kapton,True,286,Cotton Lamp wick,Kapton,Kapton
+heater_oracle,3,73,False,3.0,0,58,plume_t,130.0,0,psi101,Kapton,True,286,Silicone,Kapton,Teflon
+heater_oracle,1,75,False,0.0,0,151,plume_t,126.0,0,repo,Kapton,True,118,Kapton,,Kapton
+heater_oracle,1,75,False,0.0,0,151,plume_t,126.0,0,psi101,Kapton,True,118,Kapton,,Teflon
+heater_oracle,2,75,False,1.0,0,151,plume_t,131.0,0,repo,Kapton,True,202,Kapton,Kapton,Kapton
+heater_oracle,2,75,False,1.0,0,151,plume_t,131.0,0,psi101,Kapton,True,202,Kapton,Kapton,Kapton
+heater_oracle,3,75,False,2.0,0,151,plume_t,128.0,0,repo,Kapton,True,182,Kapton,Kapton,Kapton
+heater_oracle,3,75,False,2.0,0,151,plume_t,128.0,0,psi101,Kapton,True,182,Kapton,Kapton,Kapton
+heater_oracle,1,76,False,21.0,0,190,plume_t,135.0,0,repo,Pyrell,True,635,Pyrell,Silicone,Silicone
+heater_oracle,1,76,False,21.0,0,190,plume_t,135.0,0,psi101,Pyrell,True,635,Pyrell,Silicone,Silicone
+heater_oracle,2,76,False,2.0,0,190,plume_t,136.0,0,repo,Pyrell,True,957,Pyrell,Silicone,Pyrell
+heater_oracle,2,76,False,2.0,0,190,plume_t,136.0,0,psi101,Pyrell,True,957,Pyrell,Silicone,Silicone
+heater_oracle,3,76,False,3.0,0,190,plume_t,137.0,0,repo,Pyrell,True,953,Pyrell,Silicone,Silicone
+heater_oracle,3,76,False,3.0,0,190,plume_t,137.0,0,psi101,Pyrell,True,953,Pyrell,Silicone,Silicone
+heater_oracle,1,77,False,127.0,0,170,iss_obs,656.0,0,repo,Kapton,True,26,Kapton,Kapton,Kapton
+heater_oracle,1,77,False,127.0,0,170,iss_obs,656.0,0,psi101,Kapton,True,26,Kapton,Kapton,Kapton
+heater_oracle,2,77,False,2.0,0,170,plume_t,130.0,0,repo,Kapton,True,210,Kapton,Kapton,Kapton
+heater_oracle,2,77,False,2.0,0,170,plume_t,130.0,0,psi101,Kapton,True,210,Kapton,Kapton,Kapton
+heater_oracle,3,77,False,3.0,0,170,plume_t,128.0,0,repo,Kapton,True,204,Kapton,Kapton,Kapton
+heater_oracle,3,77,False,3.0,0,170,plume_t,128.0,0,psi101,Kapton,True,204,Kapton,Kapton,Kapton
+heater_oracle,1,78,False,55.0,0,45,plume_t,126.0,0,repo,Cotton Lamp wick,True,294,Silicone,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,78,False,55.0,0,45,plume_t,126.0,0,psi101,Cotton Lamp wick,True,294,Silicone,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,78,False,2.0,0,45,plume_t,127.0,0,repo,Cotton Lamp wick,True,380,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,78,False,2.0,0,45,plume_t,127.0,0,psi101,Cotton Lamp wick,True,380,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,78,False,3.0,0,45,plume_t,128.0,0,repo,Cotton Lamp wick,True,435,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,78,False,3.0,0,45,plume_t,128.0,0,psi101,Cotton Lamp wick,True,435,Silicone,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,79,False,1.0,0,202,plume_t,123.0,0,repo,Teflon,True,166,Kapton,Teflon,Teflon
+heater_oracle,1,79,False,1.0,0,202,plume_t,123.0,0,psi101,Teflon,True,166,Kapton,Teflon,Kapton
+heater_oracle,2,79,False,2.0,0,202,plume_t,124.0,0,repo,Teflon,True,255,Kapton,Teflon,Teflon
+heater_oracle,2,79,False,2.0,0,202,plume_t,124.0,0,psi101,Teflon,True,255,Kapton,Teflon,Teflon
+heater_oracle,3,79,False,3.0,0,202,plume_t,125.0,0,repo,Teflon,True,301,Kapton,Teflon,Teflon
+heater_oracle,3,79,False,3.0,0,202,plume_t,125.0,0,psi101,Teflon,True,301,Kapton,Teflon,Teflon
+heater_oracle,1,80,False,127.0,1,211,iss_obs,128.0,0,repo,Cotton Lamp wick,True,355,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,80,False,127.0,1,211,iss_obs,128.0,0,psi101,Cotton Lamp wick,True,355,Silicone,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,80,False,2.0,0,211,plume_t,129.0,0,repo,Cotton Lamp wick,True,478,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,80,False,2.0,0,211,plume_t,129.0,0,psi101,Cotton Lamp wick,True,478,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,80,False,3.0,0,211,plume_t,130.0,0,repo,Cotton Lamp wick,True,467,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,80,False,3.0,0,211,plume_t,130.0,0,psi101,Cotton Lamp wick,True,467,Silicone,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,81,False,125.0,0,159,iss_obs,125.0,0,repo,Teflon,True,98,Kapton,Kapton,Kapton
+heater_oracle,1,81,False,125.0,0,159,iss_obs,125.0,0,psi101,Teflon,True,98,Teflon,Kapton,Kapton
+heater_oracle,2,81,False,1.0,0,159,plume_t,126.0,0,repo,Teflon,True,287,Kapton,Kapton,Kapton
+heater_oracle,2,81,False,1.0,0,159,plume_t,126.0,0,psi101,Teflon,True,287,Kapton,Kapton,Teflon
+heater_oracle,3,81,False,2.0,0,159,plume_t,126.0,0,repo,Teflon,True,377,Kapton,Teflon,Teflon
+heater_oracle,3,81,False,2.0,0,159,plume_t,126.0,0,psi101,Teflon,True,377,Kapton,Teflon,Teflon
+heater_oracle,1,82,False,127.0,0,444,iss_obs,128.0,0,repo,Cotton Lamp wick,True,304,Silicone,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,82,False,127.0,0,444,iss_obs,128.0,0,psi101,Cotton Lamp wick,True,304,Silicone,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,82,False,2.0,0,444,plume_t,129.0,0,repo,Cotton Lamp wick,True,439,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,82,False,2.0,0,444,plume_t,129.0,0,psi101,Cotton Lamp wick,True,439,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,82,False,3.0,0,444,plume_t,130.0,0,repo,Cotton Lamp wick,True,461,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,82,False,3.0,0,444,plume_t,130.0,0,psi101,Cotton Lamp wick,True,461,Silicone,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,84,False,130.0,0,279,iss_obs,132.0,0,repo,Pyrell,True,450,Cotton Lamp wick,Pyrell,Pyrell
+heater_oracle,1,84,False,130.0,0,279,iss_obs,132.0,0,psi101,Pyrell,True,450,Cotton Lamp wick,Pyrell,Pyrell
+heater_oracle,2,84,False,2.0,0,279,plume_t,133.0,0,repo,Pyrell,True,561,Kapton,Pyrell,Pyrell
+heater_oracle,2,84,False,2.0,0,279,plume_t,133.0,0,psi101,Pyrell,True,561,Silicone,Pyrell,Pyrell
+heater_oracle,3,84,False,3.0,0,279,plume_t,134.0,0,repo,Pyrell,True,540,Silicone,Pyrell,Pyrell
+heater_oracle,3,84,False,3.0,0,279,plume_t,134.0,0,psi101,Pyrell,True,540,Silicone,Pyrell,Pyrell
+heater_oracle,1,85,False,19.0,0,147,plume_t,129.0,0,repo,Kapton,True,124,Kapton,Kapton,Kapton
+heater_oracle,1,85,False,19.0,0,147,plume_t,129.0,0,psi101,Kapton,True,124,Kapton,Kapton,Kapton
+heater_oracle,2,85,False,2.0,0,147,plume_t,130.0,0,repo,Kapton,True,228,Kapton,Kapton,Kapton
+heater_oracle,2,85,False,2.0,0,147,plume_t,130.0,0,psi101,Kapton,True,228,Kapton,Kapton,Kapton
+heater_oracle,3,85,False,3.0,0,147,plume_t,130.0,0,repo,Kapton,True,270,Kapton,Kapton,Kapton
+heater_oracle,3,85,False,3.0,0,147,plume_t,130.0,0,psi101,Kapton,True,270,Kapton,Kapton,Kapton
+heater_oracle,1,86,False,54.0,0,166,plume_t,131.0,0,repo,Silicone,True,849,Kapton,Silicone,Silicone
+heater_oracle,1,86,False,54.0,0,166,plume_t,131.0,0,psi101,Silicone,True,849,Kapton,Silicone,Silicone
+heater_oracle,2,86,False,2.0,0,166,plume_t,132.0,0,repo,Silicone,True,918,Kapton,Silicone,Silicone
+heater_oracle,2,86,False,2.0,0,166,plume_t,132.0,0,psi101,Silicone,True,918,Silicone,Silicone,Silicone
+heater_oracle,3,86,False,3.0,0,166,plume_t,133.0,0,repo,Silicone,True,909,Cotton Lamp wick,Silicone,Silicone
+heater_oracle,3,86,False,3.0,0,166,plume_t,133.0,0,psi101,Silicone,True,909,Silicone,Silicone,Silicone
+heater_oracle,1,87,False,80.0,0,137,iss_obs,102.0,0,repo,Pyrell,True,150,Teflon,Pyrell,Pyrell
+heater_oracle,1,87,False,80.0,0,137,iss_obs,102.0,0,psi101,Pyrell,True,150,Teflon,Pyrell,Pyrell
+heater_oracle,2,87,False,3.0,0,137,plume_t,102.0,0,repo,Pyrell,True,219,Kapton,Pyrell,Pyrell
+heater_oracle,2,87,False,3.0,0,137,plume_t,102.0,0,psi101,Pyrell,True,219,Kapton,Pyrell,Pyrell
+heater_oracle,3,87,False,4.0,2,137,plume_t,91.0,0,repo,Pyrell,True,236,Kapton,Pyrell,Silicone
+heater_oracle,3,87,False,4.0,2,137,plume_t,91.0,0,psi101,Pyrell,True,236,Teflon,Pyrell,Pyrell
+heater_oracle,1,89,False,124.0,0,139,iss_obs,128.0,0,repo,Teflon,True,25,Teflon,Silicone,Pyrell
+heater_oracle,1,89,False,124.0,0,139,iss_obs,128.0,0,psi101,Teflon,True,25,Teflon,Silicone,Pyrell
+heater_oracle,2,89,False,2.0,0,139,plume_t,127.0,0,repo,Teflon,True,206,Kapton,Teflon,Teflon
+heater_oracle,2,89,False,2.0,0,139,plume_t,127.0,0,psi101,Teflon,True,206,Kapton,Teflon,Teflon
+heater_oracle,3,89,False,3.0,0,139,plume_t,127.0,0,repo,Teflon,True,206,Kapton,Teflon,Teflon
+heater_oracle,3,89,False,3.0,0,139,plume_t,127.0,0,psi101,Teflon,True,206,Kapton,Teflon,Teflon
+heater_oracle,1,91,False,68.0,0,73,iss_obs,81.0,0,repo,Silicone,True,203,Teflon,Silicone,Silicone
+heater_oracle,1,91,False,68.0,0,73,iss_obs,81.0,0,psi101,Silicone,True,203,Teflon,Silicone,Silicone
+heater_oracle,2,91,False,2.0,0,73,plume_t,81.0,0,repo,Silicone,True,260,Kapton,Silicone,Silicone
+heater_oracle,2,91,False,2.0,0,73,plume_t,81.0,0,psi101,Silicone,True,260,Kapton,Silicone,Silicone
+heater_oracle,3,91,False,3.0,0,73,plume_t,79.0,0,repo,Silicone,True,252,Kapton,Silicone,Silicone
+heater_oracle,3,91,False,3.0,0,73,plume_t,79.0,0,psi101,Silicone,True,252,Kapton,Silicone,Silicone
+heater_oracle,1,93,False,130.0,0,188,iss_obs,131.0,0,repo,Kapton,True,16,Kapton,Kapton,Kapton
+heater_oracle,1,93,False,130.0,0,188,iss_obs,131.0,0,psi101,Kapton,True,16,Kapton,Kapton,Kapton
+heater_oracle,2,93,False,1.0,0,188,plume_t,131.0,0,repo,Kapton,True,170,Kapton,Kapton,Kapton
+heater_oracle,2,93,False,1.0,0,188,plume_t,131.0,0,psi101,Kapton,True,170,Kapton,Kapton,Kapton
+heater_oracle,3,93,False,2.0,0,188,plume_t,131.0,0,repo,Kapton,True,229,Kapton,Kapton,Kapton
+heater_oracle,3,93,False,2.0,0,188,plume_t,131.0,0,psi101,Kapton,True,229,Kapton,Kapton,Kapton
+heater_oracle,1,94,False,129.0,0,416,iss_obs,130.0,0,repo,Kapton,True,42,Kapton,Kapton,Kapton
+heater_oracle,1,94,False,129.0,0,416,iss_obs,130.0,0,psi101,Kapton,True,42,Kapton,Kapton,Kapton
+heater_oracle,2,94,False,2.0,0,416,plume_t,130.0,0,repo,Kapton,True,198,Pyrell,Kapton,Kapton
+heater_oracle,2,94,False,2.0,0,416,plume_t,130.0,0,psi101,Kapton,True,198,Pyrell,Kapton,Kapton
+heater_oracle,3,94,False,3.0,0,416,plume_t,131.0,0,repo,Kapton,True,182,Pyrell,Kapton,Kapton
+heater_oracle,3,94,False,3.0,0,416,plume_t,131.0,0,psi101,Kapton,True,182,Pyrell,Kapton,Kapton
+heater_oracle,1,95,False,70.0,0,542,plume_t,194.0,0,repo,Pyrell,True,253,Cotton Lamp wick,Pyrell,Pyrell
+heater_oracle,1,95,False,70.0,0,542,plume_t,194.0,0,psi101,Pyrell,True,253,Cotton Lamp wick,Pyrell,Pyrell
+heater_oracle,2,95,False,4.0,0,542,plume_t,195.0,0,repo,Pyrell,True,347,Kapton,Pyrell,Cotton Lamp wick
+heater_oracle,2,95,False,4.0,0,542,plume_t,195.0,0,psi101,Pyrell,True,347,Kapton,Pyrell,Pyrell
+heater_oracle,3,95,False,5.0,0,542,plume_t,196.0,0,repo,Pyrell,True,322,Kapton,Pyrell,Cotton Lamp wick
+heater_oracle,3,95,False,5.0,0,542,plume_t,196.0,0,psi101,Pyrell,True,322,Kapton,Pyrell,Pyrell
+heater_oracle,1,96,False,60.0,0,781,plume_t,192.0,0,repo,Cotton Lamp wick,True,280,Cotton Lamp wick,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,96,False,60.0,0,781,plume_t,192.0,0,psi101,Cotton Lamp wick,True,280,Cotton Lamp wick,Cotton Lamp wick,Pyrell
+heater_oracle,2,96,False,4.0,0,781,plume_t,193.0,0,repo,Cotton Lamp wick,True,391,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,96,False,4.0,0,781,plume_t,193.0,0,psi101,Cotton Lamp wick,True,391,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,96,False,5.0,0,781,plume_t,194.0,0,repo,Cotton Lamp wick,True,364,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,96,False,5.0,0,781,plume_t,194.0,0,psi101,Cotton Lamp wick,True,364,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,97,False,196.0,0,158,iss_obs,198.0,0,repo,Pyrell,True,232,Pyrell,Pyrell,Pyrell
+heater_oracle,1,97,False,196.0,0,158,iss_obs,198.0,0,psi101,Pyrell,True,232,Pyrell,Pyrell,Pyrell
+heater_oracle,2,97,False,3.0,0,158,plume_t,199.0,0,repo,Pyrell,True,387,Pyrell,Pyrell,Pyrell
+heater_oracle,2,97,False,3.0,0,158,plume_t,199.0,0,psi101,Pyrell,True,387,Pyrell,Pyrell,Pyrell
+heater_oracle,3,97,False,4.0,0,158,plume_t,200.0,0,repo,Pyrell,True,359,Pyrell,Pyrell,Pyrell
+heater_oracle,3,97,False,4.0,0,158,plume_t,200.0,0,psi101,Pyrell,True,359,Pyrell,Pyrell,Pyrell
+heater_oracle,1,98,False,191.0,0,176,iss_obs,191.0,0,repo,Cotton Lamp wick,True,251,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,98,False,191.0,0,176,iss_obs,191.0,0,psi101,Cotton Lamp wick,True,251,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,98,False,4.0,0,176,plume_t,192.0,0,repo,Cotton Lamp wick,True,401,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,98,False,4.0,0,176,plume_t,192.0,0,psi101,Cotton Lamp wick,True,401,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,98,False,5.0,0,176,plume_t,193.0,0,repo,Cotton Lamp wick,True,429,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,98,False,5.0,0,176,plume_t,193.0,0,psi101,Cotton Lamp wick,True,429,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,99,False,195.0,0,157,iss_obs,196.0,0,repo,Silicone,True,673,Cotton Lamp wick,Silicone,Silicone
+heater_oracle,1,99,False,195.0,0,157,iss_obs,196.0,0,psi101,Silicone,True,673,Cotton Lamp wick,Silicone,Silicone
+heater_oracle,2,99,False,5.0,0,157,plume_t,197.0,0,repo,Silicone,True,885,Kapton,Silicone,Silicone
+heater_oracle,2,99,False,5.0,0,157,plume_t,197.0,0,psi101,Silicone,True,885,Kapton,Silicone,Silicone
+heater_oracle,3,99,False,6.0,0,157,plume_t,198.0,0,repo,Silicone,True,948,Kapton,Silicone,Silicone
+heater_oracle,3,99,False,6.0,0,157,plume_t,198.0,0,psi101,Silicone,True,948,Kapton,Silicone,Silicone
+heater_oracle,1,100,False,148.0,0,133,iss_obs,189.0,0,repo,Teflon,True,44,Kapton,Kapton,Kapton
+heater_oracle,1,100,False,148.0,0,133,iss_obs,189.0,0,psi101,Teflon,True,44,Kapton,Kapton,Kapton
+heater_oracle,2,100,False,3.0,0,133,plume_t,189.0,0,repo,Teflon,True,220,Pyrell,Kapton,Kapton
+heater_oracle,2,100,False,3.0,0,133,plume_t,189.0,0,psi101,Teflon,True,220,Pyrell,Kapton,Teflon
+heater_oracle,3,100,False,4.0,0,133,plume_t,149.0,0,repo,Teflon,True,321,Pyrell,Kapton,Kapton
+heater_oracle,3,100,False,4.0,0,133,plume_t,149.0,0,psi101,Teflon,True,321,Pyrell,Teflon,Teflon
+heater_oracle,1,101,False,184.0,0,86,iss_obs,192.0,0,repo,Kapton,True,90,Kapton,Kapton,Kapton
+heater_oracle,1,101,False,184.0,0,86,iss_obs,192.0,0,psi101,Kapton,True,90,Kapton,Kapton,Kapton
+heater_oracle,2,101,False,3.0,0,86,plume_t,193.0,0,repo,Kapton,True,251,Kapton,Kapton,Kapton
+heater_oracle,2,101,False,3.0,0,86,plume_t,193.0,0,psi101,Kapton,True,251,Kapton,Kapton,Kapton
+heater_oracle,3,101,False,4.0,0,86,plume_t,193.0,0,repo,Kapton,True,238,Kapton,Kapton,Kapton
+heater_oracle,3,101,False,4.0,0,86,plume_t,193.0,0,psi101,Kapton,True,238,Kapton,Kapton,Kapton
+heater_oracle,1,103,False,61.0,0,706,plume_t,255.0,0,repo,Silicone,False,660,Cotton Lamp wick,Silicone,Silicone
+heater_oracle,1,103,False,61.0,0,706,plume_t,255.0,0,psi101,Silicone,True,660,Teflon,Silicone,Silicone
+heater_oracle,2,103,False,6.0,0,706,plume_t,256.0,0,repo,Silicone,False,865,Kapton,Silicone,Silicone
+heater_oracle,2,103,False,6.0,0,706,plume_t,256.0,0,psi101,Silicone,True,865,Kapton,Silicone,Silicone
+heater_oracle,3,103,False,6.0,0,706,plume_t,257.0,0,repo,Silicone,False,924,Kapton,Silicone,Silicone
+heater_oracle,3,103,False,6.0,0,706,plume_t,257.0,0,psi101,Silicone,True,924,Kapton,Silicone,Silicone
+heater_oracle,1,105,False,1.0,0,144,plume_t,249.0,0,repo,Teflon,False,232,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,105,False,1.0,0,144,plume_t,249.0,0,psi101,Teflon,True,232,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,105,False,2.0,0,144,plume_t,250.0,0,repo,Teflon,False,270,Kapton,Kapton,Cotton Lamp wick
+heater_oracle,2,105,False,2.0,0,144,plume_t,250.0,0,psi101,Teflon,True,270,Kapton,Kapton,Cotton Lamp wick
+heater_oracle,3,105,False,3.0,0,144,plume_t,250.0,0,repo,Teflon,False,307,Cotton Lamp wick,Kapton,Cotton Lamp wick
+heater_oracle,3,105,False,3.0,0,144,plume_t,250.0,0,psi101,Teflon,True,307,Kapton,Kapton,Cotton Lamp wick
+heater_oracle,1,106,False,3.0,0,147,plume_t,202.0,0,repo,Cotton Lamp wick,True,263,Kapton,Cotton Lamp wick,Kapton
+heater_oracle,1,106,False,3.0,0,147,plume_t,202.0,0,psi101,Cotton Lamp wick,True,263,Kapton,Cotton Lamp wick,Teflon
+heater_oracle,2,106,False,4.0,0,147,plume_t,202.0,0,repo,Cotton Lamp wick,True,322,Kapton,Cotton Lamp wick,Kapton
+heater_oracle,2,106,False,4.0,0,147,plume_t,202.0,0,psi101,Cotton Lamp wick,True,322,Kapton,Cotton Lamp wick,Teflon
+heater_oracle,3,106,False,5.0,0,147,plume_t,191.0,0,repo,Cotton Lamp wick,True,300,Kapton,Cotton Lamp wick,Kapton
+heater_oracle,3,106,False,5.0,0,147,plume_t,191.0,0,psi101,Cotton Lamp wick,True,300,Kapton,Cotton Lamp wick,Teflon
+heater_oracle,1,107,False,3.0,0,1993,plume_t,201.0,0,repo,Pyrell,True,161,Kapton,Cotton Lamp wick,Pyrell
+heater_oracle,1,107,False,3.0,0,1993,plume_t,201.0,0,psi101,Pyrell,True,161,Pyrell,Cotton Lamp wick,Pyrell
+heater_oracle,2,107,False,4.0,0,1993,plume_t,201.0,0,repo,Pyrell,True,714,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,107,False,4.0,0,1993,plume_t,201.0,0,psi101,Pyrell,True,714,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,107,False,5.0,0,1993,plume_t,192.0,0,repo,Pyrell,True,729,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,3,107,False,5.0,0,1993,plume_t,192.0,0,psi101,Pyrell,True,729,Pyrell,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,108,False,188.0,0,87,iss_obs,189.0,0,repo,Kapton,True,153,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,1,108,False,188.0,0,87,iss_obs,189.0,0,psi101,Kapton,True,153,Kapton,Cotton Lamp wick,Cotton Lamp wick
+heater_oracle,2,108,False,3.0,0,87,plume_t,190.0,0,repo,Kapton,True,508,Kapton,Kapton,Kapton
+heater_oracle,2,108,False,3.0,0,87,plume_t,190.0,0,psi101,Kapton,True,508,Kapton,Kapton,Kapton
+heater_oracle,3,108,False,4.0,0,87,plume_t,191.0,0,repo,Kapton,True,632,Kapton,Kapton,Kapton
+heater_oracle,3,108,False,4.0,0,87,plume_t,191.0,0,psi101,Kapton,True,632,Kapton,Kapton,Kapton

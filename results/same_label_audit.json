@@ -1,0 +1,376 @@
+{
+  "generated_utc": "2026-11-23T17:53:37+00:00",
+  "inputs_sha256": {
+    "ml_lead_handoff/SAME_R_WIDE_PACKETS.jsonl": "86c944d7e4a7c0016799ef06e470dbecc61c318e3011ac51796a3adfcf826982",
+    "integration_update/data/raw_psi_experimental_tables/PSI-101_Experimental table_SAME-R.csv": "87164b7dc9168a4273c159f7a9f23699afbd06ad97b77974377e79b9bf8a3bef",
+    "ml_lead_handoff/SAME_R_RAW_FILE_INVENTORY.csv": "2a6631c7bcad5d788a752c9d498440f5b5ee7259775c62bd1e9ad1e54e4de6e8"
+  },
+  "material_classes": [
+    "Cotton Lamp wick",
+    "Kapton",
+    "Pyrell",
+    "Silicone",
+    "Teflon"
+  ],
+  "why_41_vs_38": {
+    "raw_csv_files": 43,
+    "dropped_no_heating": [
+      [
+        "Pyrell",
+        "HKPData_gmt235_1"
+      ]
+    ],
+    "duplicate_files": {
+      "HKPData_gmt211_4": {
+        "folders": [
+          "Pyrell",
+          "Silicone"
+        ],
+        "identical_sha256": true,
+        "kept_folder": "Pyrell",
+        "candidates": [
+          "Pyrell",
+          "Silicone"
+        ]
+      },
+      "HKPData_gmt252_5": {
+        "folders": [
+          "Silicone",
+          "Teflon"
+        ],
+        "identical_sha256": true,
+        "kept_folder": "Silicone",
+        "candidates": [
+          "Silicone",
+          "Teflon"
+        ]
+      }
+    },
+    "files_used": 40,
+    "multi_test_files": {
+      "Silicone/HKPData_gmt252_5.csv": [
+        103,
+        105
+      ]
+    },
+    "tests_total": 41,
+    "tests_label_verified": 38,
+    "tests_unverified": [
+      60,
+      103,
+      105
+    ]
+  },
+  "psi101_oracle_validation": {
+    "burn_rows": 67,
+    "ambiguous_test_numbers": [
+      57
+    ],
+    "material_agreement_verified": "38/38",
+    "date_within_1_day": "41/41",
+    "date_exact": "35/41",
+    "date_offsets": [
+      {
+        "test_id": 70,
+        "label_verified": true,
+        "psi101_date": "24-Aug",
+        "gmt_first_sample": "2010/237/12:01:48"
+      },
+      {
+        "test_id": 78,
+        "label_verified": true,
+        "psi101_date": "26-Aug",
+        "gmt_first_sample": "2010/239/12:58:11"
+      },
+      {
+        "test_id": 79,
+        "label_verified": true,
+        "psi101_date": "26-Aug",
+        "gmt_first_sample": "2010/239/14:29:24"
+      },
+      {
+        "test_id": 80,
+        "label_verified": true,
+        "psi101_date": "26-Aug",
+        "gmt_first_sample": "2010/239/15:02:15"
+      },
+      {
+        "test_id": 81,
+        "label_verified": true,
+        "psi101_date": "26-Aug",
+        "gmt_first_sample": "2010/239/16:05:31"
+      },
+      {
+        "test_id": 82,
+        "label_verified": true,
+        "psi101_date": "26-Aug",
+        "gmt_first_sample": "2010/239/16:35:10"
+      }
+    ],
+    "tests_with_primary_aging_over_600_s": [
+      67,
+      68,
+      69,
+      70
+    ]
+  },
+  "rulings": {
+    "60": {
+      "ruling": "recovered_label",
+      "label": "Silicone",
+      "evidence": {
+        "source_file": "Pyrell/HKPData_gmt211_4.csv",
+        "repo_material": "unverified",
+        "candidate_materials": "Pyrell|Silicone",
+        "label_verified": false,
+        "gmt_first_sample": "2010/211/14:06:45",
+        "gmt_day": 211,
+        "samples": 1539,
+        "run_span_s": 1545,
+        "clean_air_s": 82,
+        "heater_on_samples": 52,
+        "heater_span_s": 53,
+        "post_heater_s": 1410,
+        "smoke_channels_responding": 5,
+        "psi101_material": "Silicone",
+        "psi101_description": "Htemp ageing",
+        "psi101_date": "30-Jul",
+        "psi101_gmt_day": 211,
+        "psi101_inlet_velocity_cm_s": "8.1",
+        "psi101_rt_r0": "1.35",
+        "psi101_duration_s": "60",
+        "psi101_primary_aging_s": "11"
+      },
+      "signature_peak_delta": {
+        "iss_obs": -1.3323999999999998,
+        "iss_sct": -6.0734515,
+        "sts": -0.0021362280000000004,
+        "ion_a": 6.556088699999999,
+        "ion_b": 3.071135,
+        "ptrak": 214980.0,
+        "dtb": 217.155,
+        "plume_t": 46.0403
+      },
+      "signature_snr": {
+        "iss_obs": 2249.649510117063,
+        "iss_sct": 186.47943220785044,
+        "sts": 4.361568858172991,
+        "ion_a": 1428.2394890890255,
+        "ion_b": 136.74892179925226,
+        "ptrak": 6640.123357623069,
+        "dtb": 5570.93941862104,
+        "plume_t": 188.68928415537508
+      },
+      "context_only": {
+        "signature_distance_to_material_centroids": {
+          "Cotton Lamp wick": 0.894,
+          "Kapton": 1.261,
+          "Pyrell": 1.043,
+          "Silicone": 0.72,
+          "Teflon": 1.324
+        },
+        "repo_classifier_blind_prediction": "Silicone"
+      }
+    },
+    "103": {
+      "ruling": "recovered_label",
+      "label": "Silicone",
+      "evidence": {
+        "source_file": "Silicone/HKPData_gmt252_5.csv",
+        "repo_material": "unverified",
+        "candidate_materials": "Silicone|Teflon",
+        "label_verified": false,
+        "gmt_first_sample": "2010/252/15:10:55",
+        "gmt_day": 252,
+        "samples": 2044,
+        "run_span_s": 2764,
+        "clean_air_s": 1423,
+        "heater_on_samples": 52,
+        "heater_span_s": 52,
+        "post_heater_s": 1289,
+        "smoke_channels_responding": 5,
+        "psi101_material": "Silicone",
+        "psi101_description": "low flow run w/ aging",
+        "psi101_date": "9-Sep",
+        "psi101_gmt_day": 252,
+        "psi101_inlet_velocity_cm_s": "1",
+        "psi101_rt_r0": "1.35",
+        "psi101_duration_s": "60",
+        "psi101_primary_aging_s": "11"
+      },
+      "signature_peak_delta": {
+        "iss_obs": -0.5279600000000002,
+        "iss_sct": -6.091004,
+        "sts": -0.0018310580000000002,
+        "ion_a": 2.6040693999999998,
+        "ion_b": 0.75394,
+        "ptrak": 23100.0,
+        "dtb": 74.286,
+        "plume_t": 34.8845
+      },
+      "signature_snr": {
+        "iss_obs": 918.9692195745531,
+        "iss_sct": 3528.8731288904746,
+        "sts": 3.797137046693945,
+        "ion_a": 672.7340209705766,
+        "ion_b": 40.838005446277826,
+        "ptrak": 9043.822296905793,
+        "dtb": 161669.2484656952,
+        "plume_t": 119.67377082750413
+      },
+      "context_only": {
+        "signature_distance_to_material_centroids": {
+          "Cotton Lamp wick": 0.586,
+          "Kapton": 1.499,
+          "Pyrell": 0.574,
+          "Silicone": 0.797,
+          "Teflon": 1.498
+        },
+        "repo_classifier_blind_prediction": "Silicone"
+      }
+    },
+    "105": {
+      "ruling": "recovered_label",
+      "label": "Teflon",
+      "evidence": {
+        "source_file": "Silicone/HKPData_gmt252_5.csv",
+        "repo_material": "unverified",
+        "candidate_materials": "Silicone|Teflon",
+        "label_verified": false,
+        "gmt_first_sample": "2010/252/14:46:10",
+        "gmt_day": 252,
+        "samples": 1369,
+        "run_span_s": 1372,
+        "clean_air_s": 145,
+        "heater_on_samples": 53,
+        "heater_span_s": 53,
+        "post_heater_s": 1174,
+        "smoke_channels_responding": 5,
+        "psi101_material": "Teflon",
+        "psi101_description": "No flow run w/ aging",
+        "psi101_date": "9-Sep",
+        "psi101_gmt_day": 252,
+        "psi101_inlet_velocity_cm_s": "0",
+        "psi101_rt_r0": "1.45",
+        "psi101_duration_s": "60",
+        "psi101_primary_aging_s": "11"
+      },
+      "signature_peak_delta": {
+        "iss_obs": -0.009770000000000056,
+        "iss_sct": -2.455749,
+        "sts": -0.0018310580000000002,
+        "ion_a": 0.2227784,
+        "ion_b": 0.2218599999999995,
+        "ptrak": 16100.0,
+        "dtb": 6.114,
+        "plume_t": 56.477199999999996
+      },
+      "signature_snr": {
+        "iss_obs": 17.211883871074928,
+        "iss_sct": 849.2968505637185,
+        "sts": 3.9555933171594013,
+        "ion_a": 52.34042045927183,
+        "ion_b": 11.274602149431685,
+        "ptrak": 671.4420268687851,
+        "dtb": 1074.5393819976643,
+        "plume_t": 211.26309818960186
+      },
+      "context_only": {
+        "signature_distance_to_material_centroids": {
+          "Cotton Lamp wick": 1.059,
+          "Kapton": 0.711,
+          "Pyrell": 0.94,
+          "Silicone": 1.463,
+          "Teflon": 0.938
+        },
+        "repo_classifier_blind_prediction": "Teflon"
+      }
+    }
+  },
+  "label_policies": {
+    "repo": [
+      58,
+      59,
+      61,
+      62,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      73,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      84,
+      85,
+      86,
+      87,
+      89,
+      91,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      106,
+      107,
+      108
+    ],
+    "psi101": [
+      58,
+      59,
+      60,
+      61,
+      62,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      73,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      84,
+      85,
+      86,
+      87,
+      89,
+      91,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      103,
+      105,
+      106,
+      107,
+      108
+    ]
+  },
+  "assertion_failures": []
+}

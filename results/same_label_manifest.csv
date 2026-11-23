@@ -1,0 +1,42 @@
+test_id,source_file,repo_material,label_verified,candidate_materials,psi101_material,psi101_description,psi101_date,psi101_inlet_velocity_cm_s,psi101_rt_r0,psi101_primary_aging_s,label,label_status
+58,Teflon/HKPData_gmt211_2.csv,Teflon,True,Teflon,Teflon,Baseline aging,30-Jul,8.1,1.445,11,Teflon,verified_folder_and_psi101
+59,Silicone/HKPData_gmt211_3.csv,Silicone,True,Silicone,Silicone,baseline aged,30-Jul,8.1,1.327,11,Silicone,verified_folder_and_psi101
+60,Pyrell/HKPData_gmt211_4.csv,unverified,False,Pyrell|Silicone,Silicone,Htemp ageing,30-Jul,8.1,1.35,11,Silicone,recovered_psi101
+61,Kapton/HKPData_gmt214_1.csv,Kapton,True,Kapton,Kapton,Baseline Aging,2-Aug,8.1,1.38,11,Kapton,verified_folder_and_psi101
+62,Kapton/HKPData_gmt214_2.csv,Kapton,True,Kapton,Kapton,High Temp aging,2-Aug,8.1,1.48,11,Kapton,verified_folder_and_psi101
+64,Pyrell/HKPData_gmt235_3.csv,Pyrell,True,Pyrell,Pyrell,High Temp aging,23-Aug,8.1,1.23,11,Pyrell,verified_folder_and_psi101
+65,Silicone/HKPData_gmt235_2.csv,Silicone,True,Silicone,Silicone,Baseline long aging,23-Aug,8.1,1.327,11,Silicone,verified_folder_and_psi101
+66,Silicone/HKPData_gmt235_4.csv,Silicone,True,Silicone,Silicone,High T aging,23-Aug,8.1,1.36,11,Silicone,verified_folder_and_psi101
+67,Silicone/HKPData_gmt236_1.csv,Silicone,True,Silicone,Silicone,High temp aged,24-Aug,8.1,1.35,720,Silicone,verified_folder_and_psi101
+68,Cotton Lamp wick/HKPData_gmt236_2.csv,Cotton Lamp wick,True,Cotton Lamp wick,Cotton Lamp wick,High temp aged STS det,24-Aug,8.1,1.28,720,Cotton Lamp wick,verified_folder_and_psi101
+69,Teflon/HKPData_gmt236_3.csv,Teflon,True,Teflon,Teflon,High temp aged STS det,24-Aug,8.1,1.45,720,Teflon,verified_folder_and_psi101
+70,Kapton/HKPData_gmt237_1.csv,Kapton,True,Kapton,Kapton,High temp aged STS det,24-Aug,8.1,1.48,720,Kapton,verified_folder_and_psi101
+73,Kapton/HKPData_gmt238_1.csv,Kapton,True,Kapton,Kapton,Baseline Aging,26-Aug,8.1,1.38,11,Kapton,verified_folder_and_psi101
+75,Kapton/HKPData_gmt238_3.csv,Kapton,True,Kapton,Kapton,Mid Temp aging (no Ptrak),26-Aug,8.1,1.43,11,Kapton,verified_folder_and_psi101
+76,Pyrell/HKPData_gmt238_4.csv,Pyrell,True,Pyrell,Pyrell,High Temp aging,26-Aug,8.1,1.23,11,Pyrell,verified_folder_and_psi101
+77,Kapton/HKPData_gmt238_5.csv,Kapton,True,Kapton,Kapton,High Temp aging,26-Aug,8.1,1.48,11,Kapton,verified_folder_and_psi101
+78,Cotton Lamp wick/HKPData_gmt239_1.csv,Cotton Lamp wick,True,Cotton Lamp wick,Cotton Lamp wick,Baseline aging,26-Aug,8.1,1.245,11,Cotton Lamp wick,verified_folder_and_psi101
+79,Teflon/HKPData_gmt239_2.csv,Teflon,True,Teflon,Teflon,Baseline aging,26-Aug,8.1,1.445,11,Teflon,verified_folder_and_psi101
+80,Cotton Lamp wick/HKPData_gmt239_3.csv,Cotton Lamp wick,True,Cotton Lamp wick,Cotton Lamp wick,High temp aging,26-Aug,8.1,1.28,11,Cotton Lamp wick,verified_folder_and_psi101
+81,Teflon/HKPData_gmt239_4.csv,Teflon,True,Teflon,Teflon,High temp aging,26-Aug,8.1,1.45,11,Teflon,verified_folder_and_psi101
+82,Cotton Lamp wick/HKPData_gmt239_5.csv,Cotton Lamp wick,True,Cotton Lamp wick,Cotton Lamp wick,Mid temp aging,26-Aug,8.1,1.265,11,Cotton Lamp wick,verified_folder_and_psi101
+84,Pyrell/HKPData_gmt242_1.csv,Pyrell,True,Pyrell,Pyrell,Mid Temp aging retry,30-Aug,8.1,1.225,11,Pyrell,verified_folder_and_psi101
+85,Kapton/HKPData_gmt242_2.csv,Kapton,True,Kapton,Kapton,Mid Temp aging run. Repeat 75,30-Aug,8.1,1.43,11,Kapton,verified_folder_and_psi101
+86,Silicone/HKPData_gmt242_4.csv,Silicone,True,Silicone,Silicone,Mid temp aging,30-Aug,8.1,1.345,11,Silicone,verified_folder_and_psi101
+87,Pyrell/HKPData_gmt242_3.csv,Pyrell,True,Pyrell,Pyrell,Baseline STS det,30-Aug,8.1,1.22,11,Pyrell,verified_folder_and_psi101
+89,Teflon/HKPData_gmt242_6.csv,Teflon,True,Teflon,Teflon,Baseline STS det,30-Aug,8.1,1.445,11,Teflon,verified_folder_and_psi101
+91,Silicone/HKPData_gmt250_1.csv,Silicone,True,Silicone,Silicone,Baseline STS det,7-Sep,8.1,1.327,11,Silicone,verified_folder_and_psi101
+93,Kapton/HKPData_gmt250_2.csv,Kapton,True,Kapton,Kapton,Mid Temp aging run 75 repeat,7-Sep,8.1,1.43,11,Kapton,verified_folder_and_psi101
+94,Kapton/HKPData_gmt250_3.csv,Kapton,True,Kapton,Kapton,Mid Temp aging run mid high,7-Sep,8.1,1.45,11,Kapton,verified_folder_and_psi101
+95,Pyrell/HKPData_gmt250_4.csv,Pyrell,True,Pyrell,Pyrell,No flow run w/ aging,7-Sep,0,1.22,11,Pyrell,verified_folder_and_psi101
+96,Cotton Lamp wick/HKPData_gmt250_5.csv,Cotton Lamp wick,True,Cotton Lamp wick,Cotton Lamp wick,No flow run w/aging,7-Sep,0,1.245,11,Cotton Lamp wick,verified_folder_and_psi101
+97,Pyrell/HKPData_gmt251_1.csv,Pyrell,True,Pyrell,Pyrell,No flow run w/aging,8-Sep,0,1.23,11,Pyrell,verified_folder_and_psi101
+98,Cotton Lamp wick/HKPData_gmt251_2.csv,Cotton Lamp wick,True,Cotton Lamp wick,Cotton Lamp wick,No flow run w/aging,8-Sep,0,1.28,11,Cotton Lamp wick,verified_folder_and_psi101
+99,Silicone/HKPData_gmt251_4.csv,Silicone,True,Silicone,Silicone,No flow run w/aging,8-Sep,0,1.35,11,Silicone,verified_folder_and_psi101
+100,Teflon/HKPData_gmt251_3.csv,Teflon,True,Teflon,Teflon,No flow run w/ aging,8-Sep,0,1.45,11,Teflon,verified_folder_and_psi101
+101,Kapton/HKPData_gmt251_5.csv,Kapton,True,Kapton,Kapton,No flow run w/ aging,8-Sep,0,1.48,11,Kapton,verified_folder_and_psi101
+103,Silicone/HKPData_gmt252_5.csv,unverified,False,Silicone|Teflon,Silicone,low flow run w/ aging,9-Sep,1,1.35,11,Silicone,recovered_psi101
+105,Silicone/HKPData_gmt252_5.csv,unverified,False,Silicone|Teflon,Teflon,No flow run w/ aging,9-Sep,0,1.45,11,Teflon,recovered_psi101
+106,Cotton Lamp wick/HKPData_gmt252_4.csv,Cotton Lamp wick,True,Cotton Lamp wick,Cotton Lamp wick,No flow run w/aging,9-Sep,0,1.28,11,Cotton Lamp wick,verified_folder_and_psi101
+107,Pyrell/HKPData_gmt252_3.csv,Pyrell,True,Pyrell,Pyrell,Low flow run w/aging,9-Sep,1,1.23,11,Pyrell,verified_folder_and_psi101
+108,Kapton/HKPData_gmt252_6.csv,Kapton,True,Kapton,Kapton,Low flow run w/aging,9-Sep,1,1.48,11,Kapton,verified_folder_and_psi101

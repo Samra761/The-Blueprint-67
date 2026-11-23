@@ -1,0 +1,1333 @@
+{
+  "meta": {
+    "generated_utc": "2026-11-23T19:11:32+00:00",
+    "runtime_s": 4619.3,
+    "folds_evaluated": 41,
+    "loto_complete": true,
+    "seed": 0,
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "scikit_learn": "1.9.0",
+    "cpu": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "inputs_sha256": {
+      "SAME_R_WIDE_PACKETS.jsonl": "86c944d7e4a7c0016799ef06e470dbecc61c318e3011ac51796a3adfcf826982",
+      "same_label_manifest.csv": "9c58fa1e96803bc7ffec9f3d5e541c3799208cafcb79d695de938a745ddf42d1"
+    },
+    "config": {
+      "arm_s": 30,
+      "persistence_ticks": [
+        1,
+        2,
+        3
+      ],
+      "main_persistence": 3,
+      "threshold_quantile": 1.0,
+      "ref_quantile": 0.999,
+      "inner_folds": 4,
+      "train_clean_secs": 120,
+      "if_params": {
+        "n_estimators": 200,
+        "max_samples": 256,
+        "random_state": 0,
+        "n_jobs": -1
+      },
+      "rf_params": {
+        "n_estimators": 500,
+        "min_samples_leaf": 2,
+        "max_features": "sqrt",
+        "class_weight": "balanced_subsample",
+        "random_state": 0,
+        "n_jobs": -1
+      },
+      "stage2_imputer": "median, fit per fold",
+      "window_s": 30,
+      "stride_s": 10,
+      "t_max_s": 600,
+      "decide_from_s": 120,
+      "min_rows": 20,
+      "classes": [
+        "Cotton Lamp wick",
+        "Kapton",
+        "Pyrell",
+        "Silicone",
+        "Teflon"
+      ],
+      "zones": {
+        "transient": "window start in [0, 120) s",
+        "steady_state": "window start >= 120 s and end <= 599 s",
+        "late": "window end > 599 s",
+        "false_alarm": "tick before heater-on"
+      }
+    },
+    "label_policies": {
+      "repo": [
+        58,
+        59,
+        61,
+        62,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        73,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        84,
+        85,
+        86,
+        87,
+        89,
+        91,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        106,
+        107,
+        108
+      ],
+      "psi101": [
+        58,
+        59,
+        60,
+        61,
+        62,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        73,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        84,
+        85,
+        86,
+        87,
+        89,
+        91,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        103,
+        105,
+        106,
+        107,
+        108
+      ]
+    },
+    "tests_primary_aging_over_600s": [
+      67,
+      68,
+      69,
+      70
+    ]
+  },
+  "leakage_checks": {
+    "future_perturbation_tests_bit_identical": [
+      58,
+      75,
+      91
+    ],
+    "streaming_vs_batch": [
+      {
+        "test_id": 58,
+        "max_abs_fused_score_diff": 0.0,
+        "alarm_agreement": 1.0,
+        "stage2_ticks_compared": 361,
+        "max_scaled_window_feature_diff": 9.017853904708939e-08,
+        "window_feature_nan_mismatches": 0,
+        "max_abs_stage2_proba_diff": 0.007171608265947926,
+        "stage2_argmax_agreement": 1.0
+      },
+      {
+        "test_id": 69,
+        "max_abs_fused_score_diff": 0.0,
+        "alarm_agreement": 1.0,
+        "stage2_ticks_compared": 409,
+        "max_scaled_window_feature_diff": 9.671963029733274e-09,
+        "window_feature_nan_mismatches": 0,
+        "max_abs_stage2_proba_diff": 0.0,
+        "stage2_argmax_agreement": 1.0
+      },
+      {
+        "test_id": 82,
+        "max_abs_fused_score_diff": 0.0,
+        "alarm_agreement": 1.0,
+        "stage2_ticks_compared": 792,
+        "max_scaled_window_feature_diff": 2.6899628954651008e-08,
+        "window_feature_nan_mismatches": 0,
+        "max_abs_stage2_proba_diff": 0.0,
+        "stage2_argmax_agreement": 1.0
+      },
+      {
+        "test_id": 96,
+        "max_abs_fused_score_diff": 0.0,
+        "alarm_agreement": 1.0,
+        "stage2_ticks_compared": 661,
+        "max_scaled_window_feature_diff": 3.679990072389976e-08,
+        "window_feature_nan_mismatches": 0,
+        "max_abs_stage2_proba_diff": 0.0020000000000000018,
+        "stage2_argmax_agreement": 1.0
+      }
+    ],
+    "streaming_note": "Window feature differences are scaled by each feature's largest |value| in the test (min 1). They are pandas rolling round-off: the online add/remove algorithm leaves a residue of about 1e-7 of the channel magnitude where the exact value is 0 (e.g. std of a constant channel), which can move a few RF trees across near-zero split thresholds."
+  },
+  "stage1": {
+    "arming/n1": {
+      "per_sensor_iforest": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 1.0,
+        "latency_p90_s": 3.0,
+        "false_alarm_events": 3,
+        "clean_air_hours": 2.3692,
+        "far_per_clean_hour": 1.266268026732325,
+        "tests_with_false_alarm": 2
+      },
+      "iss_scatter_recalibrated": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 131.0,
+        "latency_p90_s": 248.0,
+        "false_alarm_events": 1,
+        "clean_air_hours": 2.3692,
+        "far_per_clean_hour": 0.4220893422441083,
+        "tests_with_false_alarm": 1
+      },
+      "trigger_sensor_counts": {
+        "plume_t": 41
+      },
+      "median_lead_vs_iss_s": 130.0
+    },
+    "arming/n2": {
+      "per_sensor_iforest": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 2.0,
+        "latency_p90_s": 4.0,
+        "false_alarm_events": 0,
+        "clean_air_hours": 2.3692,
+        "far_per_clean_hour": 0.0,
+        "tests_with_false_alarm": 0
+      },
+      "iss_scatter_recalibrated": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 133.0,
+        "latency_p90_s": 249.0,
+        "false_alarm_events": 1,
+        "clean_air_hours": 2.3692,
+        "far_per_clean_hour": 0.4220893422441083,
+        "tests_with_false_alarm": 1
+      },
+      "trigger_sensor_counts": {
+        "plume_t": 41
+      },
+      "median_lead_vs_iss_s": 130.0
+    },
+    "arming/n3": {
+      "per_sensor_iforest": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 3.0,
+        "latency_p90_s": 5.0,
+        "false_alarm_events": 5,
+        "clean_air_hours": 2.3692,
+        "far_per_clean_hour": 2.1104467112205416,
+        "tests_with_false_alarm": 4
+      },
+      "iss_scatter_recalibrated": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 133.0,
+        "latency_p90_s": 250.0,
+        "false_alarm_events": 1,
+        "clean_air_hours": 2.3692,
+        "far_per_clean_hour": 0.4220893422441083,
+        "tests_with_false_alarm": 1
+      },
+      "trigger_sensor_counts": {
+        "plume_t": 41
+      },
+      "median_lead_vs_iss_s": 130.0
+    },
+    "heater_oracle/n1": {
+      "per_sensor_iforest": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 80.0,
+        "latency_p90_s": 191.0,
+        "false_alarm_events": 1,
+        "clean_air_hours": 2.7061,
+        "far_per_clean_hour": 0.36953397659618153,
+        "tests_with_false_alarm": 1
+      },
+      "iss_scatter_recalibrated": {
+        "tests": 41,
+        "detected": 40,
+        "detection_rate": "40/41",
+        "latency_median_s": 133.0,
+        "latency_p90_s": 295.1000000000006,
+        "false_alarm_events": 3,
+        "clean_air_hours": 2.7061,
+        "far_per_clean_hour": 1.1086019297885445,
+        "tests_with_false_alarm": 1
+      },
+      "trigger_sensor_counts": {
+        "iss_obs": 22,
+        "plume_t": 19
+      },
+      "median_lead_vs_iss_s": 73.5
+    },
+    "heater_oracle/n2": {
+      "per_sensor_iforest": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 2.0,
+        "latency_p90_s": 4.0,
+        "false_alarm_events": 3,
+        "clean_air_hours": 2.7061,
+        "far_per_clean_hour": 1.1086019297885445,
+        "tests_with_false_alarm": 1
+      },
+      "iss_scatter_recalibrated": {
+        "tests": 41,
+        "detected": 40,
+        "detection_rate": "40/41",
+        "latency_median_s": 133.0,
+        "latency_p90_s": 254.2,
+        "false_alarm_events": 3,
+        "clean_air_hours": 2.7061,
+        "far_per_clean_hour": 1.1086019297885445,
+        "tests_with_false_alarm": 1
+      },
+      "trigger_sensor_counts": {
+        "plume_t": 41
+      },
+      "median_lead_vs_iss_s": 131.0
+    },
+    "heater_oracle/n3": {
+      "per_sensor_iforest": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 3.0,
+        "latency_p90_s": 5.0,
+        "false_alarm_events": 6,
+        "clean_air_hours": 2.7061,
+        "far_per_clean_hour": 2.217203859577089,
+        "tests_with_false_alarm": 3
+      },
+      "iss_scatter_recalibrated": {
+        "tests": 41,
+        "detected": 41,
+        "detection_rate": "41/41",
+        "latency_median_s": 134.0,
+        "latency_p90_s": 250.0,
+        "false_alarm_events": 2,
+        "clean_air_hours": 2.7061,
+        "far_per_clean_hour": 0.7390679531923631,
+        "tests_with_false_alarm": 1
+      },
+      "trigger_sensor_counts": {
+        "plume_t": 41
+      },
+      "median_lead_vs_iss_s": 131.0
+    }
+  },
+  "oracle_stage2": {
+    "arming/psi101": {
+      "test_level_windows_120_600s": {
+        "n": 41,
+        "correct": 31,
+        "accuracy": 0.7560975609756098,
+        "macro_f1": 0.7466755793226382
+      },
+      "test_level_excluding_aged_runs": {
+        "n": 37,
+        "correct": 31,
+        "accuracy": 0.8378378378378378,
+        "macro_f1": 0.8336080586080585
+      },
+      "window_level_120_600s": {
+        "n": 1854,
+        "correct": 1262,
+        "accuracy": 0.6806903991370011,
+        "macro_f1": 0.6735418692775365
+      },
+      "window_level_0_120s": {
+        "n": 492,
+        "correct": 140,
+        "accuracy": 0.2845528455284553,
+        "macro_f1": 0.25696911037641995
+      }
+    },
+    "arming/repo": {
+      "test_level_windows_120_600s": {
+        "n": 38,
+        "correct": 27,
+        "accuracy": 0.7105263157894737,
+        "macro_f1": 0.7038461538461538
+      },
+      "test_level_excluding_aged_runs": {
+        "n": 34,
+        "correct": 26,
+        "accuracy": 0.7647058823529411,
+        "macro_f1": 0.7603678929765887
+      },
+      "window_level_120_600s": {
+        "n": 1716,
+        "correct": 1170,
+        "accuracy": 0.6818181818181818,
+        "macro_f1": 0.6787432998979375
+      },
+      "window_level_0_120s": {
+        "n": 456,
+        "correct": 123,
+        "accuracy": 0.26973684210526316,
+        "macro_f1": 0.23612967250111638
+      }
+    },
+    "heater_oracle/psi101": {
+      "test_level_windows_120_600s": {
+        "n": 41,
+        "correct": 31,
+        "accuracy": 0.7560975609756098,
+        "macro_f1": 0.7457091927680164
+      },
+      "test_level_excluding_aged_runs": {
+        "n": 37,
+        "correct": 31,
+        "accuracy": 0.8378378378378378,
+        "macro_f1": 0.833008658008658
+      },
+      "window_level_120_600s": {
+        "n": 1854,
+        "correct": 1251,
+        "accuracy": 0.6747572815533981,
+        "macro_f1": 0.6676210280443056
+      },
+      "window_level_0_120s": {
+        "n": 492,
+        "correct": 131,
+        "accuracy": 0.266260162601626,
+        "macro_f1": 0.25552024298827364
+      }
+    },
+    "heater_oracle/repo": {
+      "test_level_windows_120_600s": {
+        "n": 38,
+        "correct": 26,
+        "accuracy": 0.6842105263157895,
+        "macro_f1": 0.6583559577677225
+      },
+      "test_level_excluding_aged_runs": {
+        "n": 34,
+        "correct": 26,
+        "accuracy": 0.7647058823529411,
+        "macro_f1": 0.7422360248447205
+      },
+      "window_level_120_600s": {
+        "n": 1716,
+        "correct": 1140,
+        "accuracy": 0.6643356643356644,
+        "macro_f1": 0.6540453990226933
+      },
+      "window_level_0_120s": {
+        "n": 456,
+        "correct": 128,
+        "accuracy": 0.2807017543859649,
+        "macro_f1": 0.2628324390851068
+      }
+    }
+  },
+  "chained": {
+    "arming/psi101/n1": {
+      "labelled_tests": 41,
+      "detected_labelled": 41,
+      "test_level_first_alert": {
+        "n": 41,
+        "correct": 9,
+        "accuracy": 0.21951219512195122,
+        "macro_f1": 0.10285714285714284,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "9/41",
+      "test_level_until_600s": {
+        "n": 41,
+        "correct": 25,
+        "accuracy": 0.6097560975609756,
+        "macro_f1": 0.5876190476190476,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "25/41",
+      "test_level_steady_state": {
+        "n": 38,
+        "correct": 28,
+        "accuracy": 0.7368421052631579,
+        "macro_f1": 0.7212703962703962,
+        "tests_without_prediction": 3
+      },
+      "detected_and_identified_steady_state": "28/41",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 35,
+        "correct": 28,
+        "accuracy": 0.8,
+        "macro_f1": 0.7829778065072183
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 4660,
+          "correct": 1391,
+          "accuracy": 0.2984978540772532,
+          "macro_f1": 0.2668432658548451,
+          "errors": 3269,
+          "share_of_errors_until_600s": 0.7222713212549713
+        },
+        "steady_state": {
+          "n": 4312,
+          "correct": 3055,
+          "accuracy": 0.7084879406307978,
+          "macro_f1": 0.6043980313141352,
+          "errors": 1257,
+          "share_of_errors_until_600s": 0.2777286787450287
+        },
+        "late": {
+          "n": 6973,
+          "correct": 2925,
+          "accuracy": 0.41947511831349493,
+          "macro_f1": 0.3098677365938932,
+          "errors": 4048
+        },
+        "false_alarm_gated_ticks": 2,
+        "false_alarm_predictions": {
+          "Kapton": 2
+        }
+      }
+    },
+    "arming/psi101/n2": {
+      "labelled_tests": 41,
+      "detected_labelled": 41,
+      "test_level_first_alert": {
+        "n": 41,
+        "correct": 10,
+        "accuracy": 0.24390243902439024,
+        "macro_f1": 0.16734234234234235,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "10/41",
+      "test_level_until_600s": {
+        "n": 41,
+        "correct": 25,
+        "accuracy": 0.6097560975609756,
+        "macro_f1": 0.5874686716791979,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "25/41",
+      "test_level_steady_state": {
+        "n": 41,
+        "correct": 30,
+        "accuracy": 0.7317073170731707,
+        "macro_f1": 0.7149572649572649,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_steady_state": "30/41",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 37,
+        "correct": 30,
+        "accuracy": 0.8108108108108109,
+        "macro_f1": 0.7928972987796518
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 5061,
+          "correct": 1507,
+          "accuracy": 0.29776723967595337,
+          "macro_f1": 0.2638475630748078,
+          "errors": 3554,
+          "share_of_errors_until_600s": 0.6813650306748467
+        },
+        "steady_state": {
+          "n": 5654,
+          "correct": 3992,
+          "accuracy": 0.7060488149982314,
+          "macro_f1": 0.6494070744793162,
+          "errors": 1662,
+          "share_of_errors_until_600s": 0.3186349693251534
+        },
+        "late": {
+          "n": 8170,
+          "correct": 3527,
+          "accuracy": 0.4317013463892289,
+          "macro_f1": 0.3539511938715695,
+          "errors": 4643
+        },
+        "false_alarm_gated_ticks": 0,
+        "false_alarm_predictions": {}
+      }
+    },
+    "arming/psi101/n3": {
+      "labelled_tests": 41,
+      "detected_labelled": 41,
+      "test_level_first_alert": {
+        "n": 41,
+        "correct": 11,
+        "accuracy": 0.2682926829268293,
+        "macro_f1": 0.20198924731182796,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "11/41",
+      "test_level_until_600s": {
+        "n": 41,
+        "correct": 29,
+        "accuracy": 0.7073170731707317,
+        "macro_f1": 0.7006250804877807,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "29/41",
+      "test_level_steady_state": {
+        "n": 41,
+        "correct": 33,
+        "accuracy": 0.8048780487804879,
+        "macro_f1": 0.7999066293183941,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_steady_state": "33/41",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 37,
+        "correct": 33,
+        "accuracy": 0.8918918918918919,
+        "macro_f1": 0.888148714031067
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 5378,
+          "correct": 1566,
+          "accuracy": 0.29118631461509853,
+          "macro_f1": 0.2608315618932382,
+          "errors": 3812,
+          "share_of_errors_until_600s": 0.5940470624902603
+        },
+        "steady_state": {
+          "n": 10637,
+          "correct": 8032,
+          "accuracy": 0.7551001222149102,
+          "macro_f1": 0.7328109456282303,
+          "errors": 2605,
+          "share_of_errors_until_600s": 0.40595293750973976
+        },
+        "late": {
+          "n": 10724,
+          "correct": 5332,
+          "accuracy": 0.4972025363670272,
+          "macro_f1": 0.3926374954601387,
+          "errors": 5392
+        },
+        "false_alarm_gated_ticks": 7,
+        "false_alarm_predictions": {
+          "Kapton": 7
+        }
+      }
+    },
+    "arming/repo/n1": {
+      "labelled_tests": 38,
+      "detected_labelled": 38,
+      "test_level_first_alert": {
+        "n": 38,
+        "correct": 8,
+        "accuracy": 0.21052631578947367,
+        "macro_f1": 0.0967948717948718,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "8/38",
+      "test_level_until_600s": {
+        "n": 38,
+        "correct": 21,
+        "accuracy": 0.5526315789473685,
+        "macro_f1": 0.5461038961038962,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "21/38",
+      "test_level_steady_state": {
+        "n": 35,
+        "correct": 26,
+        "accuracy": 0.7428571428571429,
+        "macro_f1": 0.7393098129940234,
+        "tests_without_prediction": 3
+      },
+      "detected_and_identified_steady_state": "26/38",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 32,
+        "correct": 26,
+        "accuracy": 0.8125,
+        "macro_f1": 0.8070135746606335
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 4324,
+          "correct": 1208,
+          "accuracy": 0.2793709528214616,
+          "macro_f1": 0.24019150174252632,
+          "errors": 3116,
+          "share_of_errors_until_600s": 0.7431433341283091
+        },
+        "steady_state": {
+          "n": 3572,
+          "correct": 2495,
+          "accuracy": 0.698488241881299,
+          "macro_f1": 0.658192438762344,
+          "errors": 1077,
+          "share_of_errors_until_600s": 0.2568566658716909
+        },
+        "late": {
+          "n": 5891,
+          "correct": 2595,
+          "accuracy": 0.4405024613817688,
+          "macro_f1": 0.3276703772841324,
+          "errors": 3296
+        },
+        "false_alarm_gated_ticks": 2,
+        "false_alarm_predictions": {
+          "Kapton": 2
+        }
+      },
+      "unlabelled_tests_chained_hint": {
+        "60": "Silicone",
+        "103": "Silicone",
+        "105": "Teflon"
+      }
+    },
+    "arming/repo/n2": {
+      "labelled_tests": 38,
+      "detected_labelled": 38,
+      "test_level_first_alert": {
+        "n": 38,
+        "correct": 8,
+        "accuracy": 0.21052631578947367,
+        "macro_f1": 0.10222222222222221,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "8/38",
+      "test_level_until_600s": {
+        "n": 38,
+        "correct": 21,
+        "accuracy": 0.5526315789473685,
+        "macro_f1": 0.5292987012987014,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "21/38",
+      "test_level_steady_state": {
+        "n": 38,
+        "correct": 28,
+        "accuracy": 0.7368421052631579,
+        "macro_f1": 0.7286080586080586,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_steady_state": "28/38",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 34,
+        "correct": 28,
+        "accuracy": 0.8235294117647058,
+        "macro_f1": 0.8137362637362637
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 4677,
+          "correct": 1322,
+          "accuracy": 0.2826598246739363,
+          "macro_f1": 0.23891583848043751,
+          "errors": 3355,
+          "share_of_errors_until_600s": 0.6973602161712742
+        },
+        "steady_state": {
+          "n": 4871,
+          "correct": 3415,
+          "accuracy": 0.701088072264422,
+          "macro_f1": 0.6785783031973552,
+          "errors": 1456,
+          "share_of_errors_until_600s": 0.30263978382872586
+        },
+        "late": {
+          "n": 7014,
+          "correct": 3195,
+          "accuracy": 0.45551753635585973,
+          "macro_f1": 0.3711472276281881,
+          "errors": 3819
+        },
+        "false_alarm_gated_ticks": 0,
+        "false_alarm_predictions": {}
+      },
+      "unlabelled_tests_chained_hint": {
+        "60": "Silicone",
+        "103": "Silicone",
+        "105": "Kapton"
+      }
+    },
+    "arming/repo/n3": {
+      "labelled_tests": 38,
+      "detected_labelled": 38,
+      "test_level_first_alert": {
+        "n": 38,
+        "correct": 9,
+        "accuracy": 0.23684210526315788,
+        "macro_f1": 0.14179864253393665,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "9/38",
+      "test_level_until_600s": {
+        "n": 38,
+        "correct": 27,
+        "accuracy": 0.7105263157894737,
+        "macro_f1": 0.6952813852813853,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "27/38",
+      "test_level_steady_state": {
+        "n": 38,
+        "correct": 29,
+        "accuracy": 0.7631578947368421,
+        "macro_f1": 0.753707886316582,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_steady_state": "29/38",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 34,
+        "correct": 29,
+        "accuracy": 0.8529411764705882,
+        "macro_f1": 0.8441391941391941
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 4964,
+          "correct": 1364,
+          "accuracy": 0.2747784045124899,
+          "macro_f1": 0.23519525506213212,
+          "errors": 3600,
+          "share_of_errors_until_600s": 0.6055508830950378
+        },
+        "steady_state": {
+          "n": 9678,
+          "correct": 7333,
+          "accuracy": 0.7576978714610457,
+          "macro_f1": 0.7481331079277868,
+          "errors": 2345,
+          "share_of_errors_until_600s": 0.39444911690496215
+        },
+        "late": {
+          "n": 9414,
+          "correct": 4978,
+          "accuracy": 0.5287869131081369,
+          "macro_f1": 0.4110811662248193,
+          "errors": 4436
+        },
+        "false_alarm_gated_ticks": 7,
+        "false_alarm_predictions": {
+          "Kapton": 7
+        }
+      },
+      "unlabelled_tests_chained_hint": {
+        "60": "Silicone",
+        "103": "Silicone",
+        "105": "Teflon"
+      }
+    },
+    "heater_oracle/psi101/n1": {
+      "labelled_tests": 41,
+      "detected_labelled": 41,
+      "test_level_first_alert": {
+        "n": 41,
+        "correct": 14,
+        "accuracy": 0.34146341463414637,
+        "macro_f1": 0.286535303776683,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "14/41",
+      "test_level_until_600s": {
+        "n": 40,
+        "correct": 24,
+        "accuracy": 0.6,
+        "macro_f1": 0.5527067669172931,
+        "tests_without_prediction": 1
+      },
+      "detected_and_identified_until_600s": "24/41",
+      "test_level_steady_state": {
+        "n": 37,
+        "correct": 26,
+        "accuracy": 0.7027027027027027,
+        "macro_f1": 0.6614035087719298,
+        "tests_without_prediction": 4
+      },
+      "detected_and_identified_steady_state": "26/41",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 34,
+        "correct": 26,
+        "accuracy": 0.7647058823529411,
+        "macro_f1": 0.7111111111111111
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 1951,
+          "correct": 504,
+          "accuracy": 0.2583290620194772,
+          "macro_f1": 0.2617975408221192,
+          "errors": 1447,
+          "share_of_errors_until_600s": 0.5472768532526475
+        },
+        "steady_state": {
+          "n": 4119,
+          "correct": 2922,
+          "accuracy": 0.7093954843408594,
+          "macro_f1": 0.5438038979245764,
+          "errors": 1197,
+          "share_of_errors_until_600s": 0.4527231467473525
+        },
+        "late": {
+          "n": 7057,
+          "correct": 2907,
+          "accuracy": 0.41193141561570074,
+          "macro_f1": 0.3066803677317443,
+          "errors": 4150
+        },
+        "false_alarm_gated_ticks": 0,
+        "false_alarm_predictions": {}
+      }
+    },
+    "heater_oracle/psi101/n2": {
+      "labelled_tests": 41,
+      "detected_labelled": 41,
+      "test_level_first_alert": {
+        "n": 41,
+        "correct": 12,
+        "accuracy": 0.2926829268292683,
+        "macro_f1": 0.23469079939668172,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "12/41",
+      "test_level_until_600s": {
+        "n": 41,
+        "correct": 29,
+        "accuracy": 0.7073170731707317,
+        "macro_f1": 0.7005002891844997,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "29/41",
+      "test_level_steady_state": {
+        "n": 40,
+        "correct": 31,
+        "accuracy": 0.775,
+        "macro_f1": 0.7600570926657884,
+        "tests_without_prediction": 1
+      },
+      "detected_and_identified_steady_state": "31/41",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 37,
+        "correct": 31,
+        "accuracy": 0.8378378378378378,
+        "macro_f1": 0.8233002291825822
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 4577,
+          "correct": 1287,
+          "accuracy": 0.28118855145291677,
+          "macro_f1": 0.26499690180853774,
+          "errors": 3290,
+          "share_of_errors_until_600s": 0.6067871634083364
+        },
+        "steady_state": {
+          "n": 5925,
+          "correct": 3793,
+          "accuracy": 0.640168776371308,
+          "macro_f1": 0.5842548184451444,
+          "errors": 2132,
+          "share_of_errors_until_600s": 0.3932128365916636
+        },
+        "late": {
+          "n": 8659,
+          "correct": 3594,
+          "accuracy": 0.4150594756900335,
+          "macro_f1": 0.3410843062333342,
+          "errors": 5065
+        },
+        "false_alarm_gated_ticks": 4,
+        "false_alarm_predictions": {
+          "Kapton": 2,
+          "Pyrell": 2
+        }
+      }
+    },
+    "heater_oracle/psi101/n3": {
+      "labelled_tests": 41,
+      "detected_labelled": 41,
+      "test_level_first_alert": {
+        "n": 41,
+        "correct": 11,
+        "accuracy": 0.2682926829268293,
+        "macro_f1": 0.19241830065359478,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "11/41",
+      "test_level_until_600s": {
+        "n": 41,
+        "correct": 30,
+        "accuracy": 0.7317073170731707,
+        "macro_f1": 0.7259523809523809,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "30/41",
+      "test_level_steady_state": {
+        "n": 40,
+        "correct": 33,
+        "accuracy": 0.825,
+        "macro_f1": 0.8197191697191698,
+        "tests_without_prediction": 1
+      },
+      "detected_and_identified_steady_state": "33/41",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 37,
+        "correct": 33,
+        "accuracy": 0.8918918918918919,
+        "macro_f1": 0.888148714031067
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 4560,
+          "correct": 1301,
+          "accuracy": 0.2853070175438597,
+          "macro_f1": 0.26672626794737175,
+          "errors": 3259,
+          "share_of_errors_until_600s": 0.5651118432460551
+        },
+        "steady_state": {
+          "n": 7119,
+          "correct": 4611,
+          "accuracy": 0.6477033291192583,
+          "macro_f1": 0.6045210628500535,
+          "errors": 2508,
+          "share_of_errors_until_600s": 0.4348881567539449
+        },
+        "late": {
+          "n": 10087,
+          "correct": 4721,
+          "accuracy": 0.4680281550510558,
+          "macro_f1": 0.3647552423636812,
+          "errors": 5366
+        },
+        "false_alarm_gated_ticks": 7,
+        "false_alarm_predictions": {
+          "Pyrell": 4,
+          "Teflon": 2,
+          "Kapton": 1
+        }
+      }
+    },
+    "heater_oracle/repo/n1": {
+      "labelled_tests": 38,
+      "detected_labelled": 38,
+      "test_level_first_alert": {
+        "n": 38,
+        "correct": 13,
+        "accuracy": 0.34210526315789475,
+        "macro_f1": 0.2690261462675255,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "13/38",
+      "test_level_until_600s": {
+        "n": 37,
+        "correct": 25,
+        "accuracy": 0.6756756756756757,
+        "macro_f1": 0.6401298701298701,
+        "tests_without_prediction": 1
+      },
+      "detected_and_identified_until_600s": "25/38",
+      "test_level_steady_state": {
+        "n": 34,
+        "correct": 24,
+        "accuracy": 0.7058823529411765,
+        "macro_f1": 0.667843137254902,
+        "tests_without_prediction": 4
+      },
+      "detected_and_identified_steady_state": "24/38",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 31,
+        "correct": 24,
+        "accuracy": 0.7741935483870968,
+        "macro_f1": 0.7280952380952381
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 1782,
+          "correct": 533,
+          "accuracy": 0.2991021324354658,
+          "macro_f1": 0.2961071415387423,
+          "errors": 1249,
+          "share_of_errors_until_600s": 0.5737253100597152
+        },
+        "steady_state": {
+          "n": 3381,
+          "correct": 2453,
+          "accuracy": 0.725524992605738,
+          "macro_f1": 0.5907164448968734,
+          "errors": 928,
+          "share_of_errors_until_600s": 0.4262746899402848
+        },
+        "late": {
+          "n": 5951,
+          "correct": 2633,
+          "accuracy": 0.44244664762224833,
+          "macro_f1": 0.33418003355569204,
+          "errors": 3318
+        },
+        "false_alarm_gated_ticks": 0,
+        "false_alarm_predictions": {}
+      },
+      "unlabelled_tests_chained_hint": {
+        "60": "Silicone",
+        "103": "Silicone",
+        "105": "Cotton Lamp wick"
+      }
+    },
+    "heater_oracle/repo/n2": {
+      "labelled_tests": 38,
+      "detected_labelled": 38,
+      "test_level_first_alert": {
+        "n": 38,
+        "correct": 11,
+        "accuracy": 0.2894736842105263,
+        "macro_f1": 0.1928104575163399,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "11/38",
+      "test_level_until_600s": {
+        "n": 38,
+        "correct": 25,
+        "accuracy": 0.6578947368421053,
+        "macro_f1": 0.6461188811188812,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "25/38",
+      "test_level_steady_state": {
+        "n": 37,
+        "correct": 29,
+        "accuracy": 0.7837837837837838,
+        "macro_f1": 0.7779503105590062,
+        "tests_without_prediction": 1
+      },
+      "detected_and_identified_steady_state": "29/38",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 34,
+        "correct": 29,
+        "accuracy": 0.8529411764705882,
+        "macro_f1": 0.8441391941391941
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 4223,
+          "correct": 1288,
+          "accuracy": 0.3049964480227327,
+          "macro_f1": 0.2809790609906475,
+          "errors": 2935,
+          "share_of_errors_until_600s": 0.6240697427174144
+        },
+        "steady_state": {
+          "n": 5101,
+          "correct": 3333,
+          "accuracy": 0.6534012938639483,
+          "macro_f1": 0.6297893972876993,
+          "errors": 1768,
+          "share_of_errors_until_600s": 0.37593025728258556
+        },
+        "late": {
+          "n": 7393,
+          "correct": 3337,
+          "accuracy": 0.45137292033004195,
+          "macro_f1": 0.370159363034755,
+          "errors": 4056
+        },
+        "false_alarm_gated_ticks": 4,
+        "false_alarm_predictions": {
+          "Kapton": 2,
+          "Pyrell": 2
+        }
+      },
+      "unlabelled_tests_chained_hint": {
+        "60": "Silicone",
+        "103": "Silicone",
+        "105": "Kapton"
+      }
+    },
+    "heater_oracle/repo/n3": {
+      "labelled_tests": 38,
+      "detected_labelled": 38,
+      "test_level_first_alert": {
+        "n": 38,
+        "correct": 10,
+        "accuracy": 0.2631578947368421,
+        "macro_f1": 0.1638888888888889,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_first_alert": "10/38",
+      "test_level_until_600s": {
+        "n": 38,
+        "correct": 26,
+        "accuracy": 0.6842105263157895,
+        "macro_f1": 0.665,
+        "tests_without_prediction": 0
+      },
+      "detected_and_identified_until_600s": "26/38",
+      "test_level_steady_state": {
+        "n": 37,
+        "correct": 30,
+        "accuracy": 0.8108108108108109,
+        "macro_f1": 0.8117316017316017,
+        "tests_without_prediction": 1
+      },
+      "detected_and_identified_steady_state": "30/38",
+      "test_level_steady_state_excluding_aged_runs": {
+        "n": 34,
+        "correct": 30,
+        "accuracy": 0.8823529411764706,
+        "macro_f1": 0.8804884004884006
+      },
+      "gated_tick_level": {
+        "transient": {
+          "n": 4195,
+          "correct": 1299,
+          "accuracy": 0.30965435041716327,
+          "macro_f1": 0.28287774311059677,
+          "errors": 2896,
+          "share_of_errors_until_600s": 0.5708653656613444
+        },
+        "steady_state": {
+          "n": 6222,
+          "correct": 4045,
+          "accuracy": 0.6501125040180007,
+          "macro_f1": 0.6330278624052572,
+          "errors": 2177,
+          "share_of_errors_until_600s": 0.4291346343386556
+        },
+        "late": {
+          "n": 8746,
+          "correct": 4454,
+          "accuracy": 0.5092613766293163,
+          "macro_f1": 0.39576350393595616,
+          "errors": 4292
+        },
+        "false_alarm_gated_ticks": 7,
+        "false_alarm_predictions": {
+          "Pyrell": 4,
+          "Teflon": 2,
+          "Kapton": 1
+        }
+      },
+      "unlabelled_tests_chained_hint": {
+        "60": "Silicone",
+        "103": "Silicone",
+        "105": "Kapton"
+      }
+    }
+  },
+  "latency_ms": {
+    "all_armed_ticks": {
+      "n_ticks": 6193,
+      "mean": 85.12717190426957,
+      "p50": 58.71120002120733,
+      "p99": 269.1102600377053,
+      "max": 547.520300024189
+    },
+    "stage1_only": {
+      "n_ticks": 3970,
+      "mean": 80.85999297246721,
+      "p50": 51.39199999393895,
+      "p99": 244.8216609458904,
+      "max": 547.520300024189
+    },
+    "stage1_plus_stage2": {
+      "n_ticks": 2223,
+      "mean": 92.74781983915726,
+      "p50": 64.2796999309212,
+      "p99": 282.243246000726,
+      "max": 458.8067999575287
+    },
+    "streamed_tests": [
+      58,
+      69,
+      82,
+      96
+    ],
+    "threads": 1,
+    "budget_ms_at_1hz": 1000
+  },
+  "repo_reference": {
+    "stage1_per_sensor_8fold_heater_baseline": {
+      "detected": "41/41",
+      "latency_median_s": 3.0,
+      "latency_p90_s": 5.0,
+      "far_per_clean_hour": 0.3695339765961815,
+      "iss_latency_median_s": 134.0,
+      "iss_far_per_clean_hour": 0.7390679531923631
+    },
+    "stage2_lgbm_loto38_native_nan": {
+      "n": 38,
+      "correct": 27,
+      "accuracy": 0.7105263157894737,
+      "macro_f1": 0.6931601731601732
+    },
+    "stage2_rf_loto38_native_nan": {
+      "n": 38,
+      "correct": 28,
+      "accuracy": 0.7368421052631579,
+      "macro_f1": 0.7273019393223997
+    },
+    "stage2_lgbm_no_plume_loto38_native_nan": {
+      "n": 38,
+      "correct": 22,
+      "accuracy": 0.5789473684210527,
+      "macro_f1": 0.54
+    },
+    "stage2_lgbm_ratios_only_loto38_native_nan": {
+      "n": 38,
+      "correct": 23,
+      "accuracy": 0.6052631578947368,
+      "macro_f1": 0.5288740245261984
+    }
+  }
+}
