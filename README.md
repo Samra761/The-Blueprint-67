@@ -289,14 +289,31 @@ The FLEX burn-time and flame-outcome models embedded in the dashboard are descri
 
 **The Blueprint 67**
 
+### 9.1 Research and IEEE publication team (post-hackathon validation and paper phase)
+
 | Member | Role | Contribution |
 |---|---|---|
-| Samra Mehmood | Team Lead, GitHub Lead & Lead Systems Architect | Repository architecture, reproducibility pipeline, system integration, review audit |
-| Yousaf | ML & AI Lead | Anomaly detection, material classification, chained evaluation |
-| Wania | Data Engineer | NASA PSI ingestion, preprocessing, telemetry subsets |
-| Kashaf | Embedded Systems & Sensor Lead | Sensor channel mapping, telemetry integration, sensitivity analysis |
-| Hijab | Frontend Developer | Dashboard interface |
-| Faiza | UI/UX & Domain Researcher | Domain research, workflow and user-experience design |
+| Samra Mehmood | Team Lead, GitHub Lead & Lead Systems Architect (MCS, NUST) | Pipeline architecture, PSI-101 label audit (Task 3), sensor sensitivity analysis (Task 4), causal chained LOTO evaluation and streaming latency benchmarks (Task 5), repository reproducibility (Task 1) |
+| Yousaf | ML & AI Lead (SEECS, NUST) | Stage 1 / Stage 2 modelling, sensor ablation and thermal-lag simulations (Task 6) |
+| Hijab | Frontend Developer & Literature Synthesis Lead (MCS, NUST) | Dashboard implementation, spacecraft fire detection literature comparison (Task 2) |
+| Faiza | UI/UX & Domain Researcher (MCS, NUST) | Interface design, experimental setup and domain synthesis |
+
+**Academic supervision.** This work is carried out under faculty supervision at the AI & ML Lab, Military College of Signals (MCS), National University of Sciences and Technology (NUST), Pakistan (Prof. Shibli Nisar).
+
+### 9.2 NASA Space Apps Challenge 2026 hackathon roster (Nov 2026, Islamabad)
+
+The first prototype (data ingestion, sensor mapping, initial detector and classifier, and dashboard) was built during the NASA Space Apps Challenge 2026 by the full six-member team:
+
+| Member | Hackathon role |
+|---|---|
+| Samra Mehmood | Team Lead, GitHub Lead & Lead Systems Architect |
+| Yousaf | ML & AI Lead |
+| Hijab | Frontend Developer |
+| Faiza | UI/UX & Domain Researcher |
+| Wania | Data Engineer: initial NASA PSI data ingestion and preprocessing |
+| Kashaf | Embedded Systems & Sensor Lead: initial sensor channel mapping and telemetry layer |
+
+We gratefully acknowledge Wania and Kashaf for their contributions to the hackathon prototype. They took part in the hackathon phase only and are not co-authors of the post-hackathon IEEE research extension (Section 9.1).
 
 ### Citation
 
@@ -304,7 +321,7 @@ The FLEX burn-time and flame-outcome models embedded in the dashboard are descri
 @software{blueprint67_flame_in_freefall_2026,
   title  = {Flame in Freefall: Causal Two-Stage Smoke Detection and Material
             Identification for Microgravity Fire Safety},
-  author = {Samra, Yousaf, Kashaf, Hijab, Faiza},
+  author = {Mehmood, Samra and Yousaf and Hijab and Faiza},
   year   = {2026},
   url    = {https://github.com/Samra761/The-Blueprint-67}
 }
