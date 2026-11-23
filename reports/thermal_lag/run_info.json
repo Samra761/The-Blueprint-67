@@ -1,0 +1,64 @@
+{
+  "checks": {
+    "delay_models": "identity at 0 s, exact step responses, no future leakage",
+    "features": "heater = src/features.py (bit-identical), arming = src/evaluate_chained.py",
+    "vs_published_q1": {
+      "baseline": {
+        "alert_time_identical": "41/41",
+        "max_abs_alert_diff_s": 0.0,
+        "fa_events": 1,
+        "fa_events_published": 1,
+        "fa_tests": [
+          97
+        ],
+        "fa_tests_published": [
+          97
+        ],
+        "iss_alert_identical": "41/41"
+      },
+      "ablation": {
+        "alert_time_identical": "41/41",
+        "max_abs_alert_diff_s": 0.0,
+        "fa_events": 1,
+        "fa_events_published": 1,
+        "fa_tests": [
+          97
+        ],
+        "fa_tests_published": [
+          97
+        ],
+        "iss_alert_identical": "41/41"
+      }
+    }
+  },
+  "runtime_s": 330,
+  "python": "3.13.9",
+  "scikit_learn": "1.7.2",
+  "numpy": "2.3.5",
+  "pandas": "2.3.3",
+  "outer_folds": 8,
+  "inner_folds": 4,
+  "persistence_s": 3,
+  "settings": [
+    "q0.95",
+    "q0.96",
+    "q0.97",
+    "q0.975",
+    "q0.98",
+    "q0.985",
+    "q0.99",
+    "q0.9925",
+    "q0.995",
+    "q0.9965",
+    "q0.998",
+    "q0.999",
+    "q0.9995",
+    "q0.9998",
+    "q1",
+    "x1.02",
+    "x1.05",
+    "x1.10",
+    "x1.15",
+    "x1.20"
+  ]
+}

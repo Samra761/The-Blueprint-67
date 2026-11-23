@@ -1,0 +1,81 @@
+baseline,scenario,material,tests,median_s,max_s
+heater,baseline,Cotton Lamp wick,7,3.0,5.0
+heater,ablation,Cotton Lamp wick,7,189.0,290.0
+heater,shift_15,Cotton Lamp wick,7,18.0,20.0
+heater,shift_30,Cotton Lamp wick,7,33.0,35.0
+heater,shift_60,Cotton Lamp wick,7,63.0,65.0
+heater,slow_15,Cotton Lamp wick,7,189.0,290.0
+heater,slow_30,Cotton Lamp wick,7,189.0,290.0
+heater,slow_60,Cotton Lamp wick,7,189.0,290.0
+heater,baseline,Silicone,9,3.0,6.0
+heater,ablation,Silicone,9,132.0,256.0
+heater,shift_15,Silicone,9,18.0,22.0
+heater,shift_30,Silicone,9,33.0,37.0
+heater,shift_60,Silicone,9,63.0,67.0
+heater,slow_15,Silicone,9,132.0,256.0
+heater,slow_30,Silicone,9,132.0,256.0
+heater,slow_60,Silicone,9,132.0,256.0
+heater,baseline,Teflon,7,3.0,4.0
+heater,ablation,Teflon,7,130.0,837.0
+heater,shift_15,Teflon,7,18.0,19.0
+heater,shift_30,Teflon,7,33.0,34.0
+heater,shift_60,Teflon,7,63.0,64.0
+heater,slow_15,Teflon,7,130.0,837.0
+heater,slow_30,Teflon,7,130.0,837.0
+heater,slow_60,Teflon,7,130.0,837.0
+heater,baseline,Kapton,11,3.0,4.0
+heater,ablation,Kapton,11,129.0,836.0
+heater,shift_15,Kapton,11,18.0,19.0
+heater,shift_30,Kapton,11,33.0,34.0
+heater,shift_60,Kapton,11,63.0,64.0
+heater,slow_15,Kapton,11,129.0,836.0
+heater,slow_30,Kapton,11,129.0,836.0
+heater,slow_60,Kapton,11,129.0,836.0
+heater,baseline,Pyrell,7,4.0,5.0
+heater,ablation,Pyrell,7,133.0,198.0
+heater,shift_15,Pyrell,7,19.0,20.0
+heater,shift_30,Pyrell,7,34.0,35.0
+heater,shift_60,Pyrell,7,64.0,65.0
+heater,slow_15,Pyrell,7,133.0,198.0
+heater,slow_30,Pyrell,7,133.0,198.0
+heater,slow_60,Pyrell,7,133.0,198.0
+arming,baseline,Cotton Lamp wick,7,3.0,5.0
+arming,ablation,Cotton Lamp wick,7,189.0,290.0
+arming,shift_15,Cotton Lamp wick,7,18.0,20.0
+arming,shift_30,Cotton Lamp wick,7,33.0,35.0
+arming,shift_60,Cotton Lamp wick,7,63.0,65.0
+arming,slow_15,Cotton Lamp wick,7,5.0,193.0
+arming,slow_30,Cotton Lamp wick,7,129.0,290.0
+arming,slow_60,Cotton Lamp wick,7,12.0,290.0
+arming,baseline,Silicone,9,3.0,6.0
+arming,ablation,Silicone,9,131.0,256.0
+arming,shift_15,Silicone,9,18.0,21.0
+arming,shift_30,Silicone,9,33.0,36.0
+arming,shift_60,Silicone,9,63.0,66.0
+arming,slow_15,Silicone,9,9.0,134.0
+arming,slow_30,Silicone,9,59.0,133.0
+arming,slow_60,Silicone,9,8.0,133.0
+arming,baseline,Teflon,7,3.0,4.0
+arming,ablation,Teflon,7,126.0,251.0
+arming,shift_15,Teflon,7,18.0,19.0
+arming,shift_30,Teflon,7,33.0,34.0
+arming,shift_60,Teflon,7,63.0,64.0
+arming,slow_15,Teflon,7,6.0,125.0
+arming,slow_30,Teflon,7,6.0,130.0
+arming,slow_60,Teflon,7,7.0,9.0
+arming,baseline,Kapton,11,3.0,4.0
+arming,ablation,Kapton,11,128.0,836.0
+arming,shift_15,Kapton,11,18.0,19.0
+arming,shift_30,Kapton,11,33.0,34.0
+arming,shift_60,Kapton,11,63.0,64.0
+arming,slow_15,Kapton,11,60.0,129.0
+arming,slow_30,Kapton,11,127.0,836.0
+arming,slow_60,Kapton,11,7.0,836.0
+arming,baseline,Pyrell,7,4.0,5.0
+arming,ablation,Pyrell,7,133.0,198.0
+arming,shift_15,Pyrell,7,19.0,20.0
+arming,shift_30,Pyrell,7,34.0,35.0
+arming,shift_60,Pyrell,7,64.0,65.0
+arming,slow_15,Pyrell,7,5.0,198.0
+arming,slow_30,Pyrell,7,6.0,195.0
+arming,slow_60,Pyrell,7,6.0,14.0
