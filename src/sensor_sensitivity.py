@@ -68,6 +68,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import anomaly as A  # noqa: E402  (detector code reused as-is)
 import features as F  # noqa: E402
 import load as L  # noqa: E402
+from repro import SEED, seed_everything  # noqa: E402
 
 PACKETS = (ROOT / "Sensor_Systems_and_Telemetry_Integration" / "ml_lead_handoff"
            / "SAME_R_WIDE_PACKETS.jsonl")
@@ -89,7 +90,7 @@ BYTES_PER_SAMPLE = 4            # float32 per channel per sample at 1 Hz (teleme
 C_WIN, C_STRIDE, C_TMAX, C_DECIDE, C_MINROWS = 30, 10, 600, 120, 20
 CLASSES = ["Cotton Lamp wick", "Kapton", "Pyrell", "Silicone", "Teflon"]
 RF_PARAMS = dict(n_estimators=500, min_samples_leaf=2, max_features="sqrt",
-                 class_weight="balanced_subsample", random_state=0, n_jobs=-1)
+                 class_weight="balanced_subsample", random_state=SEED, n_jobs=-1)
 
 # palette: same light-mode reference instance as reports/anomaly figures
 INK, INK2, GRID, SURF = "#0b0b0b", "#52514e", "#e4e3df", "#ffffff"
@@ -361,7 +362,7 @@ def plot_latency(res: pd.DataFrame, path: Path, split_label: str):
     style(ax)
     ax.grid(axis="x", color=GRID, linewidth=0.6, which="major")
     ax.set_xscale("symlog", linthresh=10, linscale=0.6)
-    rng = np.random.default_rng(0)
+    rng = np.random.default_rng(SEED)
     for i, (lab, s, col) in enumerate(rows):
         y = len(rows) - 1 - i
         d = s.dropna().to_numpy()
@@ -527,6 +528,7 @@ def main():
     ap.add_argument("--greedy-max", type=int, default=8,
                     help="greedy forward selection up to this many channels (0 = off)")
     args = ap.parse_args()
+    seed_everything()
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "figures").mkdir(exist_ok=True)
 

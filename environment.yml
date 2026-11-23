@@ -1,0 +1,15 @@
+# Conda alternative to requirements.txt (same pins, installed by pip inside a
+# Python 3.11 environment so conda and pip resolve to identical wheels).
+#
+#   conda env create -f environment.yml
+#   conda activate flame-in-freefall
+#   python scripts/verify_repo.py
+name: flame-in-freefall
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.9
+  - pip
+  - make
+  - pip:
+      - -r requirements.txt

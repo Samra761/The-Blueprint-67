@@ -1,0 +1,1961 @@
+diff --git a/Makefile b/Makefile
+new file mode 100644
+index 0000000..dd1cda3
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,45 @@
++# Flame in Freefall - common entry points (run from the project root).
++# Windows without make: run the python commands shown for each target.
++PY ?= python
++
++.PHONY: help verify test audit pipeline chained sensors full dryrun dashboard
++
++help:
++	@echo "make verify     fast integrity check, no training (~10 s)"
++	@echo "make test       unit tests (root + sensor workspace)"
++	@echo "make audit      re-run the SAME label audit (writes results/same_label_*)"
++	@echo "make pipeline   raw CSVs -> features -> Stage 1 -> Stage 2 (needs data/raw)"
++	@echo "make sensors    per-sensor sensitivity study (~1.5 h)"
++	@echo "make chained    chained causal LOTO-41 evaluation (~1.3 h)"
++	@echo "make full       everything above, in order (hours)"
++	@echo "make dryrun     print the full-reproduction commands"
++	@echo "make dashboard  launch the Streamlit dashboard"
++
++verify:
++	$(PY) scripts/verify_repo.py
++
++test:
++	$(PY) -m pytest -q tests
++	cd Sensor_Systems_and_Telemetry_Integration && PYTHONPATH=integration_update/src \
++		$(PY) -m pytest -q tests frontend_adapter/test_adapter.py integration_update/tests
++
++audit:
++	$(PY) scripts/audit_same_tests.py
++
++pipeline:
++	bash scripts/run_pipeline.sh
++
++sensors:
++	$(PY) src/sensor_sensitivity.py
++
++chained:
++	$(PY) src/evaluate_chained.py
++
++full:
++	$(PY) scripts/verify_repo.py --full
++
++dryrun:
++	$(PY) scripts/verify_repo.py --full --dry-run --skip-tests
++
++dashboard:
++	streamlit run dashboard/app.py
+diff --git a/README.md b/README.md
+index 8a9b4f0..7c7dbbc 100644
+--- a/README.md
++++ b/README.md
+@@ -1,274 +1,317 @@
+-# Flame in Freefall: AI-Powered Microgravity Combustion Analytics
++# Flame in Freefall: Causal Two-Stage Smoke Detection and Material Identification for Microgravity Fire Safety
+ 
+-Fire-safety insights and anomaly detection for spacecraft and habitats, built on NASA Physical Sciences Informatics (PSI) data.
++**The Blueprint 67** · NASA Space Apps Challenge 2026 (Islamabad) · MCS NUST AI & ML Lab review
+ 
+-Developed by team The Blueprint 67 for the NASA Space Apps Challenge 2026, Islamabad.
++![Python](https://img.shields.io/badge/python-3.11-blue) ![License](https://img.shields.io/badge/license-AGPL--3.0-blue) ![Verification](https://img.shields.io/badge/verify-python%20scripts%2Fverify__repo.py-brightgreen)
+ 
+-![Python](https://img.shields.io/badge/python-3.11%2B-blue)
+-![License](https://img.shields.io/badge/license-AGPL--3.0-blue)
++> **Reproduce every reported number in about 10 seconds, without training any model:**
++> ```bash
++> pip install -r requirements.txt && python scripts/verify_repo.py
++> ```
++> The script recomputes the headline tables from the committed per-test artifacts and checks dataset
++> schema, label provenance, leakage guards and seeds. See [Reproducibility](#6-reproducibility).
+ 
+-## Overview
++---
+ 
+-Fire behaves differently in orbit. Without buoyancy there is no rising plume, oxygen reaches the flame mainly by diffusion and cabin ventilation, and smoke does not collect at the ceiling where detectors on Earth expect it. Most fire-safety practice was developed for Earth gravity, so longer missions need detection and decision support designed for these conditions.
++## Contents
++1. [Problem formulation](#1-problem-formulation)
++2. [Dataset specification](#2-dataset-specification)
++3. [Method](#3-method)
++4. [Results](#4-results)
++5. [Threats to validity](#5-threats-to-validity)
++6. [Reproducibility](#6-reproducibility)
++7. [Repository structure](#7-repository-structure)
++8. [Dashboard and sensor integration layer](#8-dashboard-and-sensor-integration-layer)
++9. [Team](#9-team)
++10. [License, data terms and acknowledgements](#10-license-data-terms-and-acknowledgements)
+ 
+-Flame in Freefall combines four NASA microgravity combustion datasets into a single dashboard and a set of models:
++---
+ 
+-- An early-warning smoke detector trained only on clean cabin air, using one Isolation Forest per sensor.
+-- A classifier that identifies which of five spacecraft materials is overheating from aerosol sensor signatures.
+-- Burn-time and flame-outcome models trained on FLEX droplet tests, used by an interactive flame simulator.
+-- Analytics views for FLEX, BASS-II and Saffire-I, with each data source labelled by provenance.
+-- A sensor and telemetry integration layer that normalises NASA PSI tables and time series (SAME-R, Saffire-III and others) into validated, timestamped packets with full provenance, which the dashboard reads directly.
++## 1. Problem formulation
+ 
+-## Team
++In microgravity there is no buoyant plume, so smoke from an overheating material stays near the source and spreads with cabin ventilation instead of rising to a ceiling detector. Overheated polymers and fabrics pyrolyse and release aerosol **before** open flame. That pre-ignition window is where detection is most valuable. The NASA SAME experiment measured this window on the ISS in 2010.
+ 
+-| Member | Role | Contribution |
+-|---|---|---|
+-| Wania | Data Engineer | NASA PSI dataset ingestion via boto3, CSV telemetry subset extraction, preprocessing pipelines |
+-| Yousaf | ML & AI Lead | Anomaly detection, forecaster and flame classifier models on microgravity combustion data |
+-| Kashaf | Embedded Systems & Sensor Lead | Sensor data mapping and hardware telemetry integration |
+-| Hijab | Frontend Developer | Web UI dashboard interface |
+-| Faiza | UI/UX & Domain Researcher | Domain workflow, user experience layout, pitch alignment |
+-| Samra | GitHub Lead & Lead Systems Architect | Repository structure, backend architecture, final system integration |
++We pose two coupled tasks on the 1 Hz SAME housekeeping stream $\mathbf{x}_t \in \mathbb{R}^8$ (eight smoke, aerosol and temperature channels).
+ 
+-## Background: combustion in microgravity
++**Stage 1: causal anomaly detection (is something overheating?).** Learn a score $s_t = f(\mathbf{x}_{\le t})$ from clean cabin air only, and raise an alarm $a_t = \mathbb{1}[\min_{k<N} s_{t-k} > \tau]$ after $N$ consecutive anomalous ticks. The threshold $\tau$ is set on training-fold clean air at quantile $q = 1.0$, which means no sustained false alarm on calibration data. Metrics are detection rate, latency $t_{\text{alarm}} - t_0$ with $t_0$ = heater on, and false alarms per clean-air hour (FAR). The baseline is the ISS photoelectric scatter detector recalibrated to the same quantile.
+ 
+-On Earth, hot combustion gases rise and draw fresh air in beneath the flame. This buoyant flow shapes the flame, supplies oxygen and carries smoke upward. In microgravity that flow is absent:
++**Stage 2: material identification (what is burning?).** Given an active Stage 1 alarm, classify the pyrolysing sample into one of five spacecraft materials $\mathcal{Y} = \{$Cotton lamp wick, Kapton, Pyrell, Silicone, Teflon$\}$ from trailing-window aerosol signatures.
+ 
+-| | Normal gravity | Microgravity |
+-|---|---|---|
+-| Oxygen transport | Buoyant convection | Diffusion and forced ventilation |
+-| Flame shape | Elongated | Approximately spherical, dimmer |
+-| Combustion products | Carried away | Accumulate near the flame |
+-| Dominant flow | Natural convection | Cabin ventilation, on the order of cm/s |
++**Chained causal setting.** Stage 2 runs only on ticks where Stage 1 is alarming, and every feature at tick $t$ uses samples $\le t$ only. Clean-air reference statistics come from a 30 s **arming** period after power-on (`arming`), not from the known heater-on time (`heater_oracle`, kept for comparison with earlier repository results but not deployable). Evaluation is leave-one-test-out (LOTO) over all 41 flight tests.
+ 
+-Several results from the source experiments shape this project:
++## 2. Dataset specification
+ 
+-- Flow direction controls flame spread. Saffire-I burned large fabric samples aboard a Cygnus vehicle and showed clear differences between flames spreading with and against the airflow.
+-- Isolated fuel droplets follow the d²-law: the square of the droplet diameter decreases roughly linearly in time, so burn time scales with the initial diameter squared. FLEX measured this for methanol and heptane under varying oxygen and diluent concentrations.
+-- Heptane droplets in FLEX continued burning as low-temperature cool flames after visible extinction.
+-- Overheated materials pyrolyse and release smoke before any open flame. The SAME experiment measured this on the ISS, and this pre-ignition window is where early detection is most valuable.
++**Source.** NASA Physical Sciences Informatics: SAME / SAME-R (PSI-101, PSI-102), ISS 2010. The experimental table `PSI-101_Experimental table_SAME-R.csv` lists each test's sample material, date, inlet velocity, heater resistance ratio and aging duration.
+ 
+-## Data
++**Packet stream used by every Task 3-5 study.** `Sensor_Systems_and_Telemetry_Integration/ml_lead_handoff/SAME_R_WIDE_PACKETS.jsonl` contains 58,386 one-second packets, 41 tests and 8 channels, with every source timestamp validated against the NASA GMT label. SHA-256 `86c944d7…826982` is pinned in `FILE_CHECKSUMS.json` and in the chained-run metadata.
+ 
+-All datasets are from NASA PSI.
+-
+-| Dataset | Description | Used | Purpose |
++| Channel | Raw NASA column | Unit | Instrument |
+ |---|---|---|---|
+-| SAME (ISS, 2010) | Smoke Aerosol Measurement Experiment; 1 Hz telemetry from eight smoke and aerosol sensors while samples are heated | 41 tests, 5 materials | Early warning, material classification, telemetry replay |
+-| FLEX (PSI-69) | Flame Extinguishment Experiment; isolated droplet combustion | 274 tests | Burn-time and outcome models, analytics |
+-| BASS-II (PSI-25) | Burning and Suppression of Solids | 129 burns | Oxygen consumption and CO analysis |
+-| Saffire-I (PSI-98) | Large-scale fabric fire aboard Cygnus, 2016 | 2 samples | Flow-direction comparison |
+-
+-The sensor integration workspace (`Sensor_Systems_and_Telemetry_Integration/`, package v2.1.6) adds:
++| `iss_obs` | `ISSDetectorObscurationMeasurement(Volts)` | V | ISS smoke detector, light obscuration |
++| `iss_sct` | `ISSDetectorScatterMeasurement(Volts)` | V | ISS smoke detector, light scatter (reference alarm) |
++| `sts` | `STSDetectorMeasurement(Volts)` | V | STS smoke detector |
++| `ion_a` | `IonDetectorAMeasurement(Volts)` | V | Ionisation detector A |
++| `ion_b` | `IonDetectorBMeasurement(Volts)` | V | Ionisation detector B |
++| `ptrak` | `PTrakMeasurement(PtPerCC)` | particles/cm³ | P-Trak ultrafine counter (`-999` sentinel → NaN) |
++| `dtb` | `DustTrakBMeasurement(MgPerM3)` | mg/m³ | DustTrak B aerosol monitor |
++| `plume_t` | `GasPlumeTemperature(DegC)` | °C | Gas-plume thermocouple above the heated sample |
+ 
+-| Source | Description | Content |
+-|---|---|---|
+-| SAME-R (PSI-101/102) | SAME housekeeping telemetry as normalised wide packets | 58,386 packets, 41 tests, 8 channels; all source timestamps validated against NASA GMT labels |
+-| Saffire-III (PSI-100) | 1 Hz telemetry from the Saffire-III flight | 11,450 packets, 44 channels |
+-| Seven PSI source tables | SAME/SAME-R, BASS (PSI-26), BASS-II (PSI-25), FLEX (PSI-69), SPICE (PSI-107), Saffire I-III (PSI-98/99/100) and a unified flammability table | 69 registered research variables, wide packets with provenance |
+-| Supplemental PSI tables | 22 further PSI experimental tables | 2,009 source-row packets, field and unit inventory |
+-
+-No timestamps are fabricated: where a source has no sample time, packets are keyed by source row and the timestamp is left empty. Instrument error codes (such as the P-Trak `-999` sentinel) are kept as nulls with a quality flag.
+-
+-SAME materials: cotton lamp wick, Kapton, Pyrell, silicone, Teflon.
++The mapping lives in `config/sensor_map.yaml` and is checked against `src/features.py` by `verify_repo.py`. DustTrak A is dropped because of bad scaling. Heater flags, run mode, event codes and power states are never used as features.
+ 
+-SAME sensor channels are mapped in `config/sensor_map.yaml`: ISS obscuration and scatter detectors, STS detector, ionisation detectors A and B, P-Trak particle counter, DustTrak B, and gas plume temperature.
++**From 43 files to 41 tests.** NASA distributes 43 HKP CSVs in five material folders. `Pyrell/HKPData_gmt235_1` is dropped because the heater never fired. Two files are byte-identical copies in two folders (`HKPData_gmt211_4`: Pyrell/Silicone, giving test 60; `HKPData_gmt252_5`: Silicone/Teflon, giving tests 103 and 105). That leaves 40 files and 41 `TestNumber`s.
+ 
+-Preprocessing (`src/load.py`, `src/features.py`):
++**Two label policies.** These are defined in `data/same_label_manifest.csv`, produced by `scripts/audit_same_tests.py` and loaded through `src/labels.py`.
+ 
+-- Removes repeated header rows and coerces channels to numeric.
+-- Detects two files duplicated across material folders, keeps one copy of each and marks those tests as unverified.
+-- Drops one test in which the heater never fired, and the faulty DustTrak A channels.
+-- Labels each test into clean, heating and smoke phases from the heater flag.
+-- Baseline-corrects each test against its clean-air period and computes trailing-window features, so every feature at time t is available in real time.
++| Policy | Supervised tests | Rule | Class counts (Cotton / Kapton / Pyrell / Silicone / Teflon) |
++|---|---|---|---|
++| `repo` | 38 | Folder material unambiguous; 60, 103 and 105 excluded | 7 / 11 / 7 / 7 / 6 |
++| `psi101` | 41 | Adds 60 → Silicone, 103 → Silicone, 105 → Teflon, recovered from PSI-101 | 7 / 11 / 7 / 9 / 7 |
+ 
+-Two supplementary files (ACME CIR and FLEX-2 tables) could not be matched to a NASA source. They are shown in the dashboard as unverified and are not used for modelling.
++A label is recovered only if four audit checks pass. C1: input SHA-256 values match. C2: PSI-101 is a valid oracle, agreeing with the folder material on 38/38 verified tests and with the telemetry date within one day on 41/41. C3: exactly one burn row exists with an exact date match and a material among the candidate folders. C4: the run is a real fuel run, with heater duration and smoke response at least those of the weakest verified run. The classifier's own predictions for these tests are reported but never used in the ruling. Stage 1 uses no labels and always uses all 41 tests. Tests 67-70 had 720 s of primary aging (all others 11 s) and are reported separately ("excl. aged").
+ 
+-## Architecture
++## 3. Method
+ 
+ ```mermaid
+ flowchart LR
+-    PSI[(NASA PSI)] -->|boto3| FETCH[fetch_psi.py]
+-    FETCH --> RAW[(data/raw)]
+-    RAW --> LOAD[load.py]
+-    LOAD --> FEAT[features.py]
+-    MAP[sensor_map.yaml] -.-> FEAT
+-    FEAT --> ANOM[anomaly.py]
+-    FEAT --> CLS[classifier.py]
+-    ANOM --> OUT[(models, reports)]
+-    CLS --> OUT
+-    FLEX[(FLEX, BASS-II, Saffire)] --> FC[Flame models]
+-    PSI -.-> SENS[Sensor integration workspace]
+-    SENS --> PKT[(validated telemetry packets)]
+-    OUT --> APP[dashboard/app.py]
+-    FC --> APP
+-    PKT --> APP
++    P[(SAME-R packets<br/>41 tests · 1 Hz · 8 ch)] --> B[Clean-air reference<br/>arming: first 30 s]
++    B --> F[Trailing-window features<br/>5/10/30 s mean·std·slope·diff<br/>+ 4 detector ratios]
++    F --> S1[Stage 1<br/>8 per-channel Isolation Forests<br/>max of normalised scores]
++    S1 -->|N consecutive ticks > τ| A{Alarm}
++    A -->|gated ticks only| S2[Stage 2<br/>Random Forest, 500 trees<br/>30 s windows]
++    S2 --> M[Material ∈ 5 classes]
++    L[(Label manifest<br/>repo 38 · psi101 41)] -.-> S2
+ ```
+ 
+-| Stage | Component | Output |
++| Component | Specification | Code |
+ |---|---|---|
+-| Ingestion | `src/fetch_psi.py` | `data/raw/<material>/*.csv` |
+-| Cleaning | `src/load.py` | `data/processed/all_tests.parquet` |
+-| Features | `src/features.py` | `data/processed/features.parquet` |
+-| Early warning | `src/anomaly.py` | `models/anomaly_iforest.joblib`, `reports/anomaly/` |
+-| Classification | `src/classifier.py` | `models/material_classifier.joblib`, `reports/classifier/` |
+-| Sensor integration | `Sensor_Systems_and_Telemetry_Integration/` | Variable registry, telemetry packets, frontend adapter |
+-| Dashboard | `dashboard/app.py` | Streamlit application |
++| Baseline correction | Subtract clean-air median per channel (`arming`: first 30 s after power-on; `heater_oracle`: last 120 s before heater-on) | `src/evaluate_chained.py`, `src/features.py` |
++| Features | 8 baseline-corrected values + 96 trailing-window statistics (3 windows × 4 statistics × 8 channels) = 104 detector features; + 4 noise-gated ratios = 108 classifier features. Windows run on a complete 1 Hz grid, so gaps are NaN and never bridged | `src/features.py` |
++| Stage 1 | One `IsolationForest(n_estimators=200, max_samples=256)` per channel on `{value, mean10, slope10, std10}`, trained on clean air; per-channel scores normalised by the inner-fold clean-air 0.999 quantile; fused by max; threshold at q = 1.0 of inner out-of-fold sustained clean-air scores (4 inner folds) | `src/anomaly.py` (reused unchanged) |
++| Stage 2 | `RandomForestClassifier(n_estimators=500, min_samples_leaf=2, max_features="sqrt", class_weight="balanced_subsample")`; 30 s windows with 10 s stride, described by the window mean of the 108 tick features plus per-channel max/min and the fraction of seconds each ratio is defined (128 features); per-test decision = mean window probability over 120-600 s; median imputation fit per fold | `src/evaluate_chained.py` |
++| Validation | LOTO-41 (outer); every scaler, imputer, threshold, reference level and forest is fit on training folds only | `src/evaluate_chained.py` |
++| Seeds | Single source `src/repro.py`, `SEED = 0` (see [§6](#6-reproducibility)) | `src/repro.py` |
+ 
+-Validation always splits by test (GroupKFold or leave-one-test-out), never by row, so no test contributes to both training and evaluation. The dashboard embeds its results and runs the flame models in the browser, so it works offline with no model server.
++**Leakage controls.** These are recorded in `results/chained_loto_metrics.json` and re-checked by `verify_repo.py`:
++- **Future perturbation:** replacing every sample after heater-on + 60 s with N(0, 10³) noise leaves all features at or before the cut bit-identical (tests 58, 75, 91). The root unit tests repeat this on synthetic data for every rolling feature.
++- **Streaming = batch:** a tick-by-tick streaming implementation reproduces the batch scores exactly (max |Δscore| = 0) with 100 % alarm and Stage 2 argmax agreement (tests 58, 69, 82, 96).
++- **Grouped splits only:** no test ever contributes rows to both training and evaluation, in Stage 1 (GroupKFold / LOTO by test), Stage 2 (LOTO by test) or threshold calibration (inner GroupKFold on training tests).
+ 
+-The dashboard has eight pages:
++## 4. Results
+ 
+-| Page | Content |
+-|---|---|
+-| Dashboard | Replay of a SAME test with live telemetry, fire-risk score, alarm comparison and material prediction |
+-| Flame analytics | FLEX, BASS-II and Saffire-I analysis |
+-| Dataset explorer | Every source, the exact file it came from, and its trust level |
+-| Flame simulator | FLEX burn-time and outcome models running in the browser |
+-| Model status | Each model's training data, validation and a live integrity check |
+-| Sensor profiles | Sensor and channel profiles built from the integration workspace |
+-| Telemetry streams | Every packet stream with packet counts, timestamp coverage and quality flags |
+-| Variable registry | All variables and channels, dataset profiles and documented source corrections |
++All numbers below are copied from committed artifacts. `python scripts/verify_repo.py` recomputes them from the per-test CSVs and fails if any of them disagree.
+ 
+-At start-up the app reads the sensor workspace, reduces it to a compact payload and passes it to the page. If the workspace is missing, the original pages still work and the three sensor pages explain what was searched.
++### 4.1 Stage 1: detection, chained causal LOTO-41
+ 
+-## Results
++Source: `results/chained_loto_summary.md`. Latency is measured from heater-on. FAR is false alarms per clean-air hour. The ISS columns are the scatter detector recalibrated to the same clean-air quantile.
+ 
+-### Early-warning detector
++| Baseline | N ticks | Detected | Median latency (s) | P90 (s) | FAR / clean h | ISS scatter detected | ISS median (s) | ISS FAR / h |
++|---|---|---|---|---|---|---|---|---|
++| **arming** (causal) | 1 | 41/41 | 1.0 | 3.0 | 1.27 | 41/41 | 131.0 | 0.42 |
++| **arming** (causal) | 2 | 41/41 | 2.0 | 4.0 | 0.00 | 41/41 | 133.0 | 0.42 |
++| **arming** (causal) | 3 | 41/41 | 3.0 | 5.0 | 2.11 | 41/41 | 133.0 | 0.42 |
++| heater_oracle | 1 | 41/41 | 80.0 | 191.0 | 0.37 | 40/41 | 133.0 | 1.11 |
++| heater_oracle | 2 | 41/41 | 2.0 | 4.0 | 1.11 | 40/41 | 133.0 | 1.11 |
++| heater_oracle | 3 | 41/41 | 3.0 | 5.0 | 2.22 | 41/41 | 134.0 | 0.74 |
+ 
+-SAME, 41 tests, 8-fold GroupKFold. The baseline is an ISS-scatter alarm calibrated to the same false-alarm quantile.
++Earlier standalone result in the repository (8-fold GroupKFold, heater baseline, N = 3): 41/41 detected, median 3.0 s, P90 5.0 s, FAR 0.37/h; ISS 134.0 s, 0.74/h.
+ 
+-| Metric | Detector | Scatter alarm |
+-|---|---|---|
+-| Tests detected | 41 / 41 | 41 / 41 |
+-| Median alert time after heater on | 3 s | 134 s |
+-| 90th percentile alert time | 5 s | n/a |
+-| False alarm rate | 0.37 per hour | 0.74 per hour |
+-| Median lead over scatter alarm | 131 s | n/a |
++### 4.2 Stage 2: material identification
+ 
+-![Lead time compared with the ISS scatter detector](reports/anomaly/figures/lead_time_vs_iss.png)
++Source: `results/chained_loto_summary.md`. **Oracle** = heater-aligned windows starting 120-570 s, with probabilities averaged per test (the repository protocol). **Chained** = Stage 2 evaluated only on ticks with an active Stage 1 alarm. Chance level is 0.20.
+ 
+-### Material classifier
++| Baseline / labels | Oracle acc | Oracle macro-F1 | Oracle acc excl. 720 s-aged |
++|---|---|---|---|
++| arming / psi101 | 0.756 (31/41) | 0.747 | 0.838 (31/37) |
++| arming / repo | 0.711 (27/38) | 0.704 | 0.765 (26/34) |
++| heater_oracle / psi101 | 0.756 (31/41) | 0.746 | 0.838 (31/37) |
++| heater_oracle / repo | 0.684 (26/38) | 0.658 | 0.765 (26/34) |
+ 
+-Leave-one-test-out on 38 labelled tests. Chance accuracy is 20%.
++Chained, operating point N = 3:
+ 
+-| Model | Test accuracy | Macro F1 | Window accuracy (120 to 600 s) |
+-|---|---|---|---|
+-| Random Forest, 500 trees | 73.7% (28/38) | 0.727 | 65.2% |
+-| LightGBM, 300 rounds | 71.1% (27/38) | 0.693 | 66.5% |
++| Baseline / labels | First-alert acc | Until-600 s acc | Steady-state acc | Steady macro-F1 | Steady acc excl. aged | Share of errors in transient (0-120 s) |
++|---|---|---|---|---|---|---|
++| **arming / psi101** | 0.268 (11/41) | 0.707 | **0.805 (33/41)** | **0.800** | **0.892** | 0.59 |
++| arming / repo | 0.237 (9/38) | 0.711 | 0.763 (29/38) | 0.754 | 0.853 | 0.61 |
++| heater_oracle / psi101 | 0.268 (11/41) | 0.732 | 0.825 (33/40) | 0.820 | 0.892 | 0.57 |
++| heater_oracle / repo | 0.263 (10/38) | 0.684 | 0.811 (30/37) | 0.812 | 0.882 | 0.57 |
+ 
+-Accuracy increases from about 32% with 60 s of data to about 71% with 450 s. The most informative features are the ratios of ionisation-B to scatter and of scatter to obscuration.
++The N = 1 and N = 2 rows are in `results/chained_loto_summary.md`. Earlier repository Stage 2 baselines (heater-aligned, LOTO-38, `repo` labels, from `chained_loto_metrics.json` → `repo_reference`): Random Forest 28/38 (0.737, macro-F1 0.727); LightGBM 27/38 (0.711, 0.693); LightGBM without plume temperature 22/38 (0.579, 0.540); LightGBM with ratios only 23/38 (0.605, 0.529).
+ 
+-### Flame models
++### 4.3 Per-sensor sensitivity, LOTO-41, t₀ = heater on
+ 
+-FLEX, 274 tests, 5-fold cross-validation.
++Source: `reports/sensor_sensitivity/sensor_table_loto.md`. Each row is the Stage 1 detector restricted to that one channel. Material F1 is the LOTO-38 Random Forest macro-F1 using only that channel's features.
+ 
+-| Model | Target | Score |
+-|---|---|---|
+-| Gradient boosting, 200 trees | Burn time | R² 0.70, typical error 3.1 s |
+-| Gradient boosting, 150 trees per class | Flame outcome | 77% accuracy (majority baseline 69%) |
++| Rank | Sensor channel | Type | Detected | Det. acc. | Det. F1 | False alarms /h | Median delay (s) | P90 delay (s) | Δ median vs 8-ch (s) | Beats ISS alarm | Material F1 (alone) |
++|---|---|---|---|---|---|---|---|---|---|---|---|
++| 1 | Gas plume temp. (`plume_t`) | thermocouple | 41/41 | 0.99 | 0.99 | 0.37 | 3 | 5 | 0 | 41/41 | 0.59 |
++| 2 | ISS obscuration (`iss_obs`) | optical smoke | 41/41 | 0.99 | 0.99 | 0.37 | 131 | 198 | 128 | 31/41 | 0.51 |
++| 3 | ISS scatter (`iss_sct`) | optical smoke | 40/41 | 0.98 | 0.98 | 1.11 | 134 | 252 | 131 | 1/41 | 0.41 |
++| 4 | DustTrak B (mass) (`dtb`) | aerosol mass | 41/41 | 1.00 | 1.00 | 0.00 | 136 | 259 | 133 | 11/41 | 0.24 |
++| 5 | Ionisation A (`ion_a`) | ionisation smoke | 32/41 | 0.88 | 0.86 | 0.37 | 136 | 253 | 134 | 0/41 | 0.35 |
++| 6 | Ionisation B (`ion_b`) | ionisation smoke | 40/41 | 0.98 | 0.98 | 1.11 | 142 | 738 | 138 | 4/41 | 0.24 |
++| 7 | P-Trak (ultrafine) (`ptrak`) | particle counter | 41/41 | 0.99 | 0.99 | 0.37 | 147 | 665 | 144 | 2/41 | 0.15 |
++| 8 | STS detector (`sts`) | optical smoke | 1/41 | 0.51 | 0.05 | 0.00 | 1016 | 1016 | 1013 | 0/41 | 0.24 |
+ 
+-Detailed outputs are in `reports/anomaly/summary.txt` and `reports/classifier/summary.txt`. The technical and progress reports are in `docs/reports/`.
++| Reference | Type | Detected | Det. acc. | Det. F1 | False alarms /h | Median delay (s) | P90 delay (s) | Δ median vs 8-ch (s) | Material F1 |
++|---|---|---|---|---|---|---|---|---|---|
++| Full 8-channel detector | baseline | 41/41 | 0.98 | 0.98 | 0.74 | 3 | 5 | 0 | 0.69 |
++| ISS scatter alarm (standard) | reference threshold | 41/41 | 0.99 | 0.99 | 0.74 | 134 | 250 | 131 | – |
++| Ionisation A alarm (standard) | reference threshold | 37/41 | 0.94 | 0.94 | 0.37 | 136 | 221 | 133 | – |
+ 
+-## Limitations
++Greedy forward selection (`reports/sensor_sensitivity/greedy_selection_loto.csv`) gives these material macro-F1 values: plume temperature 0.59 (25/38) → + ISS obscuration 0.78 (29/38) → + P-Trak 0.77 → + Ionisation B 0.79 (30/38). With all 8 channels it drops to 0.69 (27/38) because the extra channels add noise for the classifier. Every greedy subset keeps the 3 s median detection latency. The two-channel subset (plume temperature + ISS obscuration) needs 8 B/s of telemetry at 1 Hz float32 instead of 32 B/s. Because the subset was chosen on the same CV results, its F1 is optimistic (see §5). Figures (300 DPI PNG and PDF): `reports/sensor_sensitivity/figures/latency_per_sensor_loto.*` and `greedy_selection_loto.*`.
+ 
+-- The SAME set is small: 41 tests and five materials.
+-- The detector's lead time comes mostly from the gas plume temperature channel, which triggered the alert in all 41 tests. Using smoke sensors alone, the median lead over the scatter alarm falls to about 1 s. A temperature sensor near likely ignition sources is therefore the main hardware recommendation.
+-- SAME heats samples to pyrolysis and does not include open flaming, so the detector covers the pre-ignition smoke phase only.
+-- Three SAME tests have uncertain material labels. They are excluded from classifier training and reported separately.
+-- The 69 entries in the variable registry are research variables reported by the experiments. They are not a verified inventory of physical sensor hardware.
++### 4.4 Real-time cost
+ 
+-## Repository structure
++Single-thread streaming implementation, CPU latency per 1 Hz tick (source: `results/chained_loto_summary.md`, tests 58, 69, 82 and 96 replayed):
+ 
+-```
+-The-Blueprint-67/
+-├── Sensor_Systems_and_Telemetry_Integration/
+-│   ├── config/        variable registry, dataset profiles, source corrections
+-│   ├── src/           importers and packet builders
+-│   ├── data/processed/  normalised tables and telemetry packets
+-│   ├── frontend_adapter/  packet adapter used by the dashboard
+-│   ├── ml_lead_handoff/   SAME-R packets and ML channel contract
+-│   ├── integration_update/  supplemental PSI tables and inventories
+-│   ├── tests/         automated tests
+-│   └── docs/          schema, validation and integration notes
+-├── config/            sensor channel mapping
+-├── dashboard/         Streamlit application
+-├── data/
+-│   ├── raw/           NASA CSVs, not tracked
+-│   ├── external/      other downloads, not tracked
+-│   └── processed/     intermediates, not tracked except feature_columns.json
+-├── docs/reports/      technical and progress reports
+-├── models/            trained models, not tracked
+-├── notebooks/
+-├── reports/           evaluation tables and figures
+-├── scripts/           pipeline and setup scripts
+-└── src/               ingestion, preprocessing and model code
+-```
++| Ticks | n | Mean (ms) | P50 (ms) | P99 (ms) | Max (ms) |
++|---|---|---|---|---|---|
++| all armed ticks | 6193 | 85.13 | 58.71 | 269.11 | 547.52 |
++| Stage 1 only | 3970 | 80.86 | 51.39 | 244.82 | 547.52 |
++| Stage 1 + Stage 2 | 2223 | 92.75 | 64.28 | 282.24 | 458.81 |
++
++The worst-case tick uses about 55 % of the 1000 ms budget at 1 Hz.
+ 
+-## Getting started
++## 5. Threats to validity
+ 
+-Requires Python 3.11 or later.
++1. **The 3 s latency comes from the plume thermocouple.** That channel triggers every detection and sits directly above the heated sample, so part of its response is the heater itself. With smoke channels only, the best single sensor (ISS obscuration) has a median of 131 s. This is the conservative figure for a cabin detector away from the source.
++2. **Small samples.** There are 41 tests (38 labelled under `repo`), so each test is about 2.4-2.6 percentage points of accuracy. Clean-air exposure is 2.37 h (`arming`) or 2.71 h (`heater_oracle`), so FAR differences rest on 0-6 events. The non-monotone FAR across N (`arming`: 1.27 → 0.00 → 2.11 /h) reflects this granularity, not a systematic trend.
++3. **Detection F1 saturates near 1.** Each test contributes one fire event and one clean period, so latency is the discriminating metric.
++4. **The subset choice is optimistic.** The greedy subset was selected on the same CV results it is scored on.
++5. **Label recovery.** Tests 60, 103 and 105 use PSI-101 labels. Results are reported under both policies, and `repo` reproduces the original 38-test protocol exactly.
++6. **Software drift.** Tree ensembles can change by a test when library versions change. For example, the sensor study records one extra clean-air false alarm (test 64) with scikit-learn 1.9, and RF 27/38 vs 28/38. `requirements.txt` pins the exact versions of the reference run.
++7. **Scope.** SAME heats samples to pyrolysis and has no open flaming, so the models cover the pre-ignition smoke phase only.
++
++## 6. Reproducibility
++
++### 6.1 Environment
+ 
+ ```bash
+ git clone https://github.com/Samra761/The-Blueprint-67.git
+ cd The-Blueprint-67
+-python -m venv .venv
+-source .venv/bin/activate        # Windows: .venv\Scripts\activate
++python3.11 -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate
+ pip install -r requirements.txt
++# or:  conda env create -f environment.yml && conda activate flame-in-freefall
+ ```
+ 
+-Run the dashboard:
++`requirements.txt` pins `numpy==2.4.6`, `pandas==3.0.3` and `scikit-learn==1.9.0`, the exact versions recorded in `results/chained_loto_metrics.json` for the committed run on Python 3.11.9. Every other package is pinned to a release whose PyPI metadata supports Python 3.11, and the file marks how each pin was established.
++
++### 6.2 Fast verification (no training, about 10 s)
+ 
+ ```bash
+-streamlit run dashboard/app.py
++python scripts/verify_repo.py          # or: make verify
+ ```
+ 
+-To rebuild models and reports from raw data, place the SAME CSV files in `data/raw/<material>/`, either by downloading them from https://psi.nasa.gov or by configuring `.env` (see `.env.example`) and running `python src/fetch_psi.py`. Then run:
++| Check group | What it proves |
++|---|---|
++| `env`, `compile` | Python ≥ 3.11, pinned core packages, every module byte-compiles and the core modules import |
++| `seed` | One seed source (`src/repro.py`), no hard-coded seeds in `src/`, active seed = seed of the committed results |
++| `data` | 58,386 packets × 8 channels × 41 heated tests; SHA-256 = `FILE_CHECKSUMS.json` = chained-run input; feature list and `sensor_map.yaml` agree with `src/features.py` |
++| `labels` | Manifest consistent (38 / 41 policies) and identical to the chained-run input; the packet stream matches it test by test |
++| `audit` | `scripts/audit_same_tests.py` re-runs into a temp dir and reproduces the committed audit byte-for-byte (timestamp excluded) |
++| `chained` | Stage 1 detection, latency and FAR and the chained accuracies recomputed from `chained_loto_per_test.csv`; latency percentiles from `chained_loto_latency_ms.csv`; Stage 1 identical under both label policies; leakage self-checks passed; `summary.md` re-rendered byte-identically |
++| `sensors` | All 24 study files present; 300 DPI figures; all 255 channel subsets (LOTO and 8-fold) recomputed from `per_test_*.csv.gz`; Markdown table = CSV |
++| `causality` | Trailing-window and ratio features are bit-identical up to *t* after the future is replaced by noise |
++| `tests` | 16 root unit tests (`tests/`) and 23 sensor-workspace tests |
+ 
+-```bash
+-bash scripts/run_pipeline.sh
+-```
++Exit code 0 means no failures. Warnings (for example a library version that differs from the reference run, or optional packages such as LightGBM that are absent) are reported but do not fail the run.
+ 
+-To test the sensor integration package (23 tests):
++### 6.3 Full reproduction (hours; overwrites `results/` and `reports/`)
+ 
+ ```bash
+-cd Sensor_Systems_and_Telemetry_Integration
+-PYTHONPATH=integration_update/src:. python -m pytest -q tests frontend_adapter/test_adapter.py integration_update/tests
++python scripts/verify_repo.py --full --dry-run   # list the stages
++python scripts/verify_repo.py --full             # run them (or: make full)
+ ```
+ 
+-The raw inputs of the sensor package are not tracked in git: the SAME HKP CSVs are the same files as in `data/raw/`, and the PSI-100 Saffire-III exports can be downloaded from NASA PSI into `Sensor_Systems_and_Telemetry_Integration/data/raw/psi100/`. They are only needed to rebuild the packets; the dashboard uses the processed files that are included.
++| Stage | Command | Needs `data/raw/` | Approx. time |
++|---|---|---|---|
++| Label audit | `python scripts/audit_same_tests.py` | no | 2 s |
++| Load + label check | `python src/load.py` | yes | 1 min |
++| Features | `python src/features.py` | yes | 1 min |
++| Stage 1, 8-fold | `python src/anomaly.py` | yes | 10-15 min |
++| Stage 2, LOTO-38 | `python src/classifier.py` | yes | 5 min |
++| Sensor sensitivity | `python src/sensor_sensitivity.py` | no | about 1.5 h (2 vCPU) |
++| Chained LOTO-41 | `python src/evaluate_chained.py` | no | about 1.3 h (4619 s recorded) |
+ 
+-## Resources
++The raw SAME CSVs are not committed. Fetch them from NASA PSI with `python src/fetch_psi.py` (configure `.env` from `.env.example`) into `data/raw/<material>/`. `src/load.py` now aborts if the loaded tests disagree with `data/same_label_manifest.csv`.
+ 
+-Data
++### 6.4 Seeds
+ 
+-- NASA Physical Sciences Informatics (PSI): https://psi.nasa.gov
+-- SAME and SAME-R smoke aerosol measurements (PSI-101, PSI-102)
+-- FLEX droplet combustion (PSI-69)
+-- BASS and BASS-II burning and suppression of solids (PSI-26, PSI-25)
+-- Saffire-I to Saffire-III spacecraft fire experiments (PSI-98, PSI-99, PSI-100)
+-- SPICE smoke point measurements (PSI-107)
++Every stochastic component reads `SEED` from `src/repro.py`. **The canonical value is 0**, because every committed artifact was produced with seed 0 (`meta.seed` in `chained_loto_metrics.json`). A seed-robustness study can override it without code changes, for example `FIF_SEED=42 python src/evaluate_chained.py`. `verify_repo.py` then warns that the committed numbers are no longer the ones being reproduced.
+ 
+-Software
++## 7. Repository structure
+ 
+-| Library | Use |
+-|---|---|
+-| [Streamlit](https://streamlit.io) | Dashboard application |
+-| [pandas](https://pandas.pydata.org), [NumPy](https://numpy.org), [PyArrow](https://arrow.apache.org) | Data loading and processing |
+-| [scikit-learn](https://scikit-learn.org) | Isolation Forest, Random Forest, gradient boosting, cross-validation |
+-| [LightGBM](https://lightgbm.readthedocs.io) | Material classifier |
+-| [SHAP](https://shap.readthedocs.io) | Feature importance |
+-| [Matplotlib](https://matplotlib.org) | Report figures |
+-| [boto3](https://boto3.amazonaws.com) | S3 data access |
+-| [openpyxl](https://openpyxl.readthedocs.io) | Excel source files |
+-| [pytest](https://pytest.org) | Tests |
++```
++The-Blueprint-67/
++├── README.md                 this document
++├── requirements.txt          pinned environment (Python 3.11)
++├── environment.yml           conda equivalent
++├── Makefile                  verify / test / full / dashboard shortcuts
++├── pytest.ini                root test configuration
++├── config/sensor_map.yaml    raw NASA column → channel mapping
++├── data/
++│   ├── same_label_manifest.csv   41-test label manifest (input to src/labels.py)
++│   ├── processed/feature_columns.json   feature contract (other intermediates git-ignored)
++│   └── raw/<material>/       NASA SAME CSVs (git-ignored; src/fetch_psi.py)
++├── src/
++│   ├── repro.py              single seed source
++│   ├── labels.py             label manifest loader, policies, loader consistency check
++│   ├── fetch_psi.py          NASA PSI download (boto3)
++│   ├── load.py               clean, phase-label, manifest-check raw CSVs
++│   ├── features.py           causal trailing-window features
++│   ├── anomaly.py            Stage 1 per-channel Isolation Forest detector
++│   ├── classifier.py         legacy Stage 2 (LightGBM / RF, LOTO-38)
++│   ├── sensor_sensitivity.py Task 4: per-sensor and subset ablation
++│   └── evaluate_chained.py   Task 5: causal chained LOTO-41 + latency + leakage checks
++├── scripts/
++│   ├── verify_repo.py        fast verification / --full reproduction
++│   ├── audit_same_tests.py   Task 3: PSI-101 label audit
++│   └── run_pipeline.sh       legacy raw-data pipeline
++├── tests/test_core.py        unit tests: labels, causality, seeds
++├── results/                  Task 3 + Task 5 artifacts (JSON / CSV / MD)
++├── reports/
++│   ├── anomaly/              legacy Stage 1 (8-fold) tables and figures
++│   ├── classifier/           legacy Stage 2 (LOTO-38) tables and figures
++│   └── sensor_sensitivity/   Task 4 tables and 300 DPI figures
++├── dashboard/app.py          Streamlit dashboard
++├── Sensor_Systems_and_Telemetry_Integration/   telemetry packets, registry, adapter (v2.1.6)
++├── docs/reports/             technical report (PDF, DOCX)
++└── models/                   trained binaries (git-ignored)
++```
++
++## 8. Dashboard and sensor integration layer
++
++`streamlit run dashboard/app.py` opens an offline dashboard with eight pages: live SAME test replay with risk score, alarm comparison and material prediction; FLEX, BASS-II and Saffire-I flame analytics; a dataset explorer with per-source provenance; a FLEX flame simulator running in the browser; model status; sensor profiles; telemetry streams; and the variable registry. The dashboard reads the sensor integration workspace (`Sensor_Systems_and_Telemetry_Integration/`, package v2.1.6). That workspace normalises seven PSI source tables, SAME-R (PSI-101/102) and Saffire-III (PSI-100) into validated, timestamped packets with provenance. No timestamps are fabricated, and instrument error codes are kept as nulls with a quality flag. Its own documentation is in `Sensor_Systems_and_Telemetry_Integration/README.md`.
++
++The FLEX burn-time and flame-outcome models embedded in the dashboard are described in `docs/reports/`. They are outside the scope of `verify_repo.py`.
+ 
+-## License
++## 9. Team
+ 
+-Copyright (c) 2026 The Blueprint 67 (Samra, Hijab, Yousaf, Faiza, Kashaf, Wania).
++**The Blueprint 67**
++
++| Member | Role | Contribution |
++|---|---|---|
++| Samra Mehmood | Team Lead, GitHub Lead & Lead Systems Architect | Repository architecture, reproducibility pipeline, system integration, review audit |
++| Yousaf | ML & AI Lead | Anomaly detection, material classification, chained evaluation |
++| Wania | Data Engineer | NASA PSI ingestion, preprocessing, telemetry subsets |
++| Kashaf | Embedded Systems & Sensor Lead | Sensor channel mapping, telemetry integration, sensitivity analysis |
++| Hijab | Frontend Developer | Dashboard interface |
++| Faiza | UI/UX & Domain Researcher | Domain research, workflow and user-experience design |
++
++### Citation
++
++```bibtex
++@software{blueprint67_flame_in_freefall_2026,
++  title  = {Flame in Freefall: Causal Two-Stage Smoke Detection and Material
++            Identification for Microgravity Fire Safety},
++  author = {Mehmood, Samra and Yousaf and Wania and Kashaf and Hijab and Faiza},
++  year   = {2026},
++  url    = {https://github.com/Samra761/The-Blueprint-67}
++}
++```
+ 
+-This project is licensed under the GNU Affero General Public License v3.0. See `LICENSE` for the full text. You may use and study this code, but any modified version you distribute or run as a public web service must credit the original authors and be released under the same license with its source code. NASA data is subject to NASA PSI terms of use.
++## 10. License, data terms and acknowledgements
+ 
+-## Acknowledgements
++Copyright (c) 2026 The Blueprint 67. Licensed under the GNU Affero General Public License v3.0 (see `LICENSE`). If you distribute a modified version or run it as a public network service, you must release its source under the same license and credit the original authors. NASA data is subject to the NASA PSI terms of use (https://psi.nasa.gov).
+ 
+-We thank NASA Physical Sciences Informatics for the SAME, FLEX, BASS-II and Saffire datasets, the organisers of the NASA Space Apps Challenge 2026 and the Islamabad local event, and the research teams behind these ISS and Cygnus experiments.
++We thank NASA Physical Sciences Informatics and the SAME, FLEX, BASS-II and Saffire research teams for the flight datasets, and the organisers of the NASA Space Apps Challenge 2026 and its Islamabad event.
+diff --git a/environment.yml b/environment.yml
+new file mode 100644
+index 0000000..18fc492
+--- /dev/null
++++ b/environment.yml
+@@ -0,0 +1,15 @@
++# Conda alternative to requirements.txt (same pins, installed by pip inside a
++# Python 3.11 environment so conda and pip resolve to identical wheels).
++#
++#   conda env create -f environment.yml
++#   conda activate flame-in-freefall
++#   python scripts/verify_repo.py
++name: flame-in-freefall
++channels:
++  - conda-forge
++dependencies:
++  - python=3.11.9
++  - pip
++  - make
++  - pip:
++      - -r requirements.txt
+diff --git a/pytest.ini b/pytest.ini
+new file mode 100644
+index 0000000..884fbd4
+--- /dev/null
++++ b/pytest.ini
+@@ -0,0 +1,8 @@
++[pytest]
++# Root test suite (fast, no raw data). The sensor workspace has its own suite,
++# run from inside it - see README "Verification":
++#   cd Sensor_Systems_and_Telemetry_Integration
++#   PYTHONPATH=integration_update/src python -m pytest -q tests frontend_adapter/test_adapter.py integration_update/tests
++testpaths = tests
++norecursedirs = Sensor_Systems_and_Telemetry_Integration .git data models reports results notebooks
++addopts = -q
+diff --git a/requirements.txt b/requirements.txt
+index b266ccd..8e9bc32 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -1,24 +1,43 @@
+-# Python 3.11+ (developed on 3.13)
++# Flame in Freefall - pinned runtime environment
++# Target: CPython 3.11 (3.11.9 produced results/chained_loto_*); also runs on 3.12-3.13.
++#
++#   python3.11 -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
++#   pip install -r requirements.txt
++#   python scripts/verify_repo.py
++#
++# Provenance of each pin:
++#   [R] exact version recorded in results/chained_loto_metrics.json (meta) for the
++#       committed 41-fold chained LOTO run (Python 3.11.9). Tree models are only
++#       guaranteed bit-identical with these three.
++#   [V] exercised by scripts/verify_repo.py in the audit environment; PyPI
++#       metadata declares Requires-Python <= 3.11.
++#   [P] newest release whose PyPI metadata supports Python 3.11; not exercised
++#       in the audit environment (only needed for the legacy LightGBM classifier,
++#       parquet I/O, the dashboard and PSI downloads).
+ 
+-# data
+-numpy>=1.26
+-pandas>=2.1
+-pyarrow>=15.0
++# ---- numerical core -------------------------------------------------------
++numpy==2.4.6            # [R]
++pandas==3.0.3           # [R]
++scikit-learn==1.9.0     # [R]
++scipy==1.17.1           # [P] last SciPy line supporting 3.11 (1.18 needs >= 3.12)
++joblib==1.6.0           # [V]
+ 
+-# ML
+-scikit-learn>=1.4
+-lightgbm>=4.3
+-shap>=0.45
+-joblib>=1.3
++# ---- figures --------------------------------------------------------------
++matplotlib==3.11.2      # [V]
+ 
+-# plots & dashboard
+-matplotlib>=3.8
+-streamlit>=1.35
++# ---- data I/O -------------------------------------------------------------
++pyarrow==25.0.1         # [P] parquet for data/processed/*.parquet
++openpyxl==3.1.5         # [V] sensor workspace (PSI .xlsx tables)
++pyyaml==6.0.3           # [V] config/sensor_map.yaml check
+ 
+-# NASA PSI ingestion and sensor integration
+-boto3>=1.34
+-python-dotenv>=1.0
+-openpyxl>=3.1
++# ---- legacy Stage 2 classifier (src/classifier.py) -------------------------
++lightgbm==4.7.0         # [P]
++shap==0.51.0            # [P] Requires-Python >= 3.11
+ 
+-# tests
+-pytest>=7.0
++# ---- dashboard and NASA PSI ingestion --------------------------------------
++streamlit==1.66.1       # [P]
++boto3>=1.34,<2          # [P] I/O only; any 1.x release works
++python-dotenv==1.2.3    # [V]
++
++# ---- tests ----------------------------------------------------------------
++pytest==9.1.1           # [V]
+diff --git a/scripts/audit_same_tests.py b/scripts/audit_same_tests.py
+index ba55b5c..fece785 100644
+--- a/scripts/audit_same_tests.py
++++ b/scripts/audit_same_tests.py
+@@ -84,6 +84,14 @@ SMOKE_SNR = 5.0    # a channel "responds" if |peak delta| > 5 x clean std
+ 
+ 
+ # ----------------------------------------------------------------- helpers
++def _rel(path: Path) -> str:
++    """Path relative to the repo root when possible (for log lines)."""
++    try:
++        return str(path.resolve().relative_to(ROOT))
++    except ValueError:
++        return str(path)
++
++
+ def sha256(path: Path) -> str:
+     """Return the SHA-256 hex digest of a file."""
+     h = hashlib.sha256()
+@@ -209,8 +217,16 @@ def signature_distances(prof: pd.DataFrame, tid: int) -> dict:
+ 
+ 
+ # -------------------------------------------------------------------- main
+-def main() -> int:
+-    OUT_DIR.mkdir(exist_ok=True)
++def main(out_dir: Path | None = None) -> int:
++    """Run the audit. ``out_dir`` (default ``results/``) receives the JSON and
++    CSV; ``scripts/verify_repo.py`` passes a temporary directory so the
++    committed files are compared, never overwritten."""
++    global OUT_DIR, OUT_JSON, OUT_CSV
++    if out_dir is not None:
++        OUT_DIR = Path(out_dir)
++        OUT_JSON = OUT_DIR / "same_label_audit.json"
++        OUT_CSV = OUT_DIR / "same_label_manifest.csv"
++    OUT_DIR.mkdir(parents=True, exist_ok=True)
+     failures: list[str] = []
+ 
+     def check(cond: bool, msg: str) -> bool:
+@@ -424,7 +440,7 @@ def main() -> int:
+         "assertion_failures": failures,
+     }
+     OUT_JSON.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
+-    print(f"\nWrote {OUT_JSON.relative_to(ROOT)} and {OUT_CSV.relative_to(ROOT)}")
++    print(f"\nWrote {_rel(OUT_JSON)} and {_rel(OUT_CSV)}")
+     if failures:
+         print(f"\n{len(failures)} assertion(s) FAILED")
+         return 1
+@@ -433,4 +449,8 @@ def main() -> int:
+ 
+ 
+ if __name__ == "__main__":
+-    sys.exit(main())
++    import argparse
++    ap = argparse.ArgumentParser(description="Audit SAME material labels against NASA PSI-101.")
++    ap.add_argument("--out-dir", type=Path, default=None,
++                    help="write the JSON/CSV here instead of results/ (used by verify_repo.py)")
++    sys.exit(main(ap.parse_args().out_dir))
+diff --git a/scripts/push_to_github.sh b/scripts/push_to_github.sh
+index f4e7bfd..f4e25a3 100644
+--- a/scripts/push_to_github.sh
++++ b/scripts/push_to_github.sh
+@@ -2,15 +2,15 @@
+ # One-shot first push of this repo to GitHub (macOS / Linux / Git Bash on Windows).
+ # Usage (from the project root):
+ #   bash scripts/push_to_github.sh                      # uses defaults below
+-#   bash scripts/push_to_github.sh samra761 flame-in-freefall
++#   bash scripts/push_to_github.sh Samra761 The-Blueprint-67
+ #
+ # Create the EMPTY repo on GitHub first (no README, no .gitignore, no license),
+ # or have the GitHub CLI installed and logged in (gh auth login) and it will be created for you.
+ set -euo pipefail
+ cd "$(dirname "$0")/.."
+ 
+-GH_USER="${1:-samra761}"
+-REPO="${2:-flame-in-freefall}"
++GH_USER="${1:-Samra761}"
++REPO="${2:-The-Blueprint-67}"
+ REMOTE="https://github.com/${GH_USER}/${REPO}.git"
+ 
+ # 1. Identity (only set if missing)
+diff --git a/scripts/run_pipeline.sh b/scripts/run_pipeline.sh
+index bd12ecc..7e72222 100644
+--- a/scripts/run_pipeline.sh
++++ b/scripts/run_pipeline.sh
+@@ -1,12 +1,24 @@
+ #!/usr/bin/env bash
+-# Rebuild everything from raw CSVs in data/raw/<material>/
+-# Usage:  bash scripts/run_pipeline.sh            (from the project root)
++# Rebuild the legacy Stage 1 / Stage 2 artifacts from raw CSVs in data/raw/<material>/
++# Usage:  bash scripts/run_pipeline.sh            (from anywhere)
++#
++# Raw SAME CSVs are not committed (see .gitignore); fetch them first with
++#   python src/fetch_psi.py           (configure .env from .env.example)
++# The Task 3-5 studies (label audit, sensor sensitivity, chained LOTO) read the
++# committed SAME-R packet stream instead and do not need data/raw. For the
++# complete reproduction use:  python scripts/verify_repo.py --full
+ set -euo pipefail
+ cd "$(dirname "$0")/.."
+ 
+-echo "▶ Phase 0  load + phase-label SAME CSVs";   python src/load.py
+-echo "▶ Phase 1  features";                       python src/features.py
+-echo "▶ Phase 2  anomaly detector (~10-15 min)";   python src/anomaly.py
+-echo "▶ Phase 3  material classifier";            python src/classifier.py
++if ! ls data/raw/*/*.csv >/dev/null 2>&1; then
++  echo "No raw CSVs in data/raw/<material>/. Run: python src/fetch_psi.py" >&2
++  exit 1
++fi
++
++echo "▶ Phase 0  load + phase-label SAME CSVs (+ label-manifest check)"; python src/load.py
++echo "▶ Phase 1  features";                                            python src/features.py
++echo "▶ Phase 2  anomaly detector (~10-15 min)";                        python src/anomaly.py
++echo "▶ Phase 3  material classifier";                                 python src/classifier.py
+ echo "✔ Done. Reports in reports/, models in models/"
+-echo "  Launch the dashboard:  streamlit run dashboard/app.py"
++echo "  Verify:    python scripts/verify_repo.py"
++echo "  Dashboard: streamlit run dashboard/app.py"
+diff --git a/scripts/verify_repo.py b/scripts/verify_repo.py
+new file mode 100755
+index 0000000..9092ca7
+--- /dev/null
++++ b/scripts/verify_repo.py
+@@ -0,0 +1,618 @@
++#!/usr/bin/env python3
++"""Fast end-to-end integrity check for the Flame in Freefall repository.
++
++Run from anywhere:
++    python scripts/verify_repo.py            # fast checks (~10 s, no model training)
++    python scripts/verify_repo.py --full     # also re-run every pipeline stage (hours)
++    python scripts/verify_repo.py --full --dry-run   # print the --full commands only
++
++The fast mode never trains a model and never writes inside the repository.
++It checks, in order:
++
++  env        Python >= 3.11 and the core packages; versions vs. the recorded
++             reference environment of the committed chained-LOTO run.
++  compile    every .py file in src/, scripts/ and dashboard/ byte-compiles;
++             the core src/ modules import.
++  seed       one seed source (src/repro.py); no hard-coded seeds left in src/;
++             active seed == seed recorded in results/chained_loto_metrics.json.
++  data       SAME-R wide-packet schema (41 tests, 8 channels, 58,386 packets),
++             SHA-256 against FILE_CHECKSUMS.json and the chained-run inputs;
++             feature_columns.json and config/sensor_map.yaml agree with
++             src/features.py.
++  labels     data/ and results/ manifests are identical and internally
++             consistent; the packet stream matches the manifest test-by-test.
++  audit      scripts/audit_same_tests.py re-runs into a temp dir and its output
++             equals the committed results/ files (timestamp excepted).
++  chained    results/chained_loto_*: schema, 41/41 folds, label policies,
++             Stage 1 / chained metrics recomputed from the per-test CSV,
++             latency percentiles recomputed from the latency CSV, leakage
++             self-checks passed, summary.md re-rendered byte-identically.
++  sensors    reports/sensor_sensitivity/: all files and 300 DPI figures exist;
++             all 255 subset rows recomputed from per_test_*.csv.gz; the
++             Markdown table agrees with the CSV.
++  causality  trailing-window features at time t are bit-identical when every
++             sample after t is replaced by noise (no look-ahead leakage).
++  tests      root unit tests (tests/) and the sensor-workspace suite.
++
++Exit status: 0 if no check FAILs (WARNs are allowed), 1 otherwise.
++"""
++from __future__ import annotations
++
++import argparse
++import ast
++import gzip
++import hashlib
++import importlib
++import json
++import os
++import platform
++import py_compile
++import re
++import subprocess
++import sys
++import tempfile
++import time
++import traceback
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[1]
++SRC = ROOT / "src"
++SENSOR = ROOT / "Sensor_Systems_and_Telemetry_Integration"
++PACKETS = SENSOR / "ml_lead_handoff" / "SAME_R_WIDE_PACKETS.jsonl"
++CHECKSUMS = SENSOR / "FILE_CHECKSUMS.json"
++RESULTS = ROOT / "results"
++SENS = ROOT / "reports" / "sensor_sensitivity"
++CHANNELS = ["iss_obs", "iss_sct", "sts", "ion_a", "ion_b", "ptrak", "dtb", "plume_t"]
++N_TESTS, N_PACKETS = 41, 58386
++
++# Reference environment recorded in results/chained_loto_metrics.json (meta).
++REFERENCE_ENV = {"python": "3.11", "numpy": "2.4.6", "pandas": "3.0.3", "scikit-learn": "1.9.0"}
++CORE = {"numpy": "numpy", "pandas": "pandas", "scikit-learn": "sklearn",
++        "scipy": "scipy", "matplotlib": "matplotlib", "joblib": "joblib"}
++OPTIONAL = {"lightgbm": "lightgbm (src/classifier.py)", "shap": "shap (src/classifier.py)",
++            "pyarrow": "pyarrow (parquet I/O in src/load.py, features.py)",
++            "streamlit": "streamlit (dashboard/app.py)", "boto3": "boto3 (src/fetch_psi.py)",
++            "yaml": "pyyaml (sensor_map.yaml check)"}
++
++sys.path.insert(0, str(SRC))
++
++
++# --------------------------------------------------------------------- harness
++class Check:
++    def __init__(self):
++        self.rows: list[tuple[str, str, str]] = []
++
++    def ok(self, name, msg):
++        self.rows.append(("PASS", name, msg))
++
++    def warn(self, name, msg):
++        self.rows.append(("WARN", name, msg))
++
++    def fail(self, name, msg):
++        self.rows.append(("FAIL", name, msg))
++
++    def expect(self, cond, name, msg, warn_only=False):
++        (self.ok if cond else (self.warn if warn_only else self.fail))(name, msg)
++        return cond
++
++
++def sha256(path: Path) -> str:
++    h = hashlib.sha256()
++    with path.open("rb") as f:
++        for block in iter(lambda: f.read(1 << 20), b""):
++            h.update(block)
++    return h.hexdigest()
++
++
++def rel(p: Path) -> str:
++    try:
++        return str(p.relative_to(ROOT))
++    except ValueError:
++        return str(p)
++
++
++# ---------------------------------------------------------------------- checks
++def check_env(c: Check):
++    v = sys.version_info
++    c.expect(v >= (3, 11), "env.python", f"Python {platform.python_version()} (need >= 3.11; "
++             f"reference run used {REFERENCE_ENV['python']}.x)")
++    from importlib.metadata import version, PackageNotFoundError
++    for dist, mod in CORE.items():
++        try:
++            importlib.import_module(mod)
++            ver = version(dist)
++        except (ImportError, PackageNotFoundError) as e:
++            c.fail(f"env.{dist}", f"not importable: {e}")
++            continue
++        ref = REFERENCE_ENV.get(dist)
++        if ref and ver != ref:
++            c.warn(f"env.{dist}", f"{ver} (reference run used {ref}; tree-model outputs may "
++                   f"differ slightly on a full re-run)")
++        else:
++            c.ok(f"env.{dist}", ver + (" (matches reference run)" if ref else ""))
++    missing = []
++    for mod, what in OPTIONAL.items():
++        try:
++            importlib.import_module(mod)
++        except ImportError:
++            missing.append(what)
++    if missing:
++        c.warn("env.optional", "not installed (only needed for --full / dashboard): "
++               + "; ".join(missing))
++    else:
++        c.ok("env.optional", "all optional packages importable")
++
++
++def check_compile(c: Check):
++    files = sorted(p for d in ("src", "scripts", "dashboard") for p in (ROOT / d).rglob("*.py"))
++    bad = []
++    with tempfile.TemporaryDirectory() as tmp:
++        for f in files:
++            try:
++                py_compile.compile(str(f), cfile=str(Path(tmp) / "x.pyc"), doraise=True)
++            except py_compile.PyCompileError as e:
++                bad.append(f"{rel(f)}: {e.msg.strip().splitlines()[-1]}")
++    c.expect(not bad, "compile.all", f"{len(files)} files byte-compile"
++             if not bad else "; ".join(bad))
++    c.expect((SRC / "__init__.py").exists(), "compile.package", "src/__init__.py present")
++    # core modules that do not need optional deps; classifier.py needs lightgbm+shap
++    mods = ["repro", "labels", "load", "features", "anomaly", "evaluate_chained",
++            "sensor_sensitivity"]
++    failed = []
++    for m in mods:
++        try:
++            importlib.import_module(m)
++        except Exception as e:  # noqa: BLE001
++            failed.append(f"{m}: {type(e).__name__}: {e}")
++    c.expect(not failed, "compile.imports",
++             f"imported {', '.join(mods)}" if not failed else "; ".join(failed))
++    try:
++        importlib.import_module("classifier")
++        c.ok("compile.classifier", "src/classifier.py imports")
++    except ImportError as e:
++        c.warn("compile.classifier", f"src/classifier.py not importable here ({e}); "
++               "byte-compile passed")
++
++
++def check_seed(c: Check):
++    import repro
++    hard = []
++    for f in sorted(SRC.glob("*.py")):
++        if f.name == "repro.py":
++            continue
++        tree = ast.parse(f.read_text(encoding="utf-8"))
++        for node in ast.walk(tree):
++            if isinstance(node, ast.keyword) and node.arg in ("random_state", "seed") \
++                    and isinstance(node.value, ast.Constant) and isinstance(node.value.value, int):
++                hard.append(f"{f.name}:{node.value.lineno} {node.arg}={node.value.value}")
++            if isinstance(node, ast.Call) and getattr(node.func, "attr", "") in (
++                    "default_rng", "RandomState", "seed") and node.args \
++                    and isinstance(node.args[0], ast.Constant):
++                hard.append(f"{f.name}:{node.lineno} {node.func.attr}({node.args[0].value})")
++            if isinstance(node, ast.Assign) and any(getattr(t, "id", "") == "SEED"
++                                                    for t in node.targets):
++                hard.append(f"{f.name}:{node.lineno} defines its own SEED")
++    c.expect(not hard, "seed.single_source",
++             f"all seeds come from src/repro.py (SEED={repro.SEED})" if not hard
++             else "hard-coded: " + "; ".join(hard))
++    meta = json.loads((RESULTS / "chained_loto_metrics.json").read_text())["meta"]
++    c.expect(meta["seed"] == repro.SEED, "seed.matches_results",
++             f"active SEED={repro.SEED}, committed results used seed {meta['seed']}"
++             + ("" if meta["seed"] == repro.SEED else
++                " -> committed numbers will NOT be reproduced; re-run with --full"),
++             warn_only=True)
++
++
++def load_packets_light():
++    """Parse the packet stream once (ids, labels and channel values)."""
++    import pandas as pd
++    rows, keys_bad, ch_bad = [], 0, 0
++    need = {"test_id", "source_file", "material", "label_verified", "channels",
++            "heating_in_progress", "elapsed_test_time_s", "timestamp_utc"}
++    with PACKETS.open(encoding="utf-8") as fh:
++        for line in fh:
++            d = json.loads(line)
++            if not need <= d.keys():
++                keys_bad += 1
++                continue
++            ch = d["channels"]
++            if set(ch) != set(CHANNELS):
++                ch_bad += 1
++            rows.append((d["test_id"], d["source_file"], d["material"], d["label_verified"],
++                         d["heating_in_progress"]))
++    df = pd.DataFrame(rows, columns=["test_id", "source_file", "material", "label_verified",
++                                     "heat"])
++    return df, keys_bad, ch_bad
++
++
++def check_data(c: Check, cache: dict):
++    if not c.expect(PACKETS.exists(), "data.packets", rel(PACKETS)):
++        return
++    df, keys_bad, ch_bad = load_packets_light()
++    cache["packets"] = df
++    c.expect(len(df) == N_PACKETS and keys_bad == 0, "data.packets.schema",
++             f"{len(df):,} packets, {keys_bad} with missing fields (expect {N_PACKETS:,}, 0)")
++    c.expect(ch_bad == 0, "data.packets.channels", f"8 channels {CHANNELS} in every packet"
++             if ch_bad == 0 else f"{ch_bad} packets with a different channel set")
++    n = df["test_id"].nunique()
++    heated = df.groupby("test_id")["heat"].max().eq(1).sum()
++    c.expect(n == N_TESTS and heated == N_TESTS, "data.packets.tests",
++             f"{n} tests, {heated} with heater-on samples (expect {N_TESTS})")
++    digest = sha256(PACKETS)
++    sums = json.loads(CHECKSUMS.read_text())
++    flat = sums.get("files", sums) if isinstance(sums, dict) else {}
++    want = next((v for k, v in flat.items() if str(k).endswith("SAME_R_WIDE_PACKETS.jsonl")), None)
++    if isinstance(want, dict):
++        want = want.get("sha256")
++    if want:
++        c.expect(digest == want, "data.packets.sha256", "matches FILE_CHECKSUMS.json")
++    else:
++        c.warn("data.packets.sha256", "no entry in FILE_CHECKSUMS.json")
++    meta = json.loads((RESULTS / "chained_loto_metrics.json").read_text())["meta"]
++    c.expect(meta["inputs_sha256"]["SAME_R_WIDE_PACKETS.jsonl"] == digest,
++             "data.packets.provenance", "identical to the input of the committed chained run")
++
++    import features as F
++    cols = json.loads((ROOT / "data" / "processed" / "feature_columns.json").read_text())
++    chans = list(F.CHANNELS.values())
++    c.expect(chans == CHANNELS, "data.features.channels", "src/features.py channel order")
++    n_roll = len(chans) * len(F.WINDOWS) * 4
++    exp_anom = len(chans) + n_roll
++    c.expect(len(cols["anomaly"]) == exp_anom and len(cols["classifier"]) == exp_anom
++             + len(F.RATIOS), "data.features.columns",
++             f"feature_columns.json: {len(cols['anomaly'])} anomaly / "
++             f"{len(cols['classifier'])} classifier (expect {exp_anom} / {exp_anom + len(F.RATIOS)})")
++    try:
++        import yaml
++        sm = yaml.safe_load((ROOT / "config" / "sensor_map.yaml").read_text(encoding="utf-8"))
++        raw = {v["raw_column"]: k for k, v in sm["channels"].items() if "raw_column" in v}
++        c.expect(all(raw.get(k) == v for k, v in F.CHANNELS.items()), "data.sensor_map",
++                 "config/sensor_map.yaml raw columns match src/features.py")
++    except ImportError:
++        c.warn("data.sensor_map", "pyyaml not installed; skipped")
++
++
++def check_labels(c: Check, cache: dict):
++    import labels as LB
++    a, b = ROOT / "data" / "same_label_manifest.csv", RESULTS / "same_label_manifest.csv"
++    c.expect(a.read_bytes() == b.read_bytes(), "labels.copies",
++             "data/ and results/ manifests are byte-identical")
++    man = LB.load_manifest()
++    probs = LB.validate_manifest(man)
++    c.expect(not probs, "labels.manifest", "41 tests, 38 folder-verified, 60/103/105 recovered "
++             "from PSI-101, all labels in 5 classes" if not probs else "; ".join(probs))
++    meta = json.loads((RESULTS / "chained_loto_metrics.json").read_text())["meta"]
++    for pol in LB.POLICIES:
++        got = sorted(LB.supervised_tests(pol, man))
++        c.expect(got == meta["label_policies"][pol], f"labels.policy.{pol}",
++                 f"{len(got)} supervised tests == chained-run policy")
++    want = meta["inputs_sha256"]["same_label_manifest.csv"]
++    raw = b.read_bytes()
++    lf = hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest()
++    crlf = hashlib.sha256(raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")).hexdigest()
++    if want == sha256(b):
++        c.ok("labels.provenance", "manifest byte-identical to the input of the committed chained run")
++    else:
++        c.expect(want in (lf, crlf), "labels.provenance",
++                 "manifest content identical to the chained-run input (hash recorded on a "
++                 "CRLF checkout; .gitattributes stores LF)" if want in (lf, crlf)
++                 else "manifest differs from the input of the committed chained run")
++    if "packets" in cache:
++        probs = LB.check_loader_frame(cache["packets"], man)
++        c.expect(not probs, "labels.loader", "packet stream matches the manifest for every test "
++                 "(id, source file, folder material, verified flag)" if not probs
++                 else "; ".join(probs[:5]))
++
++
++def check_audit(c: Check):
++    with tempfile.TemporaryDirectory() as tmp:
++        p = subprocess.run([sys.executable, str(ROOT / "scripts" / "audit_same_tests.py"),
++                            "--out-dir", tmp], capture_output=True, text=True, cwd=ROOT)
++        if not c.expect(p.returncode == 0, "audit.run", "scripts/audit_same_tests.py: all "
++                        "assertions passed" if p.returncode == 0 else
++                        (p.stdout + p.stderr)[-600:]):
++            return
++        new_csv = (Path(tmp) / "same_label_manifest.csv").read_bytes()
++        c.expect(new_csv == (RESULTS / "same_label_manifest.csv").read_bytes(),
++                 "audit.manifest", "regenerated manifest == committed")
++        j_new = json.loads((Path(tmp) / "same_label_audit.json").read_text())
++        j_old = json.loads((RESULTS / "same_label_audit.json").read_text())
++        j_new.pop("generated_utc", None), j_old.pop("generated_utc", None)
++        c.expect(j_new == j_old, "audit.report", "regenerated audit JSON == committed "
++                 "(timestamp excluded)")
++        c.expect(not j_old.get("assertion_failures"), "audit.assertions",
++                 "committed audit has no assertion failures")
++
++
++def check_chained(c: Check):
++    import numpy as np
++    import pandas as pd
++    files = ["chained_loto_metrics.json", "chained_loto_summary.md",
++             "chained_loto_per_test.csv", "chained_loto_latency_ms.csv"]
++    miss = [f for f in files if not (RESULTS / f).exists()]
++    if not c.expect(not miss, "chained.files", "4 result files present" if not miss
++                    else f"missing {miss}"):
++        return
++    m = json.loads((RESULTS / "chained_loto_metrics.json").read_text())
++    keys = {"meta", "leakage_checks", "stage1", "oracle_stage2", "chained", "latency_ms",
++            "repo_reference"}
++    c.expect(keys <= m.keys(), "chained.schema", "top-level keys present")
++    meta = m["meta"]
++    c.expect(meta["loto_complete"] and meta["folds_evaluated"] == N_TESTS, "chained.folds",
++             f"{meta['folds_evaluated']} LOTO folds, complete={meta['loto_complete']}")
++    exp_s1 = {f"{b}/n{n}" for b in ("arming", "heater_oracle") for n in (1, 2, 3)}
++    exp_ch = {f"{b}/{p}/n{n}" for b in ("arming", "heater_oracle")
++              for p in ("repo", "psi101") for n in (1, 2, 3)}
++    c.expect(set(m["stage1"]) == exp_s1 and set(m["chained"]) == exp_ch,
++             "chained.configs", "6 Stage 1 and 12 chained configurations")
++
++    pt = pd.read_csv(RESULTS / "chained_loto_per_test.csv")
++    c.expect(len(pt) == 2 * 3 * 2 * N_TESTS, "chained.per_test.rows", f"{len(pt)} rows "
++             f"(2 baselines x 3 persistence x 2 policies x {N_TESTS})")
++    # Stage 1 uses no labels, so its per-test columns must be identical under both policies
++    s1 = ["alert_s", "fa_events", "clean_armed_s", "trigger_sensor", "iss_alert_s",
++          "iss_fa_events"]
++    k = ["baseline", "n_persist", "test_id"]
++    a = pt[pt.policy == "repo"].set_index(k)[s1].sort_index()
++    b = pt[pt.policy == "psi101"].set_index(k)[s1].sort_index()
++    c.expect(a.index.equals(b.index) and a.equals(b), "chained.stage1_label_free",
++             "Stage 1 per-test results identical under 'repo' and 'psi101' label policies")
++    bad = []
++    for key, v in m["stage1"].items():
++        b, n = key.split("/n")
++        g = pt[(pt.baseline == b) & (pt.n_persist == int(n)) & (pt.policy == "psi101")]
++        s, d = v["per_sensor_iforest"], g["alert_s"].dropna()
++        far = g["fa_events"].sum() / (g["clean_armed_s"].sum() / 3600)
++        if not (s["detected"] == len(d) and np.isclose(s["latency_median_s"], d.median())
++                and np.isclose(s["latency_p90_s"], d.quantile(0.9))
++                and np.isclose(s["far_per_clean_hour"], far)
++                and np.isclose(v["iss_scatter_recalibrated"]["latency_median_s"],
++                               g["iss_alert_s"].median())):
++            bad.append(key)
++    for key, v in m["chained"].items():
++        b, pol, n = key.split("/")
++        g = pt[(pt.baseline == b) & (pt.n_persist == int(n[1:])) & (pt.policy == pol)
++               & pt.labelled]
++        for col, k in (("pred_steady_state", "test_level_steady_state"),
++                       ("pred_first_alert", "test_level_first_alert"),
++                       ("pred_until_600s", "test_level_until_600s")):
++            if int((g[col] == g["label"]).sum()) != v[k]["correct"]:
++                bad.append(f"{key}:{k}")
++    c.expect(not bad, "chained.recompute", "Stage 1 detection/latency/FAR and chained "
++             "accuracies recomputed from per-test CSV match the JSON" if not bad
++             else f"mismatch in {bad[:6]}")
++
++    lat = pd.read_csv(RESULTS / "chained_loto_latency_ms.csv")
++    sel = {"all_armed_ticks": lat, "stage1_only": lat[~lat.stage2_ran],
++           "stage1_plus_stage2": lat[lat.stage2_ran]}
++    lbad = [k for k, g in sel.items()
++            if not (m["latency_ms"][k]["n_ticks"] == len(g)
++                    and np.isclose(m["latency_ms"][k]["p50"], g.latency_ms.quantile(0.5))
++                    and np.isclose(m["latency_ms"][k]["max"], g.latency_ms.max()))]
++    c.expect(not lbad, "chained.latency", "tick counts, P50 and max recomputed from "
++             "latency CSV" if not lbad else f"mismatch in {lbad}")
++    p99 = m["latency_ms"]["all_armed_ticks"]["p99"]
++    c.expect(p99 < m["latency_ms"]["budget_ms_at_1hz"], "chained.realtime",
++             f"P99 per-tick latency {p99:.0f} ms < 1000 ms budget at 1 Hz")
++
++    lk = m["leakage_checks"]
++    sv = lk["streaming_vs_batch"]
++    ok = (len(lk["future_perturbation_tests_bit_identical"]) >= 1
++          and all(r["alarm_agreement"] == 1.0 and r["max_abs_fused_score_diff"] == 0.0
++                  and r["stage2_argmax_agreement"] == 1.0 for r in sv))
++    c.expect(ok, "chained.leakage", f"future-perturbation bit-identical on tests "
++             f"{lk['future_perturbation_tests_bit_identical']}; streaming == batch on "
++             f"{[r['test_id'] for r in sv]}")
++    import evaluate_chained as E
++    md = E.render_markdown(m)
++    c.expect(md == (RESULTS / "chained_loto_summary.md").read_text(encoding="utf-8"),
++             "chained.summary_md", "summary.md re-rendered from JSON is byte-identical")
++
++
++def check_sensors(c: Check):
++    import numpy as np
++    import pandas as pd
++    need = [f"{s}_{sp}.{e}" for sp in ("loto", "gkf8") for s, e in (
++        ("all_subsets", "csv"), ("best_subset_per_size", "csv"), ("classifier", "csv"),
++        ("minimal_subset", "json"), ("per_test", "csv.gz"), ("reference_rows", "csv"),
++        ("sensor_table", "csv"), ("sensor_table", "md"))] + [
++        "greedy_selection_loto.csv", "README.md"]
++    figs = [f"figures/{n}.{e}" for n in ("latency_per_sensor_loto", "latency_per_sensor_gkf8",
++                                         "greedy_selection_loto") for e in ("png", "pdf")]
++    miss = [f for f in need + figs if not (SENS / f).exists()]
++    c.expect(not miss, "sensors.files", f"{len(need) + len(figs)} files present"
++             if not miss else f"missing {miss}")
++    try:
++        from PIL import Image
++        dpis = {f: Image.open(SENS / f).info.get("dpi", (0, 0))[0] for f in figs
++                if f.endswith(".png") and (SENS / f).exists()}
++        c.expect(all(round(d) >= 300 for d in dpis.values()), "sensors.dpi",
++                 "PNG figures at " + ", ".join(f"{round(d)}" for d in dpis.values()) + " DPI")
++    except ImportError:
++        c.warn("sensors.dpi", "Pillow not installed; DPI not checked")
++    with gzip.open(SENS / "per_test_loto.csv.gz", "rb") as fh:
++        head = fh.readline()
++    c.expect(b"alert_s" in head, "sensors.per_test.schema", "per_test_loto.csv.gz readable")
++
++    import sensor_sensitivity as S
++    bad = []
++    for split in ("loto", "gkf8"):
++        res = pd.read_csv(SENS / f"per_test_{split}.csv.gz")
++        summ = (res.groupby(["config", "channels", "n_channels"])
++                   .apply(S.det_metrics, include_groups=False).reset_index()
++                   .set_index("config").sort_index())
++        ref = pd.read_csv(SENS / f"all_subsets_{split}.csv").set_index("config").sort_index()
++        if len(ref) != 255 or list(summ.index) != list(ref.index):
++            bad.append(f"{split}: {len(ref)} subsets")
++            continue
++        for col in ref.columns:
++            if col not in summ.columns:
++                continue
++            x, y = summ[col], ref[col]
++            same = (np.allclose(x.astype(float), y.astype(float), equal_nan=True)
++                    if pd.api.types.is_numeric_dtype(y) else (x.astype(str) == y.astype(str)).all())
++            if not same:
++                bad.append(f"{split}:{col}")
++    c.expect(not bad, "sensors.recompute", "all 255 channel subsets (LOTO + 8-fold) "
++             "recomputed from per_test_*.csv.gz match all_subsets_*.csv" if not bad
++             else f"mismatch {bad}")
++
++    tab = pd.read_csv(SENS / "sensor_table_loto.csv")
++    md = (SENS / "sensor_table_loto.md").read_text(encoding="utf-8")
++    md_rows = {}
++    for line in md.splitlines():
++        cells = [x.strip() for x in line.strip().strip("|").split("|")]
++        mm = re.search(r"\(`(\w+)`\)", line)
++        if mm and len(cells) >= 11:
++            md_rows[mm.group(1)] = cells
++    mism = []
++    for _, r in tab.iterrows():
++        cells = md_rows.get(r["channel"])
++        # the Markdown rounds seconds to integers (round-half-even) and rates to 2 dp
++        if cells is None or cells[3] != r["detected"] \
++                or abs(float(cells[7]) - r["latency_median_s"]) > 0.5 \
++                or abs(float(cells[8]) - r["latency_p90_s"]) > 0.5 \
++                or abs(float(cells[6]) - r["fa_per_hr"]) > 0.006 \
++                or abs(float(cells[11]) - r["cls_macro_f1"]) > 0.006:
++            mism.append(r["channel"])
++    c.expect(len(tab) == 8 and not mism, "sensors.table_md",
++             "sensor_table_loto.md agrees with sensor_table_loto.csv (8 channels)"
++             if not mism else f"disagree for {mism}")
++
++
++def check_causality(c: Check):
++    """Replace every sample after a cut with noise; features up to the cut must not move."""
++    import numpy as np
++    import pandas as pd
++    import features as F
++    rng = np.random.default_rng(0)
++    n, cut = 400, 250
++    chans = list(F.CHANNELS.values())
++    t = np.arange(n)
++    t = np.delete(t, [40, 41, 300])                      # include gaps
++    base = pd.DataFrame(rng.normal(size=(len(t), len(chans))), columns=chans)
++    base["Time"] = t
++    base["t_rel_heat"] = t - 200
++    base["phase"] = np.where(base["t_rel_heat"] < 0, "clean", "heating")
++    pert = base.copy()
++    after = pert["Time"] > cut
++    pert.loc[after, chans] = rng.normal(0, 1e6, (int(after.sum()), len(chans)))
++    fa = F.rolling_features(base.copy(), chans)
++    fb = F.rolling_features(pert.copy(), chans)
++    keep = (base["Time"] <= cut).to_numpy()
++    same = np.array_equal(fa[keep].to_numpy(), fb[keep].to_numpy(), equal_nan=True)
++    moved = not np.array_equal(fa[~keep].to_numpy(), fb[~keep].to_numpy(), equal_nan=True)
++    c.expect(same and moved, "causality.rolling",
++             f"{fa.shape[1]} trailing-window features bit-identical up to t={cut} s after "
++             "future perturbation" if same else "features at t <= cut changed: LOOK-AHEAD LEAK")
++    ra = F.ratio_features(fa, pd.Series(0.1, index=chans))
++    rb = F.ratio_features(fb, pd.Series(0.1, index=chans))
++    c.expect(np.array_equal(ra[keep].to_numpy(), rb[keep].to_numpy(), equal_nan=True),
++             "causality.ratios", "ratio features causal")
++
++
++def check_tests(c: Check):
++    try:
++        import pytest  # noqa: F401
++    except ImportError:
++        c.warn("tests", "pytest not installed; skipped")
++        return
++    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
++    p = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider",
++                        "tests"], cwd=ROOT, capture_output=True, text=True, env=env)
++    tail = (p.stdout.strip().splitlines() or ["(no output)"])[-1]
++    c.expect(p.returncode == 0, "tests.root", tail if p.returncode == 0
++             else (p.stdout + p.stderr)[-800:])
++    env["PYTHONPATH"] = "integration_update/src"
++    p = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider",
++                        "tests", "frontend_adapter/test_adapter.py", "integration_update/tests"],
++                       cwd=SENSOR, capture_output=True, text=True, env=env)
++    tail = (p.stdout.strip().splitlines() or ["(no output)"])[-1]
++    c.expect(p.returncode == 0, "tests.sensor_workspace", tail if p.returncode == 0
++             else (p.stdout + p.stderr)[-800:])
++
++
++# ------------------------------------------------------------------------ full
++FULL_STEPS = [
++    ("Label audit (writes results/same_label_*)", ["scripts/audit_same_tests.py"], "~2 s", False),
++    ("Load raw SAME CSVs", ["src/load.py"], "~1 min", True),
++    ("Trailing-window features", ["src/features.py"], "~1 min", True),
++    ("Stage 1 anomaly detector, 8-fold", ["src/anomaly.py"], "~10-15 min", True),
++    ("Stage 2 material classifier, LOTO-38", ["src/classifier.py"], "~5 min", True),
++    ("Per-sensor sensitivity, LOTO + 8-fold", ["src/sensor_sensitivity.py"], "~1.5 h", False),
++    ("Chained causal LOTO-41", ["src/evaluate_chained.py"], "~1.3 h", False),
++]
++
++
++def run_full(dry: bool) -> int:
++    raw = ROOT / "data" / "raw"
++    have_raw = any(raw.glob("*/*.csv"))
++    print("\nFull reproduction (results/ and reports/ are overwritten):")
++    rc = 0
++    for title, cmd, eta, needs_raw in FULL_STEPS:
++        line = f"  python {' '.join(cmd):32s} {eta:>10s}  {title}"
++        if needs_raw and not have_raw:
++            print(line + "  [SKIP: data/raw/<material>/*.csv missing - run src/fetch_psi.py]")
++            continue
++        print(line)
++        if dry:
++            continue
++        t0 = time.time()
++        p = subprocess.run([sys.executable, *cmd], cwd=ROOT)
++        print(f"    -> exit {p.returncode} in {time.time() - t0:.0f} s", flush=True)
++        if p.returncode:
++            rc = 1
++            break
++    return rc
++
++
++# ------------------------------------------------------------------------ main
++def main() -> int:
++    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
++    ap.add_argument("--full", action="store_true",
++                    help="re-run every pipeline stage after the fast checks (hours)")
++    ap.add_argument("--dry-run", action="store_true", help="with --full: print commands only")
++    ap.add_argument("--skip-tests", action="store_true", help="skip the pytest suites")
++    ap.add_argument("--json", type=Path, help="also write the check table as JSON")
++    args = ap.parse_args()
++
++    os.chdir(ROOT)
++    t0 = time.time()
++    c, cache = Check(), {}
++    steps = [("env", check_env), ("compile", check_compile), ("seed", check_seed),
++             ("data", lambda x: check_data(x, cache)), ("labels", lambda x: check_labels(x, cache)),
++             ("audit", check_audit), ("chained", check_chained), ("sensors", check_sensors),
++             ("causality", check_causality)]
++    if not args.skip_tests:
++        steps.append(("tests", check_tests))
++    timing = {}
++    for name, fn in steps:
++        t = time.time()
++        try:
++            fn(c)
++        except Exception as e:  # noqa: BLE001 - a crashing check is a failed check
++            c.fail(f"{name}.crash", f"{type(e).__name__}: {e}\n{traceback.format_exc(limit=3)}")
++        timing[name] = time.time() - t
++
++    width = max(len(r[1]) for r in c.rows)
++    print(f"Flame in Freefall - repository verification ({ROOT.name})\n")
++    for status, name, msg in c.rows:
++        print(f"[{status}] {name:<{width}}  {msg}")
++    n = {s: sum(r[0] == s for r in c.rows) for s in ("PASS", "WARN", "FAIL")}
++    elapsed = time.time() - t0
++    print(f"\n{n['PASS']} passed, {n['WARN']} warnings, {n['FAIL']} failed in {elapsed:.1f} s "
++          f"(" + ", ".join(f"{k} {v:.1f}s" for k, v in timing.items()) + ")")
++    if args.json:
++        args.json.write_text(json.dumps({"rows": c.rows, "counts": n, "seconds": elapsed,
++                                         "timing_s": timing}, indent=2))
++    rc = 1 if n["FAIL"] else 0
++    if args.full:
++        if rc and not args.dry_run:
++            print("\nFast checks failed; not starting the full run.")
++            return rc
++        rc = max(rc, run_full(args.dry_run))
++    return rc
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/src/__init__.py b/src/__init__.py
+new file mode 100644
+index 0000000..e4c2729
+--- /dev/null
++++ b/src/__init__.py
+@@ -0,0 +1,7 @@
++"""Flame in Freefall: SAME microgravity smoke detection and material identification.
++
++Modules are run as scripts from the project root (``python src/<module>.py``)
++and import each other by bare name (``import anomaly``), so ``src/`` itself is
++put on ``sys.path`` by the scripts that need it. This file makes ``src`` an
++importable package for tooling (``python -m``, pytest, IDEs).
++"""
+diff --git a/src/anomaly.py b/src/anomaly.py
+index 98dffa0..a3cf550 100644
+--- a/src/anomaly.py
++++ b/src/anomaly.py
+@@ -44,6 +44,8 @@ import pandas as pd
+ from sklearn.ensemble import IsolationForest
+ from sklearn.model_selection import GroupKFold
+ 
++from repro import SEED, seed_everything
++
+ matplotlib.use("Agg")
+ import matplotlib.pyplot as plt  # noqa: E402
+ 
+@@ -61,7 +63,7 @@ OUTER_FOLDS, INNER_FOLDS = 8, 4
+ REF_Q = 0.999                      # per-sensor normalisation level
+ Q_MAIN = 1.0
+ Q_SWEEP = [0.95, 0.99, 0.995, 0.999, 1.0]
+-IF_PARAMS = dict(n_estimators=200, max_samples=256, random_state=0, n_jobs=-1)
++IF_PARAMS = dict(n_estimators=200, max_samples=256, random_state=SEED, n_jobs=-1)
+ MAIN = "per_sensor"
+ 
+ # Palette (dataviz reference instance, light mode)
+@@ -354,6 +356,7 @@ def fit_final(df, detectors):
+ 
+ # --------------------------------------------------------------------- main
+ def main():
++    seed_everything()
+     FIG.mkdir(parents=True, exist_ok=True)
+     for old in FIG.glob("*.png"):
+         old.unlink()
+diff --git a/src/classifier.py b/src/classifier.py
+index 67fae24..1e2e830 100644
+--- a/src/classifier.py
++++ b/src/classifier.py
+@@ -39,6 +39,8 @@ from sklearn.ensemble import RandomForestClassifier
+ from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
+ from sklearn.model_selection import LeaveOneGroupOut
+ 
++from repro import SEED, seed_everything
++
+ matplotlib.use("Agg")
+ import matplotlib.pyplot as plt  # noqa: E402
+ 
+@@ -60,9 +62,9 @@ CLASSES = ["Cotton Lamp wick", "Kapton", "Pyrell", "Silicone", "Teflon"]
+ LGB_PARAMS = dict(n_estimators=300, learning_rate=0.05, num_leaves=15,
+                   min_child_samples=10, subsample=0.8, subsample_freq=1,
+                   colsample_bytree=0.5, class_weight="balanced",
+-                  random_state=0, verbose=-1, n_jobs=4)
++                  random_state=SEED, verbose=-1, n_jobs=4)
+ RF_PARAMS = dict(n_estimators=500, min_samples_leaf=2, max_features="sqrt",
+-                 class_weight="balanced_subsample", random_state=0, n_jobs=-1)
++                 class_weight="balanced_subsample", random_state=SEED, n_jobs=-1)
+ 
+ # Palette (dataviz reference instance, light mode)
+ INK, INK2, GRID, SURF = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
+@@ -231,6 +233,7 @@ def plot_importance(imp):
+ 
+ # -------------------------------------------------------------------- main
+ def main():
++    seed_everything()
+     FIG.mkdir(parents=True, exist_ok=True)
+     win_all, feats = build_windows()
+     win = win_all[win_all["label_verified"]].reset_index(drop=True)
+diff --git a/src/evaluate_chained.py b/src/evaluate_chained.py
+index f2e8288..9a7905f 100644
+--- a/src/evaluate_chained.py
++++ b/src/evaluate_chained.py
+@@ -73,6 +73,7 @@ from sklearn.pipeline import make_pipeline
+ ROOT = Path(__file__).resolve().parents[1]
+ sys.path.insert(0, str(ROOT / "src"))
+ import features as repo_features  # noqa: E402  (repo trailing-window feature code)
++from repro import SEED, seed_everything  # noqa: E402  (single seed source)
+ 
+ SENSOR = ROOT / "Sensor_Systems_and_Telemetry_Integration"
+ PACKETS = SENSOR / "ml_lead_handoff" / "SAME_R_WIDE_PACKETS.jsonl"
+@@ -82,7 +83,6 @@ REPO_ANOMALY_SWEEP = ROOT / "reports" / "anomaly" / "sweep.csv"
+ REPO_CLASSIFIER_TESTS = ROOT / "reports" / "classifier" / "tests_oof.csv"
+ OUT = ROOT / "results"
+ 
+-SEED = 0
+ ARM_S = 30                 # power-on arming period used for the causal baseline
+ PERSISTENCE = (1, 2, 3)    # consecutive anomalous ticks required for an alarm
+ MAIN_N = 3                 # repo operating point (src/anomaly.py N_PERSIST)
+@@ -92,10 +92,14 @@ PERTURB_TESTS = 3
+ 
+ 
+ # ----------------------------------------------------------- repo constants
++KNOWN_NAMES = {"SEED": SEED}
++
++
+ def repo_constants(path: Path, names: set[str]) -> dict:
+     """Read constants from a repo module without importing it (the classifier
+     module imports lightgbm and shap at top level). ``dict(...)`` calls with
+-    literal keyword values are supported."""
++    literal keyword values are supported. Bare names in keyword values are
++    resolved from ``KNOWN_NAMES`` (e.g. ``random_state=SEED`` -> src/repro.py)."""
+     tree = ast.parse(path.read_text(encoding="utf-8"))
+     out = {}
+     for node in tree.body:
+@@ -106,7 +110,8 @@ def repo_constants(path: Path, names: set[str]) -> dict:
+             continue
+         v = node.value
+         if isinstance(v, ast.Call) and getattr(v.func, "id", "") == "dict":
+-            out[name] = {k.arg: ast.literal_eval(k.value) for k in v.keywords}
++            out[name] = {k.arg: (KNOWN_NAMES[k.value.id] if isinstance(k.value, ast.Name)
++                                 else ast.literal_eval(k.value)) for k in v.keywords}
+         else:
+             out[name] = ast.literal_eval(v)
+     # tuple-unpacked constants such as  OUTER_FOLDS, INNER_FOLDS = 8, 4
+@@ -934,6 +939,7 @@ def main() -> None:
+     ap.add_argument("--stream-tests", type=int, default=4,
+                     help="tests replayed tick-by-tick for equivalence + latency")
+     ap.add_argument("--n-jobs", type=int, default=-1)
++    seed_everything()
+     run(ap.parse_args())
+ 
+ 
+diff --git a/src/labels.py b/src/labels.py
+new file mode 100644
+index 0000000..f437ba0
+--- /dev/null
++++ b/src/labels.py
+@@ -0,0 +1,140 @@
++"""SAME test label manifest: one place that defines which tests are supervised.
++
++The manifest (``data/same_label_manifest.csv``, 41 rows) is produced by
++``scripts/audit_same_tests.py`` from the NASA PSI-101 (SAME-R) experimental
++table. It reconciles two label policies:
++
++* ``repo``   - 38 tests whose material folder is unambiguous; tests 60, 103
++               and 105 come from files duplicated across two material folders
++               and are excluded (this is what ``src/classifier.py`` trains on).
++* ``psi101`` - all 41 tests; 60 -> Silicone, 103 -> Silicone, 105 -> Teflon,
++               recovered from PSI-101 by the audit (checks C1-C4).
++
++Stage 1 (clean-air anomaly detection) uses no labels and always uses all 41.
++
++``check_loader_frame`` validates any per-sample frame produced by
++``src/load.py`` (or the SAME-R packet stream) against the manifest, so the
++legacy loader and the audited label set cannot silently diverge.
++"""
++from __future__ import annotations
++
++from pathlib import Path
++
++import pandas as pd
++
++ROOT = Path(__file__).resolve().parents[1]
++MANIFEST = ROOT / "data" / "same_label_manifest.csv"
++RESULTS_MANIFEST = ROOT / "results" / "same_label_manifest.csv"
++
++CLASSES = ["Cotton Lamp wick", "Kapton", "Pyrell", "Silicone", "Teflon"]
++POLICIES = ("repo", "psi101")
++N_TESTS = 41
++N_REPO = 38
++UNVERIFIED = (60, 103, 105)
++REQUIRED_COLUMNS = [
++    "test_id", "source_file", "repo_material", "label_verified",
++    "candidate_materials", "psi101_material", "label", "label_status",
++]
++STATUSES = {"verified_folder_and_psi101", "recovered_psi101", "excluded_unverified"}
++
++
++def load_manifest(path: Path = MANIFEST) -> pd.DataFrame:
++    """Read and schema-check the label manifest."""
++    man = pd.read_csv(path)
++    missing = [c for c in REQUIRED_COLUMNS if c not in man.columns]
++    if missing:
++        raise ValueError(f"{path.name}: missing columns {missing}")
++    man["test_id"] = man["test_id"].astype(int)
++    man["label_verified"] = man["label_verified"].astype(str).str.lower().eq("true")
++    return man.sort_values("test_id").reset_index(drop=True)
++
++
++def validate_manifest(man: pd.DataFrame) -> list[str]:
++    """Return a list of problems (empty list = manifest is internally consistent)."""
++    p = []
++    if man["test_id"].duplicated().any():
++        p.append("duplicate test_id rows")
++    if len(man) != N_TESTS:
++        p.append(f"expected {N_TESTS} tests, found {len(man)}")
++    bad = set(man["label_status"]) - STATUSES
++    if bad:
++        p.append(f"unknown label_status values {sorted(bad)}")
++    lab = man["label"].dropna()
++    if not set(lab) <= set(CLASSES):
++        p.append(f"labels outside the 5 classes: {sorted(set(lab) - set(CLASSES))}")
++    ver = man[man["label_verified"]]
++    if len(ver) != N_REPO:
++        p.append(f"expected {N_REPO} folder-verified tests, found {len(ver)}")
++    if not (ver["label"] == ver["repo_material"]).all():
++        p.append("a verified test's label differs from its folder material")
++    if not (man["label"].isna() | (man["label"] == man["psi101_material"])).all():
++        p.append("a label differs from the PSI-101 material")
++    unv = set(man.loc[~man["label_verified"], "test_id"])
++    if unv != set(UNVERIFIED):
++        p.append(f"unverified tests are {sorted(unv)}, expected {list(UNVERIFIED)}")
++    if not (man.loc[~man["label_verified"], "repo_material"] == "unverified").all():
++        p.append("unverified tests must carry repo_material == 'unverified'")
++    for _, r in man[man["label"].notna()].iterrows():
++        if r["label"] not in str(r["candidate_materials"]).split("|"):
++            p.append(f"test {r['test_id']}: label {r['label']} not among its candidate folders")
++    return p
++
++
++def supervised_tests(policy: str, man: pd.DataFrame | None = None) -> dict[int, str]:
++    """``{test_id: material}`` for the tests a classifier may train/evaluate on."""
++    if policy not in POLICIES:
++        raise ValueError(f"policy must be one of {POLICIES}")
++    man = load_manifest() if man is None else man
++    if policy == "repo":
++        sel = man[man["label_status"] == "verified_folder_and_psi101"]
++    else:
++        sel = man[man["label"].notna()]
++    return dict(zip(sel["test_id"].astype(int), sel["label"]))
++
++
++def check_loader_frame(df: pd.DataFrame, man: pd.DataFrame | None = None) -> list[str]:
++    """Compare a loader/packet frame (one row per sample) with the manifest.
++
++    ``df`` needs ``test_id``, ``source_file``, ``material`` and
++    ``label_verified`` columns, as written by ``src/load.py`` and present in
++    the SAME-R wide packets. Returns a list of problems.
++    """
++    man = load_manifest() if man is None else man
++    per_test = (df.groupby("test_id")
++                  .agg(source_file=("source_file", "first"),
++                       material=("material", "first"),
++                       label_verified=("label_verified", "first"),
++                       n_source=("source_file", "nunique"))
++                  .reset_index())
++    p = []
++    got, want = set(per_test["test_id"].astype(int)), set(man["test_id"])
++    if got != want:
++        p.append(f"test sets differ: only in loader {sorted(got - want)}, "
++                 f"only in manifest {sorted(want - got)}")
++    if (per_test["n_source"] > 1).any():
++        p.append("a test_id maps to more than one source file")
++    m = per_test.merge(man, on="test_id", suffixes=("", "_man"))
++    for col_loader, col_man in (("source_file", "source_file_man"),
++                                ("material", "repo_material"),
++                                ("label_verified", "label_verified_man")):
++        diff = m[m[col_loader].astype(str) != m[col_man].astype(str)]
++        for _, r in diff.iterrows():
++            p.append(f"test {r['test_id']}: {col_loader} loader={r[col_loader]!r} "
++                     f"manifest={r[col_man]!r}")
++    return p
++
++
++def attach_labels(df: pd.DataFrame, man: pd.DataFrame | None = None) -> pd.DataFrame:
++    """Validate ``df`` against the manifest and add ``label_psi101`` and
++    ``label_status`` columns. The legacy ``material`` column is left unchanged
++    (it is the ``repo`` policy), so existing downstream results are unaffected."""
++    man = load_manifest() if man is None else man
++    problems = check_loader_frame(df, man)
++    if problems:
++        raise ValueError("loader output disagrees with data/same_label_manifest.csv:\n  "
++                         + "\n  ".join(problems))
++    look = man.set_index("test_id")
++    out = df.copy()
++    out["label_psi101"] = out["test_id"].map(look["label"])
++    out["label_status"] = out["test_id"].map(look["label_status"])
++    return out
+diff --git a/src/load.py b/src/load.py
+index 22445a6..ddd7b53 100644
+--- a/src/load.py
++++ b/src/load.py
+@@ -4,12 +4,20 @@ Run from the project root:
+     python src/load.py
+ 
+ Output: data/processed/all_tests.parquet  (one row per second per test)
++
++The loaded test set is checked against the audited label manifest
++(data/same_label_manifest.csv, see src/labels.py): the run aborts if a test id,
++source file, folder material or verification flag disagrees. Two columns are
++added: ``label_psi101`` (41 labelled tests) and ``label_status``. ``material``
++keeps the legacy ``repo`` policy (38 verified tests + "unverified").
+ """
+ from pathlib import Path
+ 
+ import numpy as np
+ import pandas as pd
+ 
++import labels
++
+ ROOT = Path(__file__).resolve().parents[1]
+ RAW = ROOT / "data" / "raw"          # raw SAME CSVs: data/raw/<material>/*.csv
+ OUT = ROOT / "data" / "processed" / "all_tests.parquet"
+@@ -98,6 +106,10 @@ def load_all() -> tuple[pd.DataFrame, list[str]]:
+              if c not in meta and c not in ID_COLS and data[c].nunique(dropna=False) <= 1]
+     data = data.drop(columns=const)
+     log.append(f"dropped {len(const)} constant columns: {const}")
++
++    data = labels.attach_labels(data)      # raises if loader and manifest diverge
++    log.append(f"label manifest check passed: {data['test_id'].nunique()} tests match "
++               f"{labels.MANIFEST.relative_to(ROOT)}")
+     return data, log
+ 
+ 
+diff --git a/src/repro.py b/src/repro.py
+new file mode 100644
+index 0000000..81e958c
+--- /dev/null
++++ b/src/repro.py
+@@ -0,0 +1,41 @@
++"""Single source of truth for reproducibility settings.
++
++Every stochastic component in the repository (Isolation Forests, Random
++Forests, LightGBM, the leakage self-check perturbation and figure jitter)
++takes its seed from ``SEED`` below. Nothing else in ``src/`` hard-codes a
++seed.
++
++Why the canonical seed is 0
++---------------------------
++All committed artifacts were generated with seed 0:
++
++* ``results/chained_loto_metrics.json``  ->  ``meta.seed == 0``
++* ``reports/anomaly/``, ``reports/classifier/``, ``reports/sensor_sensitivity/``
++  (``random_state=0`` in the code that produced them).
++
++Changing the seed changes the forests and therefore the reported numbers, so
++the committed tables are only reproducible with ``SEED = 0``. To run a
++seed-robustness study without editing code, set the environment variable::
++
++    FIF_SEED=42 python src/evaluate_chained.py
++
++``scripts/verify_repo.py`` warns when the active seed differs from the seed
++recorded in the committed results.
++"""
++from __future__ import annotations
++
++import os
++import random
++
++import numpy as np
++
++CANONICAL_SEED = 0
++SEED = int(os.environ.get("FIF_SEED", CANONICAL_SEED))
++
++
++def seed_everything(seed: int = SEED) -> int:
++    """Seed Python's and NumPy's global RNGs (defensive: the pipeline passes
++    explicit ``random_state`` everywhere, so results do not depend on this)."""
++    random.seed(seed)
++    np.random.seed(seed)
++    return seed
+diff --git a/src/sensor_sensitivity.py b/src/sensor_sensitivity.py
+index cc1717c..cca0241 100644
+--- a/src/sensor_sensitivity.py
++++ b/src/sensor_sensitivity.py
+@@ -68,6 +68,7 @@ sys.path.insert(0, str(ROOT / "src"))
+ import anomaly as A  # noqa: E402  (detector code reused as-is)
+ import features as F  # noqa: E402
+ import load as L  # noqa: E402
++from repro import SEED, seed_everything  # noqa: E402
+ 
+ PACKETS = (ROOT / "Sensor_Systems_and_Telemetry_Integration" / "ml_lead_handoff"
+            / "SAME_R_WIDE_PACKETS.jsonl")
+@@ -89,7 +90,7 @@ BYTES_PER_SAMPLE = 4            # float32 per channel per sample at 1 Hz (teleme
+ C_WIN, C_STRIDE, C_TMAX, C_DECIDE, C_MINROWS = 30, 10, 600, 120, 20
+ CLASSES = ["Cotton Lamp wick", "Kapton", "Pyrell", "Silicone", "Teflon"]
+ RF_PARAMS = dict(n_estimators=500, min_samples_leaf=2, max_features="sqrt",
+-                 class_weight="balanced_subsample", random_state=0, n_jobs=-1)
++                 class_weight="balanced_subsample", random_state=SEED, n_jobs=-1)
+ 
+ # palette: same light-mode reference instance as reports/anomaly figures
+ INK, INK2, GRID, SURF = "#0b0b0b", "#52514e", "#e4e3df", "#ffffff"
+@@ -361,7 +362,7 @@ def plot_latency(res: pd.DataFrame, path: Path, split_label: str):
+     style(ax)
+     ax.grid(axis="x", color=GRID, linewidth=0.6, which="major")
+     ax.set_xscale("symlog", linthresh=10, linscale=0.6)
+-    rng = np.random.default_rng(0)
++    rng = np.random.default_rng(SEED)
+     for i, (lab, s, col) in enumerate(rows):
+         y = len(rows) - 1 - i
+         d = s.dropna().to_numpy()
+@@ -527,6 +528,7 @@ def main():
+     ap.add_argument("--greedy-max", type=int, default=8,
+                     help="greedy forward selection up to this many channels (0 = off)")
+     args = ap.parse_args()
++    seed_everything()
+     OUT.mkdir(parents=True, exist_ok=True)
+     (OUT / "figures").mkdir(exist_ok=True)
+ 
+diff --git a/tests/test_core.py b/tests/test_core.py
+new file mode 100644
+index 0000000..7315828
+--- /dev/null
++++ b/tests/test_core.py
+@@ -0,0 +1,148 @@
++"""Fast unit tests for the ML core (no raw data, no model training).
++
++Run from the project root:  python -m pytest -q tests
++"""
++from __future__ import annotations
++
++import ast
++import json
++import sys
++from pathlib import Path
++
++import numpy as np
++import pandas as pd
++import pytest
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT / "src"))
++
++import features as F  # noqa: E402
++import labels as LB  # noqa: E402
++import load as L  # noqa: E402
++import repro  # noqa: E402
++
++CHANS = list(F.CHANNELS.values())
++
++
++# ------------------------------------------------------------------ labels
++def test_manifest_is_consistent():
++    man = LB.load_manifest()
++    assert LB.validate_manifest(man) == []
++    assert len(LB.supervised_tests("repo", man)) == 38
++    psi = LB.supervised_tests("psi101", man)
++    assert len(psi) == 41
++    assert (psi[60], psi[103], psi[105]) == ("Silicone", "Silicone", "Teflon")
++    assert not set(LB.UNVERIFIED) & set(LB.supervised_tests("repo", man))
++
++
++def test_manifest_copies_identical():
++    assert LB.MANIFEST.read_bytes() == LB.RESULTS_MANIFEST.read_bytes()
++
++
++def test_unknown_policy_rejected():
++    with pytest.raises(ValueError):
++        LB.supervised_tests("all")
++
++
++def _fake_loader_frame(man):
++    rows = []
++    for _, r in man.iterrows():
++        for t in range(3):
++            rows.append({"test_id": r["test_id"], "source_file": r["source_file"],
++                         "material": r["repo_material"], "label_verified": r["label_verified"],
++                         "Time": t})
++    return pd.DataFrame(rows)
++
++
++def test_loader_check_accepts_matching_frame():
++    man = LB.load_manifest()
++    out = LB.attach_labels(_fake_loader_frame(man), man)
++    assert out["label_psi101"].notna().all()
++    assert set(out["label_status"]) == {"verified_folder_and_psi101", "recovered_psi101"}
++
++
++@pytest.mark.parametrize("mutate", ["drop_test", "wrong_material", "wrong_file"])
++def test_loader_check_rejects_divergence(mutate):
++    man = LB.load_manifest()
++    df = _fake_loader_frame(man)
++    if mutate == "drop_test":
++        df = df[df["test_id"] != 105]
++    elif mutate == "wrong_material":
++        df.loc[df["test_id"] == 58, "material"] = "Kapton"
++    else:
++        df.loc[df["test_id"] == 60, "source_file"] = "Silicone/HKPData_gmt211_4.csv"
++    assert LB.check_loader_frame(df, man)
++    with pytest.raises(ValueError):
++        LB.attach_labels(df, man)
++
++
++def test_loader_rules_match_manifest():
++    """src/load.py duplicate/drop rules are the ones the audit recorded."""
++    audit = json.loads((ROOT / "results" / "same_label_audit.json").read_text())
++    dup = audit["why_41_vs_38"]["duplicate_files"]
++    assert {k: v["kept_folder"] for k, v in dup.items()} == \
++        {k: v[0] for k, v in L.DUPLICATES.items()}
++    assert [list(x) for x in L.DROP_FILES] == audit["why_41_vs_38"]["dropped_no_heating"]
++    assert L.MATERIALS == LB.CLASSES
++
++
++# ------------------------------------------------------------- causality
++def _synthetic_test(n=300, heat_at=150, seed=0):
++    rng = np.random.default_rng(seed)
++    t = np.delete(np.arange(n), [30, 31, 200])
++    df = pd.DataFrame(rng.normal(size=(len(t), len(CHANS))), columns=CHANS)
++    df["Time"] = t
++    df["t_rel_heat"] = t - heat_at
++    df["phase"] = np.where(df["t_rel_heat"] < 0, "clean", "heating")
++    return df
++
++
++@pytest.mark.parametrize("cut", [60, 150, 220])
++def test_rolling_features_are_causal(cut):
++    a = _synthetic_test()
++    b = a.copy()
++    rng = np.random.default_rng(1)
++    after = b["Time"] > cut
++    b.loc[after, CHANS] = rng.normal(0, 1e6, (int(after.sum()), len(CHANS)))
++    fa, fb = F.rolling_features(a.copy(), CHANS), F.rolling_features(b.copy(), CHANS)
++    keep = (a["Time"] <= cut).to_numpy()
++    np.testing.assert_array_equal(fa[keep].to_numpy(), fb[keep].to_numpy())
++
++
++def test_rolling_windows_do_not_bridge_gaps():
++    df = _synthetic_test()
++    f = F.rolling_features(df.copy(), CHANS)
++    # 5 s window needs >= 3 of 5 seconds; second 32 follows the 30-31 gap: only 30-32 -> 28,29,32
++    row = f.loc[df.index[df["Time"] == 32][0]]
++    assert np.isfinite(row["iss_obs_mean5"])
++    # the 1 Hz grid reindexing means the window spans real seconds, not rows
++    assert F.WINDOWS == [5, 10, 30]
++
++
++def test_baseline_uses_only_clean_air():
++    df = _synthetic_test()
++    df.loc[df["phase"] == "heating", CHANS] += 1e6     # heating must not leak into baseline
++    out, _ = F.baseline_correct(df.copy(), CHANS)
++    clean = out[out["phase"] == "clean"]
++    assert clean[CHANS].abs().median().max() < 5
++
++
++# ------------------------------------------------------------------ seeds
++def test_single_seed_source():
++    for f in (ROOT / "src").glob("*.py"):
++        if f.name == "repro.py":
++            continue
++        for node in ast.walk(ast.parse(f.read_text(encoding="utf-8"))):
++            if isinstance(node, ast.keyword) and node.arg == "random_state":
++                assert not isinstance(node.value, ast.Constant), f"{f.name}:{node.value.lineno}"
++
++
++def test_seed_matches_committed_results():
++    meta = json.loads((ROOT / "results" / "chained_loto_metrics.json").read_text())["meta"]
++    assert repro.CANONICAL_SEED == meta["seed"]
++
++
++def test_chained_reads_seed_through_ast():
++    import evaluate_chained as E
++    assert E.AN["IF_PARAMS"]["random_state"] == repro.SEED
++    assert E.CL["RF_PARAMS"]["random_state"] == repro.SEED

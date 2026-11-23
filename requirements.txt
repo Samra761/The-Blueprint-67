@@ -1,24 +1,43 @@
-# Python 3.11+ (developed on 3.13)
+# Flame in Freefall - pinned runtime environment
+# Target: CPython 3.11 (3.11.9 produced results/chained_loto_*); also runs on 3.12-3.13.
+#
+#   python3.11 -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
+#   pip install -r requirements.txt
+#   python scripts/verify_repo.py
+#
+# Provenance of each pin:
+#   [R] exact version recorded in results/chained_loto_metrics.json (meta) for the
+#       committed 41-fold chained LOTO run (Python 3.11.9). Tree models are only
+#       guaranteed bit-identical with these three.
+#   [V] exercised by scripts/verify_repo.py in the audit environment; PyPI
+#       metadata declares Requires-Python <= 3.11.
+#   [P] newest release whose PyPI metadata supports Python 3.11; not exercised
+#       in the audit environment (only needed for the legacy LightGBM classifier,
+#       parquet I/O, the dashboard and PSI downloads).
 
-# data
-numpy>=1.26
-pandas>=2.1
-pyarrow>=15.0
+# ---- numerical core -------------------------------------------------------
+numpy==2.4.6            # [R]
+pandas==3.0.3           # [R]
+scikit-learn==1.9.0     # [R]
+scipy==1.17.1           # [P] last SciPy line supporting 3.11 (1.18 needs >= 3.12)
+joblib==1.6.0           # [V]
 
-# ML
-scikit-learn>=1.4
-lightgbm>=4.3
-shap>=0.45
-joblib>=1.3
+# ---- figures --------------------------------------------------------------
+matplotlib==3.11.2      # [V]
 
-# plots & dashboard
-matplotlib>=3.8
-streamlit>=1.35
+# ---- data I/O -------------------------------------------------------------
+pyarrow==25.0.1         # [P] parquet for data/processed/*.parquet
+openpyxl==3.1.5         # [V] sensor workspace (PSI .xlsx tables)
+pyyaml==6.0.3           # [V] config/sensor_map.yaml check
 
-# NASA PSI ingestion and sensor integration
-boto3>=1.34
-python-dotenv>=1.0
-openpyxl>=3.1
+# ---- legacy Stage 2 classifier (src/classifier.py) -------------------------
+lightgbm==4.7.0         # [P]
+shap==0.51.0            # [P] Requires-Python >= 3.11
 
-# tests
-pytest>=7.0
+# ---- dashboard and NASA PSI ingestion --------------------------------------
+streamlit==1.66.1       # [P]
+boto3>=1.34,<2          # [P] I/O only; any 1.x release works
+python-dotenv==1.2.3    # [V]
+
+# ---- tests ----------------------------------------------------------------
+pytest==9.1.1           # [V]

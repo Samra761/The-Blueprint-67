@@ -2,15 +2,15 @@
 # One-shot first push of this repo to GitHub (macOS / Linux / Git Bash on Windows).
 # Usage (from the project root):
 #   bash scripts/push_to_github.sh                      # uses defaults below
-#   bash scripts/push_to_github.sh samra761 flame-in-freefall
+#   bash scripts/push_to_github.sh Samra761 The-Blueprint-67
 #
 # Create the EMPTY repo on GitHub first (no README, no .gitignore, no license),
 # or have the GitHub CLI installed and logged in (gh auth login) and it will be created for you.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-GH_USER="${1:-samra761}"
-REPO="${2:-flame-in-freefall}"
+GH_USER="${1:-Samra761}"
+REPO="${2:-The-Blueprint-67}"
 REMOTE="https://github.com/${GH_USER}/${REPO}.git"
 
 # 1. Identity (only set if missing)

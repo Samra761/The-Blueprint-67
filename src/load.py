@@ -4,11 +4,19 @@ Run from the project root:
     python src/load.py
 
 Output: data/processed/all_tests.parquet  (one row per second per test)
+
+The loaded test set is checked against the audited label manifest
+(data/same_label_manifest.csv, see src/labels.py): the run aborts if a test id,
+source file, folder material or verification flag disagrees. Two columns are
+added: ``label_psi101`` (41 labelled tests) and ``label_status``. ``material``
+keeps the legacy ``repo`` policy (38 verified tests + "unverified").
 """
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+import labels
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"          # raw SAME CSVs: data/raw/<material>/*.csv
@@ -98,6 +106,10 @@ def load_all() -> tuple[pd.DataFrame, list[str]]:
              if c not in meta and c not in ID_COLS and data[c].nunique(dropna=False) <= 1]
     data = data.drop(columns=const)
     log.append(f"dropped {len(const)} constant columns: {const}")
+
+    data = labels.attach_labels(data)      # raises if loader and manifest diverge
+    log.append(f"label manifest check passed: {data['test_id'].nunique()} tests match "
+               f"{labels.MANIFEST.relative_to(ROOT)}")
     return data, log
 
 

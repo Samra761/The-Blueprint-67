@@ -39,6 +39,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.model_selection import LeaveOneGroupOut
 
+from repro import SEED, seed_everything
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
@@ -60,9 +62,9 @@ CLASSES = ["Cotton Lamp wick", "Kapton", "Pyrell", "Silicone", "Teflon"]
 LGB_PARAMS = dict(n_estimators=300, learning_rate=0.05, num_leaves=15,
                   min_child_samples=10, subsample=0.8, subsample_freq=1,
                   colsample_bytree=0.5, class_weight="balanced",
-                  random_state=0, verbose=-1, n_jobs=4)
+                  random_state=SEED, verbose=-1, n_jobs=4)
 RF_PARAMS = dict(n_estimators=500, min_samples_leaf=2, max_features="sqrt",
-                 class_weight="balanced_subsample", random_state=0, n_jobs=-1)
+                 class_weight="balanced_subsample", random_state=SEED, n_jobs=-1)
 
 # Palette (dataviz reference instance, light mode)
 INK, INK2, GRID, SURF = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
@@ -231,6 +233,7 @@ def plot_importance(imp):
 
 # -------------------------------------------------------------------- main
 def main():
+    seed_everything()
     FIG.mkdir(parents=True, exist_ok=True)
     win_all, feats = build_windows()
     win = win_all[win_all["label_verified"]].reset_index(drop=True)

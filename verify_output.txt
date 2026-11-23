@@ -1,0 +1,57 @@
+Flame in Freefall - repository verification (the-blueprint-67)
+
+[PASS] env.python                 Python 3.13.18 (need >= 3.11; reference run used 3.11.x)
+[WARN] env.numpy                  2.5.3 (reference run used 2.4.6; tree-model outputs may differ slightly on a full re-run)
+[WARN] env.pandas                 3.0.5 (reference run used 3.0.3; tree-model outputs may differ slightly on a full re-run)
+[WARN] env.scikit-learn           1.9.1 (reference run used 1.9.0; tree-model outputs may differ slightly on a full re-run)
+[PASS] env.scipy                  1.18.1
+[PASS] env.matplotlib             3.11.2
+[PASS] env.joblib                 1.6.0
+[WARN] env.optional               not installed (only needed for --full / dashboard): lightgbm (src/classifier.py); shap (src/classifier.py); pyarrow (parquet I/O in src/load.py, features.py); streamlit (dashboard/app.py); boto3 (src/fetch_psi.py)
+[PASS] compile.all                13 files byte-compile
+[PASS] compile.package            src/__init__.py present
+[PASS] compile.imports            imported repro, labels, load, features, anomaly, evaluate_chained, sensor_sensitivity
+[WARN] compile.classifier         src/classifier.py not importable here (No module named 'lightgbm'); byte-compile passed
+[PASS] seed.single_source         all seeds come from src/repro.py (SEED=0)
+[PASS] seed.matches_results       active SEED=0, committed results used seed 0
+[PASS] data.packets               Sensor_Systems_and_Telemetry_Integration/ml_lead_handoff/SAME_R_WIDE_PACKETS.jsonl
+[PASS] data.packets.schema        58,386 packets, 0 with missing fields (expect 58,386, 0)
+[PASS] data.packets.channels      8 channels ['iss_obs', 'iss_sct', 'sts', 'ion_a', 'ion_b', 'ptrak', 'dtb', 'plume_t'] in every packet
+[PASS] data.packets.tests         41 tests, 41 with heater-on samples (expect 41)
+[PASS] data.packets.sha256        matches FILE_CHECKSUMS.json
+[PASS] data.packets.provenance    identical to the input of the committed chained run
+[PASS] data.features.channels     src/features.py channel order
+[PASS] data.features.columns      feature_columns.json: 104 anomaly / 108 classifier (expect 104 / 108)
+[PASS] data.sensor_map            config/sensor_map.yaml raw columns match src/features.py
+[PASS] labels.copies              data/ and results/ manifests are byte-identical
+[PASS] labels.manifest            41 tests, 38 folder-verified, 60/103/105 recovered from PSI-101, all labels in 5 classes
+[PASS] labels.policy.repo         38 supervised tests == chained-run policy
+[PASS] labels.policy.psi101       41 supervised tests == chained-run policy
+[PASS] labels.provenance          manifest content identical to the chained-run input (hash recorded on a CRLF checkout; .gitattributes stores LF)
+[PASS] labels.loader              packet stream matches the manifest for every test (id, source file, folder material, verified flag)
+[PASS] audit.run                  scripts/audit_same_tests.py: all assertions passed
+[PASS] audit.manifest             regenerated manifest == committed
+[PASS] audit.report               regenerated audit JSON == committed (timestamp excluded)
+[PASS] audit.assertions           committed audit has no assertion failures
+[PASS] chained.files              4 result files present
+[PASS] chained.schema             top-level keys present
+[PASS] chained.folds              41 LOTO folds, complete=True
+[PASS] chained.configs            6 Stage 1 and 12 chained configurations
+[PASS] chained.per_test.rows      492 rows (2 baselines x 3 persistence x 2 policies x 41)
+[PASS] chained.stage1_label_free  Stage 1 per-test results identical under 'repo' and 'psi101' label policies
+[PASS] chained.recompute          Stage 1 detection/latency/FAR and chained accuracies recomputed from per-test CSV match the JSON
+[PASS] chained.latency            tick counts, P50 and max recomputed from latency CSV
+[PASS] chained.realtime           P99 per-tick latency 269 ms < 1000 ms budget at 1 Hz
+[PASS] chained.leakage            future-perturbation bit-identical on tests [58, 75, 91]; streaming == batch on [58, 69, 82, 96]
+[PASS] chained.summary_md         summary.md re-rendered from JSON is byte-identical
+[PASS] sensors.files              24 files present
+[PASS] sensors.dpi                PNG figures at 300, 300, 300 DPI
+[PASS] sensors.per_test.schema    per_test_loto.csv.gz readable
+[PASS] sensors.recompute          all 255 channel subsets (LOTO + 8-fold) recomputed from per_test_*.csv.gz match all_subsets_*.csv
+[PASS] sensors.table_md           sensor_table_loto.md agrees with sensor_table_loto.csv (8 channels)
+[PASS] causality.rolling          96 trailing-window features bit-identical up to t=250 s after future perturbation
+[PASS] causality.ratios           ratio features causal
+[PASS] tests.root                 ................                                                         [100%]
+[PASS] tests.sensor_workspace     .......................                                                  [100%]
+
+48 passed, 5 warnings, 0 failed in 6.7 s (env 1.0s, compile 0.5s, seed 0.1s, data 0.4s, labels 0.0s, audit 1.0s, chained 0.0s, sensors 0.5s, causality 0.0s, tests 3.0s)

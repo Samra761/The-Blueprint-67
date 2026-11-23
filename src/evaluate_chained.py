@@ -73,6 +73,7 @@ from sklearn.pipeline import make_pipeline
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 import features as repo_features  # noqa: E402  (repo trailing-window feature code)
+from repro import SEED, seed_everything  # noqa: E402  (single seed source)
 
 SENSOR = ROOT / "Sensor_Systems_and_Telemetry_Integration"
 PACKETS = SENSOR / "ml_lead_handoff" / "SAME_R_WIDE_PACKETS.jsonl"
@@ -82,7 +83,6 @@ REPO_ANOMALY_SWEEP = ROOT / "reports" / "anomaly" / "sweep.csv"
 REPO_CLASSIFIER_TESTS = ROOT / "reports" / "classifier" / "tests_oof.csv"
 OUT = ROOT / "results"
 
-SEED = 0
 ARM_S = 30                 # power-on arming period used for the causal baseline
 PERSISTENCE = (1, 2, 3)    # consecutive anomalous ticks required for an alarm
 MAIN_N = 3                 # repo operating point (src/anomaly.py N_PERSIST)
@@ -92,10 +92,14 @@ PERTURB_TESTS = 3
 
 
 # ----------------------------------------------------------- repo constants
+KNOWN_NAMES = {"SEED": SEED}
+
+
 def repo_constants(path: Path, names: set[str]) -> dict:
     """Read constants from a repo module without importing it (the classifier
     module imports lightgbm and shap at top level). ``dict(...)`` calls with
-    literal keyword values are supported."""
+    literal keyword values are supported. Bare names in keyword values are
+    resolved from ``KNOWN_NAMES`` (e.g. ``random_state=SEED`` -> src/repro.py)."""
     tree = ast.parse(path.read_text(encoding="utf-8"))
     out = {}
     for node in tree.body:
@@ -106,7 +110,8 @@ def repo_constants(path: Path, names: set[str]) -> dict:
             continue
         v = node.value
         if isinstance(v, ast.Call) and getattr(v.func, "id", "") == "dict":
-            out[name] = {k.arg: ast.literal_eval(k.value) for k in v.keywords}
+            out[name] = {k.arg: (KNOWN_NAMES[k.value.id] if isinstance(k.value, ast.Name)
+                                 else ast.literal_eval(k.value)) for k in v.keywords}
         else:
             out[name] = ast.literal_eval(v)
     # tuple-unpacked constants such as  OUTER_FOLDS, INNER_FOLDS = 8, 4
@@ -934,6 +939,7 @@ def main() -> None:
     ap.add_argument("--stream-tests", type=int, default=4,
                     help="tests replayed tick-by-tick for equivalence + latency")
     ap.add_argument("--n-jobs", type=int, default=-1)
+    seed_everything()
     run(ap.parse_args())
 
 

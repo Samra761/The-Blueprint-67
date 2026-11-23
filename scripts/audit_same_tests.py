@@ -84,6 +84,14 @@ SMOKE_SNR = 5.0    # a channel "responds" if |peak delta| > 5 x clean std
 
 
 # ----------------------------------------------------------------- helpers
+def _rel(path: Path) -> str:
+    """Path relative to the repo root when possible (for log lines)."""
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def sha256(path: Path) -> str:
     """Return the SHA-256 hex digest of a file."""
     h = hashlib.sha256()
@@ -209,8 +217,16 @@ def signature_distances(prof: pd.DataFrame, tid: int) -> dict:
 
 
 # -------------------------------------------------------------------- main
-def main() -> int:
-    OUT_DIR.mkdir(exist_ok=True)
+def main(out_dir: Path | None = None) -> int:
+    """Run the audit. ``out_dir`` (default ``results/``) receives the JSON and
+    CSV; ``scripts/verify_repo.py`` passes a temporary directory so the
+    committed files are compared, never overwritten."""
+    global OUT_DIR, OUT_JSON, OUT_CSV
+    if out_dir is not None:
+        OUT_DIR = Path(out_dir)
+        OUT_JSON = OUT_DIR / "same_label_audit.json"
+        OUT_CSV = OUT_DIR / "same_label_manifest.csv"
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
     failures: list[str] = []
 
     def check(cond: bool, msg: str) -> bool:
@@ -424,7 +440,7 @@ def main() -> int:
         "assertion_failures": failures,
     }
     OUT_JSON.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
-    print(f"\nWrote {OUT_JSON.relative_to(ROOT)} and {OUT_CSV.relative_to(ROOT)}")
+    print(f"\nWrote {_rel(OUT_JSON)} and {_rel(OUT_CSV)}")
     if failures:
         print(f"\n{len(failures)} assertion(s) FAILED")
         return 1
@@ -433,4 +449,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    import argparse
+    ap = argparse.ArgumentParser(description="Audit SAME material labels against NASA PSI-101.")
+    ap.add_argument("--out-dir", type=Path, default=None,
+                    help="write the JSON/CSV here instead of results/ (used by verify_repo.py)")
+    sys.exit(main(ap.parse_args().out_dir))

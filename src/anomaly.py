@@ -44,6 +44,8 @@ import pandas as pd
 from sklearn.ensemble import IsolationForest
 from sklearn.model_selection import GroupKFold
 
+from repro import SEED, seed_everything
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
@@ -61,7 +63,7 @@ OUTER_FOLDS, INNER_FOLDS = 8, 4
 REF_Q = 0.999                      # per-sensor normalisation level
 Q_MAIN = 1.0
 Q_SWEEP = [0.95, 0.99, 0.995, 0.999, 1.0]
-IF_PARAMS = dict(n_estimators=200, max_samples=256, random_state=0, n_jobs=-1)
+IF_PARAMS = dict(n_estimators=200, max_samples=256, random_state=SEED, n_jobs=-1)
 MAIN = "per_sensor"
 
 # Palette (dataviz reference instance, light mode)
@@ -354,6 +356,7 @@ def fit_final(df, detectors):
 
 # --------------------------------------------------------------------- main
 def main():
+    seed_everything()
     FIG.mkdir(parents=True, exist_ok=True)
     for old in FIG.glob("*.png"):
         old.unlink()
