@@ -1,0 +1,151 @@
+% =====================================================================
+%  related_work.tex  --  Section II of
+%  "Flame in Freefall: Causal Two-Stage Microgravity Fire Anomaly Detection
+%   and Material Classification on NASA PSI-101 SAME Data"
+%  Team The Blueprint 67  |  prepared 2026-11-24
+%
+%  Usage (IEEEtran, conference or journal):
+%     \usepackage{booktabs,tabularx,array}   % required by the tables below
+%     ...
+%     \input{related_work}
+%     ...
+%     \bibliographystyle{IEEEtran}
+%     \bibliography{references}
+%
+%  All numbers about this work come from committed repository files:
+%    results/chained_loto_summary.md, results/chained_loto_metrics.json,
+%    results/chained_loto_per_test.csv, results/chained_loto_latency_ms.csv,
+%    reports/sensor_sensitivity/sensor_table_loto.md,
+%    reports/sensor_sensitivity/greedy_selection_loto.csv.
+%  The repository script scripts/verify_repo.py recomputes these numbers
+%  from the per-test files.
+% =====================================================================
+
+\providecommand{\arming}{\texttt{arming}}
+\providecommand{\oracle}{\texttt{heater\_oracle}}
+\providecommand{\psiset}{\texttt{psi101}}
+\providecommand{\reposet}{\texttt{repo}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Smoke Detection in Spacecraft}
+Spacecraft fire detection has been studied mainly by characterizing smoke. Urban \emph{et al.}~\cite{urban2005detection} reviewed the history of spacecraft smoke detection and reported the Comparative Soot Diagnostics flight experiment. In that experiment, the size distribution of solid particulate smoke increased substantially in microgravity. The Smoke Aerosol Measurement Experiment (SAME), whose flight telemetry is the PSI-101 dataset used here, heated five common spacecraft materials to oxidative pyrolysis on the International Space Station (ISS). Meyer \emph{et al.}~\cite{meyer2018evaluation} found that the resulting particles were not significantly different from normal-gravity equivalents, but that neither of the two flight smoke detectors detected every type of smoke. A white paper to the NASEM decadal survey~\cite{fortenberry2021research} quantifies this gap: the ISS detector failed to alarm for Kapton smoke in half of the tests and for Teflon smoke in two-thirds of them. The authors conclude that a detector relying on a single fire property is unlikely to succeed in all relevant scenarios. Preliminary NASA work for partial-gravity habitats~\cite{guzman2026early} identifies false-alarm rejection, in particular discriminating combustion particles from cabin and lunar dust, as the main design challenge. For the materials studied there, the ionization detector gave the earliest detectable signal. These studies characterize detector \emph{response}, but none of them trains a detector or reports a lead-time distribution relative to a flight alarm. None reports a false-alarm rate per clean-air hour, validation on held-out flight tests, or which material is overheating.
+
+\subsection{Learned Multi-Sensor Fire Detection}
+Terrestrial work has moved from single-threshold alarms to learned fusion of several sensor channels, mostly with supervised sequence models. Nakip \emph{et al.}~\cite{nakip2021rtpnn} proposed a recurrent trend-predictive neural network that fuses the predicted trend and level of each sensor. On NIST residential fire tests (nine bedroom experiments, 25\,796 samples) it reached 96\% accuracy and an F1 score of 0.93 under 10-fold cross-validation, alarming within 11\,s of fire onset. Baek \emph{et al.}~\cite{baek2021intelligent} combined a multi-sensor sensing unit with a similarity-matching detection algorithm, based on dynamic time warping, that captures signal-shape patterns across fire types and suppresses false alarms. He \emph{et al.}~\cite{he2025bilstm} reported 98.38\% mean accuracy and a 1.50\% false-positive rate with a BiLSTM using layer normalization and self-attention, under 10-fold cross-validation over 49\,888 20-s windows. These methods require labeled fire data, report metrics over pooled samples or windows rather than per fire event, and were developed for terrestrial nuisance sources and buoyant plumes. None of them identifies the burning material. Unsupervised anomaly detection avoids fire labels altogether. The Isolation Forest~\cite{liu2008isolation} isolates anomalies with random partitions instead of profiling normal data. It trains in linear time on sub-samples, which suits a detector trained only on a short clean-air window and run on embedded hardware.
+
+\subsection{Positioning of This Work}
+\emph{Flame in Freefall}~\cite{blueprint67repo} closes these gaps on the same SAME flight data as~\cite{meyer2018evaluation} (Table~\ref{tab:lit}). Stage~1 is a per-channel Isolation Forest~\cite{liu2008isolation} trained only on clean air, with max-score fusion over eight channels. Stage~2 is a Random Forest that identifies one of five materials and runs only on ticks with an active Stage~1 alarm. Every feature uses trailing windows, so it is available at the tick when it is computed. We evaluate leave-one-test-out (LOTO) over all 41 flight tests. In the deployable \arming{} regime, where the clean-air reference comes from the first 30\,s after power-on, Stage~1 with a three-tick confirmation detects 41/41 tests at a median of 3.0\,s (P90 5.0\,s) after heater-on, at 2.11 false alarms per clean-air hour. The ISS scatter detector, recalibrated to the same clean-air quantile, alarms at a median of 133\,s (Table~\ref{tab:headline}). The detector alarms on all 11 Kapton and all 7 Teflon tests (\psiset{} labels). The chained Stage~2 reaches a steady-state accuracy of 0.805 (33/41, macro-F1 0.800) on the \psiset{} cohort, whose labels include three tests recovered from the PSI-101 table. On the original 38-test \reposet{} cohort it reaches 0.763 (29/38). The single-threaded streaming implementation needs 58.7\,ms per 1\,Hz tick at the median and 269\,ms at P99.
+
+Three caveats bound these claims (Table~\ref{tab:novel}). First, all data come from one ISS glovebox rig with controlled heating to pre-ignition oxidative pyrolysis. Open flaming, dust and nuisance aerosols are untested. Second, the 3\,s latency comes from the gas-plume thermocouple, which triggers every detection and sits directly above the heated sample. In the per-sensor ablation, the best smoke-only channel, ISS obscuration, has a median delay of 131\,s, so our smoke-only lead over the scatter alarm is small. This differs from~\cite{guzman2026early}, where the ionization detector responded earliest. In the same ablation, ionization A and B have median delays of 136\,s and 142\,s. Third, our ISS baseline is recalibrated rather than run at the flight threshold, so it detects all 41 tests. It does not reproduce the missed Kapton and Teflon alarms reported in~\cite{fortenberry2021research}. The comparison therefore isolates the effect of multi-channel fusion at equal clean-air sensitivity rather than measuring improvement over the fielded alarm.
+
+% ---------------------------------------------------------------- Table I
+\begin{table*}[!t]
+\centering
+\caption{Related work compared with \emph{Flame in Freefall}. Rows 1--4: spacecraft; rows 5--7: terrestrial multi-sensor fire detection.}
+\label{tab:lit}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}c >{\raggedright\arraybackslash}p{2.45cm} >{\hsize=.82\hsize}Y >{\hsize=.82\hsize}Y >{\hsize=1.0\hsize}Y >{\hsize=1.36\hsize}Y@{}}
+\toprule
+\# & Work & Setting and data & Approach & Validation and reported findings & \emph{Flame in Freefall} (this work) \\
+\midrule
+1 & Meyer \emph{et al.}~\cite{meyer2018evaluation}, \emph{Fire Saf.\ J.}, 2018
+  & ISS SAME; oxidative pyrolysis of 5 spacecraft materials; 2 flight smoke detectors
+  & Particle morphology and size; evaluation of existing detectors; no new detector
+  & Particles not significantly different from 1-$g$; detectors missed some smoke types. Qualitative
+  & Same SAME family and materials (PSI-101, 41 tests). Trained detector: 41/41 tests, median 3.0\,s (\arming, $N{=}3$) \\
+\addlinespace
+2 & Urban \emph{et al.}~\cite{urban2005detection}, 35th ICES (SAE), 2005
+  & Review plus Comparative Soot Diagnostics flight experiment
+  & Microgravity smoke particle-size measurement
+  & Solid-particulate size distributions increased substantially in $\mu g$
+  & No particle sizing. Detector-response ratios (a possible indirect size cue) are the top two SHAP features of the legacy classifier; adding ISS obscuration raises material F1 from 0.59 to 0.78 \\
+\addlinespace
+3 & Fortenberry \emph{et al.}~\cite{fortenberry2021research}, NASEM white paper, 2021
+  & Synthesis of ISS and ground results
+  & Position paper for multi-property detection
+  & ISS detector missed Kapton smoke in half of tests and Teflon in two-thirds
+  & Multi-channel fusion (8 Isolation Forests, max score). Detects 11/11 Kapton and 7/7 Teflon tests (\psiset{} labels); baseline recalibrated, not flight threshold \\
+\addlinespace
+4 & Guzman \emph{et al.}~\cite{guzman2026early}, NASA GRC poster, 2026
+  & Partial-gravity habitats; aerosol rig with reference instruments; FDS plume model
+  & Detector signals vs.\ reference instruments
+  & Ionization detector gave the earliest signal; dust discrimination needed. No numeric metrics
+  & Earliest channel is the plume thermocouple (3\,s); best smoke-only is ISS obscuration (131\,s); Ion A/B 136/142\,s. No dust tests \\
+\addlinespace
+5 & He \emph{et al.}~\cite{he2025bilstm}, \emph{Sensors}, 2025
+  & Terrestrial IoT fire dataset; 4 inputs; 49\,888 20-s windows
+  & Supervised BiLSTM with layer normalization and self-attention
+  & 10-fold CV: 98.38\% acc., FPR 1.50\%
+  & Unsupervised, trained on clean air only; per-test LOTO; FAR per clean-air hour (0.00--2.11\,/h, \arming) \\
+\addlinespace
+6 & Nakip \emph{et al.}~\cite{nakip2021rtpnn}, \emph{IEEE Access}, 2021
+  & NIST residential tests; 9 experiments, 25\,796 samples
+  & Recurrent trend-predictive NN fusing sensor trend and level
+  & 10-fold CV: 96\% acc., F1 0.93; alarm within 11\,s
+  & Event-level latency per held-out flight test; P99 compute 269\,ms per 1\,Hz tick \\
+\addlinespace
+7 & Baek \emph{et al.}~\cite{baek2021intelligent}, \emph{IEEE Sens.\ J.}, 2021
+  & Indoor building fires; multi-sensor prototype
+  & DTW-based similarity matching on signal shape
+  & Lower false alarms reported; figures not retrieved
+  & Adds 5-class material identification: steady-state acc.\ 0.805 (\psiset, 41) / 0.763 (\reposet, 38) \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+% --------------------------------------------------------------- Table II
+\begin{table*}[!t]
+\centering
+\caption{Headline results of \emph{Flame in Freefall}: causal chained LOTO-41 on PSI-101 SAME, 1\,Hz. $N$ is the number of consecutive anomalous ticks required for an alarm. FAR is false alarms per clean-air hour. Latency is measured from heater-on.}
+\label{tab:headline}
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.1cm} >{\raggedright\arraybackslash}p{2.3cm} Y Y@{}}
+\toprule
+Metric & Cohort & \arming{} (causal, deployable) & \oracle{} (needs heater-on time) \\
+\midrule
+Stage 1 detection, $N{=}3$ & all 41 (label-free) & 41/41; median 3.0\,s, P90 5.0\,s; FAR 2.11/h & 41/41; median 3.0\,s, P90 5.0\,s; FAR 2.22/h \\
+Stage 1 detection, $N{=}2$ & all 41 & 41/41; median 2.0\,s, P90 4.0\,s; FAR 0.00/h & 41/41; median 2.0\,s, P90 4.0\,s; FAR 1.11/h \\
+Recalibrated ISS scatter alarm, $N{=}3$ & all 41 & 41/41; median 133\,s; FAR 0.42/h & 41/41; median 134\,s; FAR 0.74/h \\
+\midrule
+Stage 2, heater-aligned (oracle) & \psiset{} (41) & acc.\ 0.756 (31/41), macro-F1 0.747 & acc.\ 0.756 (31/41), macro-F1 0.746 \\
+ & \reposet{} (38) & acc.\ 0.711 (27/38), macro-F1 0.704 & acc.\ 0.684 (26/38), macro-F1 0.658 \\
+Chained, steady state, $N{=}3$ & \psiset{} (41) & acc.\ 0.805 (33/41), macro-F1 0.800 & acc.\ 0.825 (33/40), macro-F1 0.820 \\
+ & \reposet{} (38) & acc.\ 0.763 (29/38), macro-F1 0.754 & acc.\ 0.811 (30/37), macro-F1 0.812 \\
+Chained, at first alert, $N{=}3$ & \psiset{} (41) & acc.\ 0.268 (11/41) & acc.\ 0.268 (11/41) \\
+\midrule
+Per-tick CPU latency, single thread & 4 streamed tests, 6193 ticks & mean 85.1, P50 58.7, P99 269.1, max 547.5\,ms & --- \\
+\midrule
+\multicolumn{4}{@{}l}{\emph{Per-sensor ablation (Task 4): single channel, LOTO-41, heater-referenced clean air as in \oracle; material F1 on \reposet{} (38)}} \\
+Gas-plume thermocouple only & all 41 & \multicolumn{2}{>{\raggedright\arraybackslash}p{0.52\textwidth}}{41/41; median 3\,s, P90 5\,s; 0.37 FA/h; beats ISS alarm in 41/41; material F1 0.59} \\
+ISS obscuration only (best smoke-only) & all 41 & \multicolumn{2}{>{\raggedright\arraybackslash}p{0.52\textwidth}}{41/41; median 131\,s, P90 198\,s; 0.37 FA/h; beats ISS alarm in 31/41; material F1 0.51} \\
+Full 8-channel detector & all 41 & \multicolumn{2}{>{\raggedright\arraybackslash}p{0.52\textwidth}}{41/41; median 3\,s, P90 5\,s; 0.74 FA/h; material F1 0.69} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+% -------------------------------------------------------------- Table III
+\begin{table}[!t]
+\centering
+\caption{What this work adds over prior work, and what it leaves open.}
+\label{tab:novel}
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{1.75cm} Y Y@{}}
+\toprule
+Dimension & Prior work (Table~\ref{tab:lit}) & This work \\
+\midrule
+Lead time vs.\ flight alarm & Not reported as a distribution & Per test; median 3.0 vs.\ 133\,s (\arming, $N{=}3$) \\
+False alarms & Spacecraft: not reported. Terrestrial: FPR per sample/window & Per clean-air hour: 0.00--2.11/h (\arming, $N{=}1$--3) \\
+Validation unit & Qualitative, or $k$-fold over pooled samples/windows & LOTO per flight test, 41 folds; strictly causal features \\
+Material identification & Not addressed & 5 classes; 0.805 (\psiset) / 0.763 (\reposet) steady state \\
+Real-time cost & Rarely reported & P99 269\,ms per 1\,Hz tick, single thread \\
+Open flame, dust, nuisance & Dust flagged~\cite{guzman2026early} & Not tested (one ISS rig, pre-ignition only) \\
+\bottomrule
+\end{tabularx}
+\end{table}

@@ -1,0 +1,150 @@
+% references.bib -- Section II (Related Work), "Flame in Freefall"
+% Team The Blueprint 67. Prepared 2026-11-24 for IEEEtran (bibtex + IEEEtran.bst).
+%
+% Every field below was checked on 2026-11-24 against the Crossref record (DOI
+% entries), the NASA NTRS record (NTRS entries) or the publisher's page. Where a
+% field could not be confirmed it is marked "UNVERIFIED" in a comment. Leave the
+% comment in place until someone has checked the field.
+%
+% Corrections relative to the Nov 22 comparison PDF:
+%  * [meyer2018evaluation]: Crossref (publisher) lists M. E. Meyer as first
+%    author. The NIST publication page lists J. Yang first. We follow the publisher record.
+%  * [urban2005detection]: published 2005 (SAE 2005-01-2930, 35th ICES, Rome).
+%    "2021" is only the date of the NIST web record.
+%  * [fortenberry2021research]: primary author C. Fortenberry with 5 co-authors
+%    (the white paper also lists 22 co-signers, not cited as authors).
+%  * [guzman2026early]: NTRS lists this as a poster at a Gordon Research
+%    Conference, 28 Jun.--3 Jul. 2026, Easton, MA.
+%  * [he2025bilstm]: the exact title contains "A Novel Integrated Model".
+
+% --------------------------------------------------------------- spacecraft
+@article{meyer2018evaluation,
+  author  = {Meyer, Marit E. and Urban, David L. and Mulholland, George W. and
+             Bryg, Victoria and Yuan, Zeng-Guang and Ruff, Gary A. and
+             Cleary, Thomas and Yang, Jiann},
+  title   = {Evaluation of spacecraft smoke detector performance in the
+             low-gravity environment},
+  journal = {Fire Safety Journal},
+  volume  = {98},
+  pages   = {74--81},
+  month   = jun,
+  year    = {2018},
+  doi     = {10.1016/j.firesaf.2018.04.004},
+  url     = {https://doi.org/10.1016/j.firesaf.2018.04.004}
+}
+
+@techreport{urban2005detection,
+  author      = {Urban, David and Griffin, DeVon and Ruff, Gary and Cleary, Thomas
+                 and Yang, Jiann and Mulholland, George and Yuan, Zeng-guang},
+  title       = {Detection of Smoke from Microgravity Fires},
+  institution = {SAE International},
+  address     = {Warrendale, PA, USA},
+  type        = {SAE Technical Paper},
+  number      = {2005-01-2930},
+  month       = jul,
+  year        = {2005},
+  note        = {Presented at the 35th Int. Conf. Environmental Systems (ICES),
+                 Rome, Italy, Jul. 11--14, 2005},
+  doi         = {10.4271/2005-01-2930},
+  url         = {https://doi.org/10.4271/2005-01-2930}
+}
+
+@techreport{fortenberry2021research,
+  author      = {Fortenberry, Claire and Wang, Xiaoliang and Cleary, Thomas and
+                 Easton, John and Berger, Gordon and Meyer, Marit},
+  title       = {Research Questions and Challenges for Improved Spacecraft Fire
+                 Detection},
+  institution = {NASA Glenn Research Center},
+  address     = {Cleveland, OH, USA},
+  type        = {Topical white paper submitted to the NASEM Biological and Physical
+                 Sciences Decadal Survey, 2022--2032. NTRS Doc.~ID},
+  number      = {20210022143},
+  year        = {2021},
+  url         = {https://ntrs.nasa.gov/citations/20210022143}
+}
+% Survey name quoted from the white paper's own title page.
+% UNVERIFIED: month of submission (the PDF's latest dated item is 31 Oct 2021).
+
+@misc{guzman2026early,
+  author       = {Guzman, Francisco J. and Krause, Timothy and Matar, Mona and
+                  Prelich, Matthew and Urban, David},
+  title        = {Early Fire Detection System for Partial and Low Gravity
+                  Environments},
+  howpublished = {Poster, Gordon Research Conference (Molecular Interactions and
+                  Dynamics), Easton, MA, USA, Jun. 28--Jul. 3, 2026. NASA NTRS
+                  Doc.~ID 20260005612},
+  year         = {2026},
+  url          = {https://ntrs.nasa.gov/citations/20260005612}
+}
+% Conference name taken verbatim from the NTRS record. No DOI exists. The poster
+% gives no numeric detection-time or false-alarm results.
+
+% ------------------------------------------------- terrestrial multi-sensor
+@article{he2025bilstm,
+  author  = {He, Zhaofeng and Si, Yu and Yang, Liyuan and Xu, Nuo and
+             Zhang, Xinglong and Wang, Mingming and Sun, Xiaoyun},
+  title   = {{BiLSTM-LN-SA}: A Novel Integrated Model with Self-Attention for
+             Multi-Sensor Fire Detection},
+  journal = {Sensors},
+  volume  = {25},
+  number  = {20},
+  pages   = {6451},
+  month   = oct,
+  year    = {2025},
+  doi     = {10.3390/s25206451},
+  url     = {https://doi.org/10.3390/s25206451}
+}
+
+% ------------------------------------------------------------------- IEEE
+@article{nakip2021rtpnn,
+  author  = {Nakip, Mert and G{\"u}zeli{\c{s}}, C{\"u}neyt and Y{\i}ld{\i}z, Osman},
+  title   = {Recurrent Trend Predictive Neural Network for Multi-Sensor Fire
+             Detection},
+  journal = {IEEE Access},
+  volume  = {9},
+  pages   = {84204--84216},
+  year    = {2021},
+  doi     = {10.1109/ACCESS.2021.3087736},
+  url     = {https://doi.org/10.1109/ACCESS.2021.3087736}
+}
+
+@article{baek2021intelligent,
+  author  = {Baek, Jaeseung and Alhindi, Taha J. and Jeong, Young-Seon and
+             Jeong, Myong K. and Seo, Seongho and Kang, Jongseok and Heo, Yoseob},
+  title   = {Intelligent Multi-Sensor Detection System for Monitoring Indoor
+             Building Fires},
+  journal = {IEEE Sensors Journal},
+  volume  = {21},
+  number  = {24},
+  pages   = {27982--27992},
+  month   = dec,
+  year    = {2021},
+  doi     = {10.1109/JSEN.2021.3124266},
+  url     = {https://doi.org/10.1109/JSEN.2021.3124266}
+}
+% Numeric detection-time / false-alarm results not retrieved (paywalled). Do not
+% quote numbers from this paper until someone has read the full text.
+
+@inproceedings{liu2008isolation,
+  author    = {Liu, Fei Tony and Ting, Kai Ming and Zhou, Zhi-Hua},
+  title     = {Isolation Forest},
+  booktitle = {Proc. 8th IEEE Int. Conf. Data Mining (ICDM)},
+  address   = {Pisa, Italy},
+  month     = dec,
+  year      = {2008},
+  pages     = {413--422},
+  doi       = {10.1109/ICDM.2008.17},
+  url       = {https://doi.org/10.1109/ICDM.2008.17}
+}
+
+% ------------------------------------------------------------- this work
+@misc{blueprint67repo,
+  author       = {{The Blueprint 67}},
+  title        = {Flame in Freefall: Causal Two-Stage Smoke Detection and Material
+                  Identification for Microgravity Fire Safety},
+  howpublished = {GitHub repository},
+  year         = {2026},
+  url          = {https://github.com/Samra761/The-Blueprint-67}
+}
+% Results files: results/chained_loto_summary.md and
+% reports/sensor_sensitivity/sensor_table_loto.md (see related_work.tex header).
