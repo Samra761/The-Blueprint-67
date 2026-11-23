@@ -1,9 +1,0 @@
-config,channels,n_channels,tests,detected,det_accuracy,det_precision,det_recall,det_f1,fa_per_hr,tests_with_fa,latency_median_s,latency_p90_s,lead_vs_iss_median_s,beats_iss_alarm,short
-only_iss_obs,iss_obs,1,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,132.0,251.0,1.0,31.0,OBS
-iss_obs+ion_b,iss_obs|ion_b,2,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,131.0,251.0,1.0,31.0,OBS+IonB
-iss_obs+ion_a+ion_b,iss_obs|ion_a|ion_b,3,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,131.0,251.0,1.0,31.0,OBS+IonA+IonB
-iss_obs+ion_a+ion_b+dtb,iss_obs|ion_a|ion_b|dtb,4,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,131.0,251.0,1.0,33.0,OBS+IonA+IonB+DTB
-iss_obs+sts+ion_a+ion_b+dtb,iss_obs|sts|ion_a|ion_b|dtb,5,41.0,41.0,1.0,1.0,1.0,1.0,0.0,0.0,131.0,251.0,1.0,33.0,OBS+STS+IonA+IonB+DTB
-iss_obs+iss_sct+ion_a+ion_b+dtb+plume_t,iss_obs|iss_sct|ion_a|ion_b|dtb|plume_t,6,41.0,41.0,0.9878048780487805,0.9761904761904762,1.0,0.9879518072289156,0.36953397659618153,1.0,3.0,5.0,131.0,41.0,OBS+SCT+IonA+IonB+DTB+T
-without_ptrak,iss_obs|iss_sct|sts|ion_a|ion_b|dtb|plume_t,7,41.0,41.0,0.9878048780487805,0.9761904761904762,1.0,0.9879518072289156,0.36953397659618153,1.0,3.0,5.0,131.0,41.0,OBS+SCT+STS+IonA+IonB+DTB+T
-full_8ch,iss_obs|iss_sct|sts|ion_a|ion_b|ptrak|dtb|plume_t,8,41.0,41.0,0.975609756097561,0.9534883720930233,1.0,0.9761904761904762,0.7390679531923631,2.0,3.0,5.0,131.0,41.0,OBS+SCT+STS+IonA+IonB+PTrak+DTB+T
