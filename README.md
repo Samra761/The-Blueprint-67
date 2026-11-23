@@ -322,7 +322,7 @@ We gratefully acknowledge Wania for their contributions to the hackathon prototy
 @software{blueprint67_flame_in_freefall_2026,
   title  = {Flame in Freefall: Causal Two-Stage Smoke Detection and Material
             Identification for Microgravity Fire Safety},
-  author = {Mehmood, Samra and Yousaf and Hijab and Faiza and Kashaf},
+  author = {Samra and Yousaf and Hijab and Faiza and Kashaf},
   year   = {2026},
   url    = {https://github.com/Samra761/The-Blueprint-67}
 }
