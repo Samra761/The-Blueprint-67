@@ -314,7 +314,7 @@ The first prototype (data ingestion, sensor mapping, initial detector and classi
 | Wania | Data Engineer: initial NASA PSI data ingestion and preprocessing |
 | Kashaf | Embedded Systems & Sensor Lead: initial sensor channel mapping and telemetry layer |
 
-We gratefully acknowledge Wania and Kashaf for their contributions to the hackathon prototype. They took part in the hackathon phase only and are not co-authors of the post-hackathon IEEE research extension (Section 9.1).
+We gratefully acknowledge Wania for their contributions to the hackathon prototype. They took part in the hackathon phase only and are not co-authors of the post-hackathon IEEE research extension (Section 9.1).
 
 ### Citation
 
@@ -322,7 +322,7 @@ We gratefully acknowledge Wania and Kashaf for their contributions to the hackat
 @software{blueprint67_flame_in_freefall_2026,
   title  = {Flame in Freefall: Causal Two-Stage Smoke Detection and Material
             Identification for Microgravity Fire Safety},
-  author = {Mehmood, Samra and Yousaf and Hijab and Faiza},
+  author = {Mehmood, Samra and Yousaf and Hijab and Faiza and Kashaf},
   year   = {2026},
   url    = {https://github.com/Samra761/The-Blueprint-67}
 }
