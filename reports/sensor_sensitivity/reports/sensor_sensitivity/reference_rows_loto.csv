@@ -1,0 +1,4 @@
+channel,sensor,type,detected,det_accuracy,det_f1,fa_per_hr,latency_median_s,latency_p90_s,delta_median_vs_full_s,beats_iss_alarm,cls_macro_f1,cls_accuracy
+ALL,Full 8-channel detector,baseline,41/41,0.976,0.976,0.739,3.0,5.0,0.0,41/41,0.694,0.711
+iss_scatter,ISS scatter alarm (standard),reference threshold,41/41,0.988,0.988,0.739,134.0,250.0,131.0,,,
+ion_a,Ionisation A alarm (standard),reference threshold,37/41,0.939,0.937,0.37,136.0,221.4,133.0,,,

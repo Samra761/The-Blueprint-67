@@ -1,0 +1,42 @@
+{
+  "minimal_subset": [
+    "plume_t"
+  ],
+  "minimal_subset_metrics": {
+    "detected": 41.0,
+    "det_f1": 0.9879518072289156,
+    "fa_per_hr": 0.36953397659618153,
+    "latency_median_s": 3.0,
+    "latency_p90_s": 5.0
+  },
+  "full_metrics": {
+    "detected": 41.0,
+    "det_f1": 0.9761904761904762,
+    "fa_per_hr": 0.7390679531923631,
+    "latency_median_s": 3.0,
+    "latency_p90_s": 5.0
+  },
+  "channels": {
+    "full": 8,
+    "minimal": 1
+  },
+  "telemetry_bytes_per_s_at_1Hz_float32": {
+    "full": 32,
+    "minimal": 4
+  },
+  "telemetry_MB_per_day": {
+    "full": 2.765,
+    "minimal": 0.346
+  },
+  "isolation_forests": {
+    "full": 8,
+    "minimal": 1
+  },
+  "detector_features": {
+    "full": 32,
+    "minimal": 4
+  },
+  "reduction_pct": 87.5,
+  "minimal_subset_classifier_macro_f1": 0.59003663003663,
+  "full_classifier_macro_f1": 0.6939686059890663
+}
